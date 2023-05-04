@@ -1,0 +1,1712 @@
+<template name="vatreturn">
+    <div id="form" style="margin-top: -24px;">
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+        {{#if record}}
+            <div class="row no-gutters" style="background-color: #ededed;">
+                <div class="col">
+                    <header>
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <h2 style="margin: 32px;margin-bottom: 0px;">{{pageTitle}}
+
+                                    {{> helpbutton}}
+
+                                    <!-- Start Help View Modal -->
+                                    <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                                        <div class="modal-dialog modal-sm" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="padding-bottom: 8px;">
+                                                    <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                                                    <p class="text-center text-muted"><a href="https://vs1forum.com/" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                                                    {{> helpadvisor}}
+                                                    {{> helpgotoforum}}
+                                                </div>
+                                                <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Help View Modal -->
+
+                                </h2>
+                            </div>
+                            <div class="col-12 col-md-4">{{> loggedcompanyoverview}}</div>
+                        </div>
+                    </header>
+                </div>
+            </div>
+
+            <div class="row" style="padding: 32px; padding-bottom: 0px; background-color: #ededed;">
+                <div class="col-12 col-md-3">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" class="form-control" id="description" name="description" value="">
+                    </div>
+                </div>
+                <div class="col-12 col-md-9" style="padding-top: 40px;">
+                    <div style="float:left">
+                        <label>Enable: </label>
+                    </div>
+                    <div class="custom-control custom-switch" style="float:left; margin-left: 20px; width:138px;">
+                        <input class="custom-control-input" type="checkbox" name="vatreturnCategory1" id="vatreturnCategory1" checked style="cursor: pointer;">
+                        <label class="custom-control-label" for="vatreturnCategory1" style="cursor: pointer;">OUTPUT TAX</label>
+                    </div>
+                    <div class="custom-control custom-switch" style="float:left; margin-left: 20px; width:120px;">
+                        <input class="custom-control-input" type="checkbox" name="vatreturnCategory2" id="vatreturnCategory2" checked style="cursor: pointer;">
+                        <label class="custom-control-label" for="vatreturnCategory2" style="cursor: pointer;">INPUT TAX</label>
+                    </div>
+                    <div class="custom-control custom-switch" style="float:left; margin-left: 20px; width:160px;">
+                        <input class="custom-control-input" type="checkbox" name="vatreturnCategory3" id="vatreturnCategory3" style="cursor: pointer;">
+                        <label class="custom-control-label" for="vatreturnCategory3" style="cursor: pointer;">DIESEL REFUND</label>
+                    </div>
+                    <div class="custom-control custom-switch" style="float:left; margin-left: 20px; width:180px">
+                        <input class="custom-control-input" type="checkbox" name="vatreturnCategory4" id="vatreturnCategory4" checked style="cursor: pointer;">
+                        <label class="custom-control-label" for="basreturnCategory4" style="cursor: pointer;">PAYMENT DETAILS</label>
+                    </div>
+                    <div class="custom-control custom-switch" style="float:left; margin-left: 20px; width:170px;">
+                        <input class="custom-control-input" type="checkbox" name="vatreturnCategory5" id="vatreturnCategory5" checked style="cursor: pointer;">
+                        <label class="custom-control-label" for="vatreturnCategory5" style="cursor: pointer;">REFUND DETAILS</label>
+                    </div>
+                    <div class="form-group">
+                        <a role="button" data-toggle="modal" href="#vatoptionmodal" class="btn btn-primary" id="selVatOption" style="margin-top: -7px; float:right" autocomplete="off">VAT Options</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row no-gutters">
+                <div class="col">
+                    <div class="card-body p-3 rounded" style="padding-bottom: 0px!important;">
+                        <div>
+                            <div class="card-body rounded" style="padding: 0px !important;">
+                                <div>
+                                    <ul class="nav nav-tabs nav-fill">
+                                        <li class="nav-item" style="cursor: pointer;" id="nav-item1" name="nav-item1"><a class="nav-link active categoryTab1" role="tab" data-toggle="tab" data-target="#tab-1">OUTPUT TAX</a></li>
+                                        <li class="nav-item" style="cursor: pointer;" id="nav-item2" name="nav-item2"><a class="nav-link categoryTab2" role="tab" data-toggle="tab" data-target="#tab-2">INPUT TAX</a></li>
+                                        <li class="nav-item" style="cursor: pointer; display:none" id="nav-item3" name="nav-item3"><a class="nav-link categoryTab3" role="tab" data-toggle="tab" data-target="#tab-3">DIESEL REFUND</a></li>
+                                        <li class="nav-item" style="cursor: pointer;" id="nav-item4" name="nav-item4"><a class="nav-link categoryTab4" role="tab" data-toggle="tab" data-target="#tab-4">PAYMENT DETAILS</a></li>
+                                        <li class="nav-item" style="cursor: pointer;" id="nav-item5" name="nav-item5"><a class="nav-link categoryTab5" role="tab" data-toggle="tab" data-target="#tab-5">REFUND DETAILS</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <style>
+                                            .nav-tabs .nav-link.active {
+                                                color: rgb(0, 163, 211) !important;
+                                                background-color: #EDEDED !important;
+                                                border-color: #00a3d3 #00a3d3 #ededed #00a3d3 !important;
+                                            }
+
+                                            .nav-tabs .nav-link {
+                                                background-color: #fff !important;
+                                                border-color: #00a3d3 !important;
+                                            }
+
+                                            .table-responsive {
+                                                overflow-x: auto;
+                                            }
+
+                                            @media only screen and (max-width: 1920px) {
+                                                .tab-1 {
+                                                    width: 100%;
+                                                }
+                                                .tab-2 {
+                                                    width: 100%;
+                                                }
+                                            }
+
+                                            @media only screen and (max-width: 1600px) {
+                                                .tab-1 {
+                                                    width: 100%;
+                                                }
+                                                .tab-2 {
+                                                    width: 100%;
+                                                }
+                                            }
+
+                                            @media only screen and (max-width: 1536px) {
+                                                .tab-1 {
+                                                    width: 100%;
+                                                }
+
+                                                .tab-2 {
+                                                    width: 100%;
+                                                }
+                                            }
+
+                                            @media only screen and (max-width: 1367px) {
+                                                .tab-1 {
+                                                    width: 100%;
+                                                }
+
+                                                .tab-2 {
+                                                    width: 100%;
+                                                }
+                                            }
+
+                                            input[type="checkbox"]{
+                                                margin: 0px!important
+                                            }
+                                        </style>
+
+                                        <div class="tab-pane active border rounded-0 tab-1" role="tabpanel" id="tab-1" style="background-color: #ededed; border-color: #ededed #00a3d3 #00a3d3 #00a3d3 !important;">
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12" style="padding: 15px 8px;">
+                                                    <h4 style="text-align:center;">CALCULATION OF OUTPUT TAX AND IMPORTED SERVICES</h4>
+                                                </div>                                                
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-12" style="padding-right:50px">
+                                                    <div class="form-group" style="float:right;">
+                                                        <label>Previous Return</label>
+                                                        <div>
+                                                            <input type="text" class="form-control" id="previousStartDate" name="previousStartDate" style="width:150px; float:left" readonly="readonly">
+                                                            <span style="float:left; padding:8px;">To</span>
+                                                            <input type="text" class="form-control" id="previousEndDate" name="previousEndDate" style="width:150px; float:left" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-8" style="text-align:right">
+                                                    <div class="form-group" style="width:360px; float:left; padding-left:25px; padding-top:38px">
+                                                        <div class="custom-control custom-switch" style="width:120px; float:left">
+                                                            <input class="custom-control-input" type="radio" name="datemethod" id="datemethod1" checked style="cursor: pointer;">
+                                                            <label class="custom-control-label" for="datemethod1" style="cursor: pointer;">Quarterly</label>
+                                                        </div>
+                                                        <div class="custom-control custom-switch" style="width:120px; float:left">
+                                                            <input class="custom-control-input" type="radio" name="datemethod" id="datemethod2" style="cursor: pointer;">
+                                                            <label class="custom-control-label" for="datemethod2" style="cursor: pointer;">Monthly</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="width:150px; float:left; text-align:left; margin-left: 20px">
+                                                        <label>Beginning</label>
+                                                        <select class="form-control" id="beginmonthlydate">
+                                                            <option value="" selected="selected"></option>
+                                                            <option value="January">January</option>
+                                                            <option value="February">February</option>
+                                                            <option value="March">March</option>
+                                                            <option value="April">April</option>
+                                                            <option value="May">May</option>
+                                                            <option value="June">June</option>
+                                                            <option value="July">July</option>
+                                                            <option value="August">August</option>
+                                                            <option value="September">September</option>
+                                                            <option value="October">October</option>
+                                                            <option value="November">November</option>
+                                                            <option value="December">December</option>
+                                                        </select>
+                                                        <!-- <select class="form-control" id="beginquarterlydate">
+                                                            <option value="" selected="selected"></option>
+                                                            <option value="01-01">1</option>
+                                                            <option value="04-01">2</option>
+                                                            <option value="07-01">3</option>
+                                                            <option value="10-01">4</option>
+                                                        </select> -->
+                                                    </div>
+                                                    <div class="form-group" style="width:150px; float:left; text-align:left; margin-left: 20px">
+                                                        <label>Current Year</label>
+                                                        <select class="form-control" id="currentyear">
+                                                            <option value="" selected="selected"></option>
+                                                        {{#each item in years}}
+                                                            <option value="{{item}}">{{item}}</option>
+                                                        {{/each}}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4" style="padding-right: 50px;">
+                                                    <div class="form-group" style="float: right;">
+                                                        <label>Period Ending</label>
+                                                        <input type="text" class="form-control" id="endDate" name="endDate" style="width:150px; clear:both" readonly="readonly">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-12" style="padding: 15px 22px;">
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-12" style="text-align: left; line-height:20px;"><b>Supply of Goods and/or Services</b></div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Standard rate (excluding capital goods and/or services and accommodation)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode1option" class="btn btn-primary" id="tax1" autocomplete="off" style="min-width:56px">1</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax1cost" name="tax1cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                4
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax4cost" name="tax4cost" value="0" style="float:left; width:150px;">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Standard rate (only capital goods and/or services)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode1Aoption" class="btn btn-primary" id="tax1A" autocomplete="off" style="min-width:56px">1A</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax1Acost" name="tax1Acost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                4A
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax4Acost" name="tax4Acost" value="0" style="float:left; width:150px;">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Zero rate (excluding goods exported)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode2option" class="btn btn-primary" id="tax2" autocomplete="off" style="min-width:56px">2</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax2cost" name="tax2cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Zero rate (only exported goods)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode2Aoption" class="btn btn-primary" id="tax2A" autocomplete="off" style="min-width:56px">2A</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax2Acost" name="tax2Acost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Exempt and non-supplies</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode3option" class="btn btn-primary" id="tax3" autocomplete="off" style="min-width:56px">3</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax3cost" name="tax3cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-12" style="text-align: left; line-height:20px;"><b>Supply of accommodation</b></div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-2" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Exceeding 28 days</div>
+                                                        <div class="col-12 col-md-4" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode5option" class="btn btn-primary" id="tax5" autocomplete="off" style="min-width:56px">5</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax5cost" name="tax5cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                                <span style="float:left;">&nbsp;×&nbsp;</span>
+                                                                <input type="text" class="form-control" id="tax5rate" name="tax5rate" value="60" style="float:left; width:80px;">
+                                                                <span style="float:left;">&nbsp;%&nbsp;</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                6
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax6cost" name="tax6cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Value Not Exceeding 28 days</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode7option" class="btn btn-primary" id="tax7" autocomplete="off" style="min-width:56px">7</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax7cost" name="tax7cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total:(6+7)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                8
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax8acost" name="tax8acost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                9
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax9acost" name="tax9acost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-12" style="text-align: left; line-height:20px;"><b>Adjustments:</b></div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Change in use and export of second-hand goods</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode10option" class="btn btn-primary" id="tax10" autocomplete="off" style="min-width:56px">10</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax10cost" name="tax10cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                11
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax11cost" name="tax11cost" value="0" style="float:left; width:150px;">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Other and Imported services</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode12option" class="btn btn-primary" id="tax12" autocomplete="off" style="min-width:56px">12</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax12cost" name="tax12cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total A:Total Output Tax(4 + 4A + 9 + 11 + 12)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                13
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax13cost" name="tax13cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane border rounded-0 tab-2" role="tabpanel" id="tab-2" style="background-color: #ededed; border-color: #ededed #00a3d3 #00a3d3 #00a3d3 !important;">
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12" style="padding: 15px 8px;">
+                                                    <h4 style="text-align:center;">CALCULATION OF INPUT TAX</h4>
+                                                </div>                                                
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-12" style="padding-right:50px">
+                                                    <div class="form-group" style="float:right;">
+                                                        <label>Previous Return</label>
+                                                        <div>
+                                                            <input type="text" class="form-control" id="previousStartDate-t2" name="previousStartDate-t2" style="width:150px; float:left" readonly="readonly">
+                                                            <span style="float:left; padding:8px;">To</span>
+                                                            <input type="text" class="form-control" id="previousEndDate-t2" name="previousEndDate-t2" style="width:150px; float:left" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-8" style="text-align:right">
+                                                    <div class="form-group" style="width:360px; float:left; padding-left:25px; padding-top:38px">
+                                                        <div class="custom-control custom-switch" style="width:120px; float:left">
+                                                            <input class="custom-control-input" type="radio" name="datemethod-t2" id="datemethod1-t2" checked style="cursor:pointer">
+                                                            <label class="custom-control-label" for="datemethod1-t2">Quarterly</label>
+                                                        </div>
+                                                        <div class="custom-control custom-switch" style="width:120px; float:left">
+                                                            <input class="custom-control-input" type="radio" name="datemethod-t2" id="datemethod2-t2" style="cursor:pointer">
+                                                            <label class="custom-control-label" for="datemethod2-t2">Monthly</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="width:150px; float:left; text-align:left; margin-left: 20px">
+                                                        <label>Beginning</label>
+                                                        <select class="form-control" id="beginmonthlydate-t2">
+                                                            <option value="" selected="selected"></option>
+                                                            <option value="January">January</option>
+                                                            <option value="February">February</option>
+                                                            <option value="March">March</option>
+                                                            <option value="April">April</option>
+                                                            <option value="May">May</option>
+                                                            <option value="June">June</option>
+                                                            <option value="July">July</option>
+                                                            <option value="August">August</option>
+                                                            <option value="September">September</option>
+                                                            <option value="October">October</option>
+                                                            <option value="November">November</option>
+                                                            <option value="December">December</option>
+                                                        </select>
+                                                        <!-- <select class="form-control" id="beginquarterlydate-t2">
+                                                            <option value="" selected="selected"></option>
+                                                            <option value="01-01">1</option>
+                                                            <option value="04-01">2</option>
+                                                            <option value="07-01">3</option>
+                                                            <option value="10-01">4</option>
+                                                        </select> -->
+                                                    </div>
+                                                    <div class="form-group" style="width:150px; float:left; text-align:left; margin-left: 20px">
+                                                        <label>Current Year</label>
+                                                        <select class="form-control" id="currentyear-t2">
+                                                            <option value="" selected="selected"></option>
+                                                        {{#each item in years}}
+                                                            <option value="{{item}}">{{item}}</option>
+                                                        {{/each}}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4" style="padding-right: 50px;">
+                                                    <div class="form-group" style="float: right;">
+                                                        <label>Period Ending</label>
+                                                        <input type="text" class="form-control" id="endDate-t2" name="endDate-t2" style="width:150px; clear:both" readonly="readonly">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-12" style="padding: 15px 22px;">
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Capital goods and/or services supplied to you</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode14option" class="btn btn-primary" id="tax14" autocomplete="off" style="min-width:56px">14</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax14cost" name="tax14cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Capital goods imported by you</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode14Aoption" class="btn btn-primary" id="tax14A" autocomplete="off" style="min-width:56px">14A</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax14Acost" name="tax14Acost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Other goods and/or services supplied to you (not capital goods)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode15option" class="btn btn-primary" id="tax15" autocomplete="off" style="min-width:56px">15</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax15cost" name="tax15cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Other goods imported by you (not capital goods)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode15Aoption" class="btn btn-primary" id="tax15A" autocomplete="off" style="min-width:56px">15A</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax15Acost" name="tax15Acost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-12" style="text-align: left; line-height:20px;"><b>Adjustments:</b></div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Change in use</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode16option" class="btn btn-primary" id="tax16" autocomplete="off" style="min-width:56px">16</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax16cost" name="tax16cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Bad debts</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode17option" class="btn btn-primary" id="tax17" autocomplete="off" style="min-width:56px">17</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax17cost" name="tax17cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Other</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode18option" class="btn btn-primary" id="tax18" autocomplete="off" style="min-width:56px">18</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax18cost" name="tax18cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total B:Total Input Tax(14 + 14A + 15 + 15A + 16 + 17 + 18)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                19
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax19cost" name="tax19cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total VAT Payable/Refundable (Total A - Total B)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                20
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax20cost" name="tax20cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                                          
+                                        </div>
+                                        <div class="tab-pane border rounded-0 tab-3" role="tabpanel" id="tab-3" style="background-color: #ededed; border-color: #ededed #00a3d3 #00a3d3 #00a3d3 !important;">
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12" style="padding: 15px 8px;">
+                                                    <h4 style="text-align:center;">CALCULATION OF DIESEL REFUND IN TERMS OF THE CUSTOMS AND EXCISE ACT</h4>
+                                                </div>                                                
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-12" style="padding-right:50px">
+                                                    <div class="form-group" style="float:right;">
+                                                        <label>Previous Return</label>
+                                                        <div>
+                                                            <input type="text" class="form-control" id="previousStartDate-t3" name="previousStartDate-t3" style="width:150px; float:left" readonly="readonly">
+                                                            <span style="float:left; padding:8px;">To</span>
+                                                            <input type="text" class="form-control" id="previousEndDate-t3" name="previousEndDate-t3" style="width:150px; float:left" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-8" style="text-align:right">
+                                                    <div class="form-group" style="width:360px; float:left; padding-left:25px; padding-top:38px">
+                                                        <div class="custom-control custom-switch" style="width:120px; float:left">
+                                                            <input class="custom-control-input" type="radio" name="datemethod-t3" id="datemethod1-t3" checked style="cursor:pointer">
+                                                            <label class="custom-control-label" for="datemethod1-t3">Quarterly</label>
+                                                        </div>
+                                                        <div class="custom-control custom-switch" style="width:120px; float:left">
+                                                            <input class="custom-control-input" type="radio" name="datemethod-t3" id="datemethod2-t3" style="cursor:pointer">
+                                                            <label class="custom-control-label" for="datemethod2-t3">Monthly</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="width:150px; float:left; text-align:left; margin-left: 20px">
+                                                        <label>Beginning</label>
+                                                        <select class="form-control" id="beginmonthlydate-t3">
+                                                            <option value="" selected="selected"></option>
+                                                            <option value="January">January</option>
+                                                            <option value="February">February</option>
+                                                            <option value="March">March</option>
+                                                            <option value="April">April</option>
+                                                            <option value="May">May</option>
+                                                            <option value="June">June</option>
+                                                            <option value="July">July</option>
+                                                            <option value="August">August</option>
+                                                            <option value="September">September</option>
+                                                            <option value="October">October</option>
+                                                            <option value="November">November</option>
+                                                            <option value="December">December</option>
+                                                        </select>
+                                                        <!-- <select class="form-control" id="beginquarterlydate-t3">
+                                                            <option value="" selected="selected"></option>
+                                                            <option value="01-01">1</option>
+                                                            <option value="04-01">2</option>
+                                                            <option value="07-01">3</option>
+                                                            <option value="10-01">4</option>
+                                                        </select> -->
+                                                    </div>
+                                                    <div class="form-group" style="width:150px; float:left; text-align:left; margin-left: 20px">
+                                                        <label>Current Year</label>
+                                                        <select class="form-control" id="currentyear-t3">
+                                                            <option value="" selected="selected"></option>
+                                                        {{#each item in years}}
+                                                            <option value="{{item}}">{{item}}</option>
+                                                        {{/each}}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4" style="padding-right: 50px;">
+                                                    <div class="form-group" style="float: right;">
+                                                        <label>Period Ending</label>
+                                                        <input type="text" class="form-control" id="endDate-t3" name="endDate-t3" style="width:150px; clear:both" readonly="readonly">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-12" style="padding: 15px 22px;">
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-12" style="text-align: left; line-height:20px;"><b>On Land:</b></div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total purchase used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode21option" class="btn btn-primary" id="tax21" autocomplete="off" style="min-width:56px">21</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax21cost" name="tax21cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">                                                            
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Non-eligible purchases used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode22option" class="btn btn-primary" id="tax22" autocomplete="off" style="min-width:56px">22</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax22cost" name="tax22cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">                                                            
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Eligible purchases used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                23
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax23cost" name="tax23cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                                <span style="float:left;">&nbsp;×&nbsp;</span>
+                                                                <input type="text" class="form-control" id="tax23rate" name="tax23rate" value="80" style="float:left; width:80px;">
+                                                                <span style="float:left;">&nbsp;%&nbsp;</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Claimable Litres (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                24
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax24cost" name="tax24cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                                <span style="float:left;">&nbsp;×&nbsp;</span>
+                                                                <input type="text" class="form-control" id="tax24rate" name="tax24rate" value="332.80" style="float:left; width:80px;">
+                                                                <span style="float:left;">&nbsp;(cl)&nbsp;</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                25
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax25cost" name="tax25cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-12" style="text-align: left; line-height:20px;"><b>Offshore:</b></div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total purchase used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode26option" class="btn btn-primary" id="tax26" autocomplete="off" style="min-width:56px">26</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax26cost" name="tax26cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Non-eligible purchases used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode27option" class="btn btn-primary" id="tax27" autocomplete="off" style="min-width:56px">27</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax27cost" name="tax27cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Eligible purchases used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                28
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax28cost" name="tax28cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                                <span style="float:left;">&nbsp;×&nbsp;</span>
+                                                                <input type="text" class="form-control" id="tax28rate" name="tax28rate" value="562.00" style="float:left; width:80px;">
+                                                                <span style="float:left;">&nbsp;(cl)&nbsp;</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                29
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax29cost" name="tax29cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-12" style="text-align: left; line-height:20px;"><b>Rail & Harbour service:</b></div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total purchase used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode30option" class="btn btn-primary" id="tax30" autocomplete="off" style="min-width:56px">30</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax30cost" name="tax30cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Non-eligible purchases used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode31option" class="btn btn-primary" id="tax31" autocomplete="off" style="min-width:56px">31</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax31cost" name="tax31cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Eligible purchases used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                32
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax32cost" name="tax32cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                                <span style="float:left;">&nbsp;×&nbsp;</span>
+                                                                <input type="text" class="form-control" id="tax32rate" name="tax32rate" value="207.00" style="float:left; width:80px;">
+                                                                <span style="float:left;">&nbsp;(cl)&nbsp;</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                33
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax33cost" name="tax33cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-12" style="text-align: left; line-height:20px;"><b>Peak Power Plant:</b></div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total purchase used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode34option" class="btn btn-primary" id="tax34" autocomplete="off" style="min-width:56px">34</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax34cost" name="tax34cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Non-eligible purchases used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                <a role="button" data-toggle="modal" href="#taxCode35option" class="btn btn-primary" id="tax35" autocomplete="off" style="min-width:56px">35</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax35cost" name="tax35cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Eligible purchases used (l)</div>
+                                                        <div class="col-12 col-md-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                36
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax36cost" name="tax36cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                                <span style="float:left;">&nbsp;×&nbsp;</span>
+                                                                <input type="text" class="form-control" id="tax36rate" name="tax36rate" value="384.50" style="float:left; width:80px;">
+                                                                <span style="float:left;">&nbsp;(cl)&nbsp;</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                37
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax37cost" name="tax37cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-9" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">TOTAL AMOUNT PAYABLE/REFUNDABLE 20 - (25 + 29 + 33 + 37) OR 20 + (25 + 29 + 33 + 37)</div>
+                                                        <div class="col-12 col-md-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                                            <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                                                38
+                                                            </div>
+                                                            <div class="col-12 col-md-10" style="align-items: center; display: flex;">
+                                                                <span style="float:left;">R&nbsp;</span>
+                                                                <input type="text" class="form-control transactionView" id="tax38cost" name="tax38cost" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane border rounded-0 tab-4" role="tabpanel" id="tab-4" style="background-color: #ededed; border-color: #ededed #00a3d3 #00a3d3 #00a3d3 !important;">
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12" style="padding: 15px 8px;">
+                                                    <h4 style="text-align:center;">PAYMENT DETAILS</h4>
+                                                </div>                                                
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-6" style="padding: 15px 22px;">
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">Payment Reference No</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                            <input type="text" class="form-control" id="payment_refno" name="payment_refno" value="" style="float:left; width:150px;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">Total</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">R&nbsp;</span>
+                                                            <input type="text" class="form-control" id="payment_total" name="payment_total" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">Diesel</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">R&nbsp;</span>
+                                                            <input type="text" class="form-control" id="payment_diesel" name="payment_diesel" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6" style="padding: 15px 22px;">
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">Payment Period (CCYYMM)</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                            <input type="text" class="form-control" id="payment_period" name="payment_period" value="" style="float:left; width:150px;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">VAT</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">R&nbsp;</span>
+                                                            <input type="text" class="form-control" id="payment_vat" name="payment_vat" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">Penalty and Interest</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">R&nbsp;</span>
+                                                            <input type="text" class="form-control" id="payment_penalty" name="payment_penalty" value="0" style="float:left; width:150px;">
+                                                        </div>
+                                                    </div>                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane border rounded-0 tab-5" role="tabpanel" id="tab-5" style="background-color: #ededed; border-color: #ededed #00a3d3 #00a3d3 #00a3d3 !important;">
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12" style="padding: 15px 8px;">
+                                                    <h4 style="text-align:center;">REFUND DETAILS</h4>
+                                                </div>                                                
+                                            </div>
+                                            <div class="row no-gutters" style="padding: 8px;">
+                                                <div class="col-12 col-md-6" style="padding: 15px 22px;">
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">Payment Reference No</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                            <input type="text" class="form-control" id="refund_refno" name="refund_refno" value="" style="float:left; width:150px;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">Total</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">R&nbsp;</span>
+                                                            <input type="text" class="form-control" id="refund_total" name="refund_total" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">Diesel</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">R&nbsp;</span>
+                                                            <input type="text" class="form-control" id="refund_diesel" name="refund_diesel" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6" style="padding: 15px 22px;">
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">Payment Period (CCYYMM)</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                            <input type="text" class="form-control" id="refund_period" name="refund_period" value="" style="float:left; width:150px;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin-bottom:10px">
+                                                        <div class="col-12 col-md-6" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">VAT</div>
+                                                        <div class="col-12 col-md-6" style="align-items: center; display: flex;">
+                                                            <span style="float:left;">R&nbsp;</span>
+                                                            <input type="text" class="form-control" id="refund_vat" name="refund_vat" value="0" style="float:left; width:150px;" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row no-gutters">
+                <div class="col d-xl-flex justify-content-xl-center align-items-xl-center" style="padding: 16px;padding-top: 0px!important;">
+                    <button class="btn btn-success btnSave" type="button" style="margin: 16px;"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                    <button class="btn btn-primary printConfirm" type="button" style="margin: 16px;"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
+                    <button class="btn btnNav btn-primary btnRefresh" type="button" style="margin: 16px;" autocomplete="off"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
+                    <button class="btn btn-danger btnDelete" type="button" style="margin: 16px;" autocomplete="off"><i class="fa fa-trash" style="padding-right: 8px;"></i>Delete</button>
+                    <button class="btn btn-secondary btnBack" type="button" style="margin: 16px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
+                </div>
+            </div>
+
+            <style>
+                @media print {
+                    .pagebreak { page-break-before: always; } /* page-break-after works, as well */
+                }
+            </style>
+            
+            <div class="printVATReturn" id="printVATReturn" style="display:none; font-size:14px">
+                <div class="pagebreak" style="display:block; border:1px solid #fff; border-color: #ededed !important;">
+                    
+                    <div class="rounded-0 tab-2" role="tabpanel" id="tab-1" style="background-color: #ededed;">
+                        <div class="row no-gutters" style="padding: 8px;">
+                            <div class="col-12" style="padding: 15px 8px;">
+                                <h4 style="text-align:center;">CALCULATION OF OUTPUT TAX AND IMPORTED SERVICES</h4>
+                            </div>                                                
+                        </div>
+                        <div class="row no-gutters" style="padding: 8px;">
+                            <div class="col-12 col-md-12" style="padding: 15px 22px;">
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-12 col-md-12" style="text-align: left; line-height:20px;"><b>Supply of Goods and/or Services</b></div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Standard rate (excluding capital goods and/or services and accommodation)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            1
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax1cost" style="float:left; width:90%; border:none"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            4
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax4cost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Standard rate (only capital goods and/or services)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            1A
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax1Acost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            4A
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax4Acost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Zero rate (excluding goods exported)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            2
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax2cost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Zero rate (only exported goods)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            2A
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax2Acost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Exempt and non-supplies</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            3
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax3cost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-12" style="text-align: left; line-height:20px;"><b>Supply of accommodation</b></div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-2" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Exceeding 28 days</div>
+                                    <div class="col-4" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            5
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax5cost" style="float:left; width:55%;border:none"></span>
+                                            <span style="float:left;">&nbsp;×&nbsp;</span>
+                                            <span id="prt_tax5rate" style="float:left; width:30%;border: none;">60</span>
+                                            <span style="float:left;">&nbsp;%&nbsp;</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            6
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax6cost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Value Not Exceeding 28 days</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            7
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax7cost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total:(6+7)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            8
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax8Acost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            9
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax9acost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-12" style="text-align: left; line-height:20px;"><b>Adjustments:</b></div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Change in use and export of second-hand goods</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            10
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax10cost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            11
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax11cost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Other and Imported services</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            12
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax12cost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total A:Total Output Tax(4 + 4A + 9 + 11 + 12)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            13
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax13cost" style="float:left; width:90%;border:none"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagebreak" style="display:block; border:1px solid #fff">
+                    <div class="tab-pane border rounded-0 tab-1" role="tabpanel" id="tab-2" style="background-color: #ededed; border-color: #ededed !important;">
+                        <div class="row no-gutters" style="padding: 8px;">
+                            <div class="col-12" style="padding: 15px 8px;">
+                                <h4 style="text-align:center;">CALCULATION OF INPUT TAX</h4>
+                            </div>
+                        </div>
+                        <div class="row no-gutters" style="padding: 8px;">
+                            <div class="col-12" style="padding: 15px 22px;">
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Capital goods and/or services supplied to you</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            14
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax14cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Capital goods imported by you</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            14A
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax14Acost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Other goods and/or services supplied to you (not capital goods)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            15
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax15cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Other goods imported by you (not capital goods)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            15A
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax15Acost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-12" style="text-align: left; line-height:20px;"><b>Adjustments:</b></div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Change in use</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            16
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax16cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Bad debts</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            17
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax17cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Other</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            18
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax18cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total B:Total Input Tax(14 + 14A + 15 + 15A + 16 + 17 + 18)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            19
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax19cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-6" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total VAT Payable/Refundable (Total A - Total B)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            20
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax20cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                          
+                    </div>
+                </div>
+                <div class="pagebreak" style="display:block;border:1px solid #ededed;">
+                
+                    <div class="tab-pane border rounded-0 tab-crm" role="tabpanel" id="tab-3" style="background-color: #ededed; border-color: #ededed !important;">
+                        <div class="row no-gutters" style="padding: 8px;">
+                            <div class="col-12" style="padding: 15px 8px;">
+                                <h4 style="text-align:center;">CALCULATION OF DIESEL REFUND IN TERMS OF THE CUSTOMS AND EXCISE ACT</h4>
+                            </div>                                                
+                        </div>
+                        <div class="row no-gutters" style="padding: 8px;">
+                            <div class="col-12" style="padding: 15px 22px;">
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-12" style="text-align: left; line-height:20px;"><b>On Land:</b></div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total purchase used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            21
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax21cost" style="float:left; width:55%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">                                                            
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Non-eligible purchases used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            22
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax22cost" style="float:left; width:55%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">                                                            
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Eligible purchases used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            23
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span style="float:left;">R&nbsp;</span>
+                                            <span id="prt_tax23cost" style="float:left; width:55%;border: none;"></span>
+                                            <span style="float:left;">&nbsp;×&nbsp;</span>
+                                            <span id="prt_tax23rate" style="float:left; width:30%;border: none;">80</span>
+                                            <span style="float:left;">&nbsp;%&nbsp;</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Claimable Litres (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            24
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span style="float:left;">R&nbsp;</span>
+                                            <span id="prt_tax24cost" style="float:left; width:55%;border: none;"></span>
+                                            <span style="float:left;">&nbsp;×&nbsp;</span>
+                                            <span id="prt_tax24rate" style="float:left; width:30%;border: none;">332.80</span>
+                                            <span style="float:left;">&nbsp;(cl)&nbsp;</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            25
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax25cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-12" style="text-align: left; line-height:20px;"><b>Offshore:</b></div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total purchase used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            26
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax26cost" style="float:left; width:55%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Non-eligible purchases used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            27
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax27cost" style="float:left; width:55%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Eligible purchases used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            28
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span style="float:left;">R&nbsp;</span>
+                                            <span id="prt_tax28cost" style="float:left; width:55%;border: none;"></span>
+                                            <span style="float:left;">&nbsp;×&nbsp;</span>
+                                            <span id="prt_tax28rate" style="float:left; width:30%;border: none;">562.00</span>
+                                            <span style="float:left;">&nbsp;(cl)&nbsp;</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            29
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax29cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-12" style="text-align: left; line-height:20px;"><b>Rail & Harbour service:</b></div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total purchase used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            30
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax30cost" style="float:left; width:55%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Non-eligible purchases used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            31
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax31cost" style="float:left; width:55%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Eligible purchases used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            32
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span style="float:left;">R&nbsp;</span>
+                                            <span id="prt_tax32cost" style="float:left; width:55%;border: none;"></span>
+                                            <span style="float:left;">&nbsp;×&nbsp;</span>
+                                            <span id="prt_tax32rate" style="float:left; width:30%;border: none;">207.00</span>
+                                            <span style="float:left;">&nbsp;(cl)&nbsp;</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            33
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax33cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-12" style="text-align: left; line-height:20px;"><b>Peak Power Plant:</b></div>
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Total purchase used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            34
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax34cost" style="float:left; width:55%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Non-eligible purchases used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            35
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax35cost" style="float:left; width:55%;border: none;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-4" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">Eligible purchases used (l)</div>
+                                    <div class="col-5" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:10px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            36
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span style="float:left;">R&nbsp;</span>
+                                            <span id="prt_tax36cost" style="float:left; width:55%;border: none;"></span>
+                                            <span style="float:left;">&nbsp;×&nbsp;</span>
+                                            <span id="prt_tax36rate" style="float:left; width:30%;border: none;">384.50</span>
+                                            <span style="float:left;">&nbsp;(cl)&nbsp;</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            37
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax37cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-9" style="text-align: left; align-items: center; display: flex; justify-content: left; line-height:20px;">TOTAL AMOUNT PAYABLE/REFUNDABLE 20 - (25 + 29 + 33 + 37) OR 20 + (25 + 29 + 33 + 37)</div>
+                                    <div class="col-3" style="text-align: right; align-items: center; display: flex; justify-content: right; line-height:20px;">
+                                        <div style="float:left; padding-right:11px; align-items: center; display: flex; justify-content: center; width:68px;">
+                                            38
+                                        </div>
+                                        <div class="col-10" style="align-items: center; display: flex;">
+                                            <span id="prt_tax38cost" style="float:left; width:90%;border: none;"></span>
+                                        </div>
+                                    </div>                                                        
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                </div>
+            </div>
+        {{/if}}
+
+        <!-- Modal print-button -modal -->
+        
+        
+        <div class="modal fade" role="dialog" tabindex="-1" id="vatoptionmodal">
+            {{> departmentOptionModal}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="departmentModal">
+            {{> departmentpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newDepartmentModal">
+            {{> newdepartmentpop}}
+        </div>
+        
+        <!-- Modal Tax Rate -modal -->
+        <style>
+            .colCodeName{
+                width: 30% !important;
+            }
+            .colDescription{
+                width: 40% !important;
+            }
+            .colTaxRate{
+                width: 20% !important;
+            }
+        </style>
+        {{#each pan in taxCodePanList}}
+        <div class="modal fade" role="dialog" tabindex="-1" id="taxCode{{pan}}option">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document" style="max-width: 90vw;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Tax Code List</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        {{> internal_transaction_list_with_switchbox tablename="tbltaxCodeCheckbox" pan=pan}}
+                    </div>
+                    <div class="modal-footer">
+                        <button id="sel-{{pan}}" name="sel-{{pan}}" type="button" class="btn btn-primary btnselTaxList">OK</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+        
+        <div class="modal fade" role="dialog" tabindex="-1" id="newTaxRateModal">
+            {{> newtaxratepop}}
+        </div>
+        <!-- End Modal Tax Rate -->
+    </div>
+
+    <!-- Start Help Video Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
+        <div class="modal-dialog" role="document" style="max-width: 670px!important;">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="title-header">Journal Entries</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
+                    <!-- <iframe width="640" height="360" src="https://erphelpes.com/vs1videos/journalentry.mp4" frameborder="0" allowfullscreen=""></iframe> -->
+                    <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                        <source src="https://erphelpes.com/vs1videos/journalentry.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="currencyModal">
+        {{> currencypop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="newCurrencyModal">
+        {{> newcurrencypop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="countryModal">
+        {{> CountryModal}}
+    </div>
+
+    <!-- End Help Video Modal -->
+    <script>
+        modalDraggable();
+    </script>
+</template>

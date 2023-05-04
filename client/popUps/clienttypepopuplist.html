@@ -1,0 +1,70 @@
+<template name="clienttypepopup">
+
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document" style="max-width: 90vw;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Customer Type Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" style="width: 100%; display:none;" id="selectLineID" name="selectLineID" readonly>
+                <div class="card-body p-1 rounded">
+                    <div class="table-responsive">
+                        <style>
+                            .colClientTypeName {
+                                width: 20%!important;
+                            }
+
+                            .colDeleteCustomerType{
+                              width:2%!important;
+                            }
+                        </style>
+
+                        <div class="modal fade" role="dialog" tabindex="-1" id="deleteClientTypeLineModal">
+                          <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                  <input type="hidden" style="width: 100%; display:none;" id="selectDeleteLineID" name="selectDeleteLineID"  readonly>
+                                  <div class="modal-header">
+                                      <h4>Delete</h4>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">×</span>
+                                      </button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <p>Please click "Delete" to deactivate Client Type</p>
+
+                                      <button class="btn btn-danger float-right btnDeleteDClientType" type="button">
+                                          <i class="fa fa-close" style="margin-right: 5px;"></i>Delete
+                                      </button>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                        <!-- {{> non_transactional_list tablename="tblClienttypeList"}}               -->
+                        {{>datatablelist
+                            tableclass="tblClienttypeList"
+                            tablename=tablename
+                            apiName= apiFunction
+                            indexeddbname = 'TClientTypeList'
+                            tableheaderrecords = tableheaderrecords
+                            exportfilename = 'Client type List'
+                            istransaction = false
+                            apiParams= apiParams
+                            datahandler = datahandler
+                            service=service
+                            lowercaseDataName='tclienttypelist'
+                            exIndexDBName = 'tclienttype'
+                            exdatahandler = exDataHandler
+                            searchAPI = searchAPI
+                    }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- {{> clienttypemodal}} -->
+</template>

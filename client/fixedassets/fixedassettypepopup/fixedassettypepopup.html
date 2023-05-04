@@ -1,0 +1,127 @@
+<template name="fixedassettypepopup">
+  <div class="modal fade" role="dialog" tabindex="-1" id="{{modalID}}">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document">
+      <div class="modal-content customerListContent">
+        <div class="modal-header">
+          <h4>Fixed Asset Type List</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body" style="padding: 32px; padding-top: 0px;">
+          <div>
+            <!-- <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 20px; align-items: center;">
+              <div class="col float-left flex-grow-1 mb-1">
+                {{> vs1_button
+                  color='primary'
+                  classes='btnRefresh'
+                  type='button'
+                  id="btnRefresh"
+                  iconName=' la la-lightbulb-o'
+                  title='Refresh'
+                }}
+                {{> vs1_button
+                  color='primary'
+                  classes='btnNewAssetType'
+                  type='button'
+                  id="btnNewAssetType"
+                  iconName='plus'
+                  title='New Asset Type'
+                }}
+              </div>
+              <div class="col d-xl-flex justify-content-xl-end align-items-xl-start">
+                {{> export_import_print_display_button Import="hiddenButton" tablename="tblFixedAssetType"}}
+              </div>
+            </div> -->
+            <style>
+              .tblFixedAssetType{
+                width: 100%!important;
+              }
+              .colAssetCode{
+                width: 200px!important;
+              }
+              
+              .colNotes{
+                width: 200px!important;
+              }
+              .colStatus{
+                width: 120px!important;
+              }
+              .colAssetName{
+                width: 300px!important;
+              }
+            </style>
+            <div class="col-12">
+              <div class="card mb-3">
+                <div class="card-body">
+                  
+                  {{>datatablelist
+                      tableclass="tblFixedAssetType"
+                      tablename="tblFixedAssetType"
+                      apiName= apiFunction
+                      indexeddbname = 'TFixedAssetType'
+                      tableheaderrecords = tableheaderrecords
+                      exportfilename = 'Fixed Asset Type'
+                      istransaction = false
+                      apiParams= apiParams
+                      datahandler = datahandler
+                      service=service
+                      lowercaseDataName='tfixedassettype'
+                      exportfilename='Fixed Asset Type'
+                      exIndexDBName = 'tfixedassettypeex'
+                      exdatahandler = exDataHandler
+                      searchAPI = searchAPI
+                      orderby = '[[ 1, "asc" ]]'
+                      showPlusButton = true
+                      showPlusButtonDataTarget = "createAssetType"
+                      showPlusButtonClass = "btnNewAssetType"
+                  }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="modal-footer">
+          <button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" role="dialog" tabindex="-1" id="createAssetType">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document">
+      <div class="modal-content customerListContent">
+        <div class="modal-header">
+          <h4>Create New Asset Type</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body" style="padding: 32px; padding-top: 0px;">
+          <div class="row" style="margin: 8px 16px 0px 16px;">
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+              <div class="form-group"><label>Asset Type Code</label>
+                <input class="form-control" type="text" id="edtAssetTypeCode" name="edtAssetTypeCode" >
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+              <div class="form-group"><label>Asset Type Name</label>
+                <input class="form-control" type="text" id="edtAssetTypeName" name="edtAssetTypeName" >
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+              <div class="form-group"><label>Asset Type Description</label>
+                <input class="form-control" type="text" id="edtAssetTypeDescription" name="edtAssetTypeDescription" >
+              </div>
+            </div>
+          </div>
+          <div>
+            {{> vs1_button
+              color='primary'
+              classes='btnCreateAssetType'
+              type='button'
+              id="btnCreateAssetType"
+              iconName=' la la-lightbulb-o'
+              title='Create'
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

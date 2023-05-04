@@ -1,0 +1,73 @@
+<template name="fxhistorylist">
+    {{# vs1_report_template tabledisplayname = "Foreign Exchange History List" tablename="fxhistorylist"  dateAsAt=dateAsAt sheetname="FX History Report Result"}}
+    <div class="table-responsive">
+        <table class="table table-sm" id="tableExport" name="tableExport">
+            <thead>
+                <!-- <tr class="table-active">
+                    <th>Country</th>
+                    <th>Code</th>
+                    <th>Date</th>
+                    <th class="text-right">Buy Rate</th>
+                    <th class="text-right">Sell Rate</th>
+                </tr> -->
+                <tr class="table-active tblAvoid customDoubleTableHeading">
+                    {{#if fxhistorylistth}}
+                        {{#each c in fxhistorylistth }}
+                            {{# if c.display}}
+                                <th data-class="{{c.class}}" data-col-index="{{c.index}}" data-col-active="{{c.active}}" class="th {{c.class}} {{#if c.active}}{{else}}hiddenColumn{{/if}}" style="text-align: left!important; width:{{c.width}}px">{{ c.label }}</th>
+                            {{/if}}
+                        {{/each}}
+                    {{/if}}
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Australia</td>
+                    <td>AUD</td>
+                    <td>22/05/2022</td>
+                    <td class="text-right">1.00</td>
+                    <td class="text-right">1.00</td>
+                </tr>
+                <tr>
+                    <td>United Kingdom</td>
+                    <td>GBP</td>
+                    <td>21/05/2022</td>
+                    <td class="text-right">0.43</td>
+                    <td class="text-right">0.47</td>
+                </tr>
+                <tr>
+                    <td>United States</td>
+                    <td>USD</td>
+                    <td>20/05/2022</td>
+                    <td class="text-right">0.75</td>
+                    <td class="text-right">0.75</td>
+                </tr>
+                <tr>
+                    <td>South African</td>
+                    <td>ZAR</td>
+                    <td>19/05/2022</td>
+                    <td class="text-right">2.35</td>
+                    <td class="text-right">2.38</td>
+                </tr>
+                <!-- {{#if records}}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {{else}}
+                    <tr class="odd" style="text-align: center;">
+                        <td valign="top" colspan="12" class="dataTables_empty">No data available in table</td>
+                    </tr>
+                {{/if}} -->
+            </tbody>
+        </table>
+    </div>
+    {{/vs1_report_template}}
+</template>

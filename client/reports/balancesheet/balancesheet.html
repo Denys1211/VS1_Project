@@ -1,0 +1,69 @@
+<template name="balancesheetreport">
+
+<!--    {{# vs1_report_template tabledisplayname="Balance Sheet" tablename="tblBalanceSheet" dateAsAt=dateAsAt sheetname="Balancesheet Report Result"
+                            currencyList = currencyList}}-->
+<!--        <style>-->
+
+<!--        </style>-->
+<!--        <div class="table-responsive">-->
+<!--            <table class="table table-sm" id="tblBalanceSheet"-->
+<!--                   name="tblBalanceSheet">-->
+<!--                <thead>-->
+<!--                <tr class="table-active tblAvoid customDoubleTableHeading">-->
+<!--                    {{#if currencyRecord}}-->
+<!--                        {{#each c in currencyRecord }}-->
+<!--                            {{# if c.display}}-->
+<!--                                &lt;!&ndash; <th class="text-right __alighnMent{{countActive currencyList }}" active="{{ c.active }}" >{{ c.label }}</th> &ndash;&gt;-->
+
+<!--                                <th data-class="{{c.class}}" data-col-index="{{c.index}}" data-col-active="{{c.active}}"-->
+<!--                                    class="th {{c.class}} {{#if c.active}}{{else}}hiddenColumn{{/if}}"-->
+<!--                                    style="font-weight: 800; text-align: left; width:{{c.width}}px">{{ c.label }}</th>-->
+<!--                            {{/if}}-->
+<!--                        {{/each}}-->
+<!--                    {{/if}}-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--&lt;!&ndash;                 {{#if transactiondatatablerecords}}&ndash;&gt;-->
+<!--&lt;!&ndash;                    {{#each items in transactiondatatablerecords}}&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        {{#each item in items}}&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td class="{{item.indent}}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span class={{item.className}}>{{item.string}}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        {{/each}}&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                    {{/each}}&ndash;&gt;-->
+<!--&lt;!&ndash;                {{else}}&ndash;&gt;-->
+<!--&lt;!&ndash;                    <tr class="odd" style="text-align: center;">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td valign="top" colspan="3" class="dataTables_empty text-left">No data available in table</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                {{/if}}&ndash;&gt;-->
+<!--                </tbody>-->
+
+<!--            </table>-->
+<!--        </div>-->
+<!--    {{/vs1_report_template}}-->
+
+    {{> reportcard
+            datahandler=datahandler
+            mainfieldname=''
+            mainfieldClass=''
+            lowercasename='balancesheetreport'
+            indexDBName='BalanceSheetReport'
+            tabledisplayname="Balance Sheet"
+            tablename="tblbalancesheet"
+            sheetname="Balance Sheet Report Result"
+            printDocTitle='Balance Sheet.pdf'
+            typeIndex=6
+            localStorageKeyName='VS1BalanceSheet_Report'
+            listParam=listParams
+            apiName=apiFunction
+            printTaleName='printReport'
+            exportfilename='Balance Sheet'
+            service=service
+            transType='purchase'
+            searchFunction=searchFunction
+            displaysettings=displaysettings
+    }}
+</template>

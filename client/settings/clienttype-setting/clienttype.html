@@ -1,0 +1,152 @@
+<template name="clienttypesettings">
+  <div class="container-fluid">
+    <div class="fullScreenSpin" style="display: none">
+      <div class="spinner"></div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-4">
+        <h3 class="text-dark mb-4">
+          Customer Type Settings
+          {{> helpbutton}}
+        </h3>
+      </div>
+      <div class="col-12 col-md-4">{{> loggedcompanyoverview}}</div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <div class="card shadow mb-3">
+              <div class="card-header py-3">
+                <p class="text-primary m-0 font-weight-bold">
+                  Customer Type Settings
+                </p>
+              </div>
+              <div class="card-body">
+                <div class="card-body p-3 rounded">
+                  <div class="row no-gutters">
+                    <div class="col">
+                      <div class="row d-xl-flex flex-row justify-content-xl-center">
+                        <div class="col d-xl-flex flex-grow-1 align-items-xl-start"
+                          style="padding: 0px !important">
+                          <button id="btnRefresh"
+                            class="btn btn-primary btnRefresh btnNav"
+                            type="button"
+                            style="min-width: 117.016px; margin: 14px">
+                            <i class="la la-lightbulb-o"
+                              style="margin-right: 5px"></i>Refresh
+                          </button>
+
+                          <a class="btn btn-primary btnAddClientType"
+                            role="button"
+                            data-toggle="modal"
+                            href="#myModalClientType"
+                            style="margin-top: 14px; margin: 14px">
+                            <i class="fa fa-plus"
+                              style="margin-right: 14px"></i>
+                              Add New Customer Type<br/>
+                          </a>
+                        </div>
+
+                        <div
+                          class="col d-xl-flex justify-content-xl-end align-items-xl-start"
+                          style="padding: 0px !important">
+                          {{> export_import_print_display_button tablename="tblClienttypeList"}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <style>
+                    .newTaxRate {
+                      display: none;
+                      padding: 16px;
+                      margin: 16px 0px;
+                    }
+                    td.colCreditLimit, td.colGracePeriodtus{
+                        text-align: right !important;
+                    }
+                  </style>
+
+                    {{>datatablelist
+                        tablename="tblClienttypeList"
+                        apiName= apiFunction
+                        indexeddbname = 'TClientTypeList'
+                        tableheaderrecords = tableheaderrecords
+                        exportfilename = 'Client Type List'
+                        istransaction = false
+                        apiParams= apiParams
+                        datahandler = datahandler
+                        service=service
+                        lowercaseDataName='tclienttypelist'
+                        exIndexDBName = 'tclienttype'
+                        exdatahandler = exDataHandler
+                        searchAPI = searchAPI
+                    }}
+                </div>
+                <div class="row no-gutters">
+                  <div class="col">
+                    <button
+                      class="btn btn-secondary float-right btnBack"
+                      type="button"
+                      style="margin: 12px"
+                    >
+                      <i class="fa fa-close" style="margin-right: 5px"></i
+                      >Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" role="dialog" tabindex="-1" id="deleteLineModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <input
+          type="hidden"
+          style="width: 100%; display: none"
+          id="selectDeleteLineID"
+          name="selectDeleteLineID"
+          readonly
+        />
+        <div class="modal-header">
+          <h4>Delete</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Please click "Delete" to deactivate Customer Type</p>
+
+          <button
+            class="btn btn-danger float-right btnDeleteDepartment"
+            type="button"
+          >
+            <i class="fa fa-close" style="margin-right: 5px"></i>Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Import Modal -->
+  {{> import_template ImportformName="Customer Type Settings"}}
+  {{> clienttypemodal}}
+  <div class="modal fade" role="dialog" tabindex="-1" id="termsListModal">
+    {{> termlistpop}}
+  </div>
+  <div class="modal fade" role="dialog" tabindex="-1" id="newTermsModal">
+    {{> newtermspop}}
+</div>
+  <script>
+    modalDraggable();
+  </script>
+</template>

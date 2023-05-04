@@ -1,0 +1,557 @@
+<!-- Invoice header template -->
+<!--
+  data
+  uploadedFile
+  isCurrencyEnable
+  custfields
+  showTransactionButtons
+  salesCloudPreferenceRec
+  showCustomer
+  showBilingAddress
+  showSalesDate
+  showPONumber
+  showInvoiceNumber
+  showOrderNumber
+  showVia
+  showTerms
+  showStatus
+  showReference
+  showDepartment
+  showCurrency
+  showCustomFields
+  showShippingInfo
+  showPayment
+  showCopyTransaction
+  showCopyToInvoice
+  showCopyToOrder
+  showBalanceDue
+ -->
+ <template name="transaction_header">
+  <style>
+    @media (min-width: 1200px) {
+      .row-middle .col-xl-2 {
+        flex: 0 0 24.66667%;
+        max-width: 24.66667%;
+      }
+    }
+
+    @media (min-width: 1300px) {
+      .row-middle .col-xl-2 {
+        flex: 0 0 16.66667%;
+        max-width: 16.66667%;
+      }
+    }
+  </style>
+   <style>
+    @media screen and (max-width: 387px) {
+      .btnSettings {
+        padding: 0px !important;
+        font-size: 16px !important;
+      }
+      h2 {
+        font-size: 24px;
+      }
+    }
+
+    @media screen and (max-height: 450px) and (max-width: 950px) {
+      .colPaid {
+        display: block !important;
+      }
+      #colBalanceDue {
+        /* display: none !important; */
+      }
+    }
+
+    @media screen and (max-width: 450px) {
+      .btnTransaction {
+        width: 80% !important;
+      }
+
+      .payNow {
+        margin-right: 8px !important;
+      }
+
+      .btnMakePayment {
+        margin-left: 8px !important;
+      }
+
+      .colBtn {
+        padding: 0px;
+      }
+
+      .colPaid {
+        display: block !important;
+      }
+
+      #colBalanceDue {
+        /* display: none !important; */
+      }
+    }
+
+    .templateItem {
+      display: inline-flex !important;
+
+    }
+
+    .btnPreviewTemplate {
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    .btnPreviewTemplate:hover {
+      background-color: #f8f9fc;
+    }
+
+    #tblInvoiceLine_length,
+    #tblInvoiceLine_filter {
+      display: none;
+    }
+
+    .colUnitPriceEx,
+    .colUnitPriceInc,
+    .colAmountEx,
+    .colAmountInc {
+      cursor: pointer;
+    }
+    .lead {
+        font-size: 25px;
+        font-weight: 500;
+        margin: 0px;
+        color: #696969;
+        float: right;
+      }
+
+    .leadTotal {
+      font-weight: 800 !important;
+    }
+
+    .leadHidden {
+      visibility: hidden;
+      height: 0px !important;
+    }
+
+    @media screen and (min-width: 1366px) {
+      .colComments {
+        padding-right: 2.5rem;
+      }
+    }
+
+    @media screen and (max-width: 450px) {
+      .desktopButtons {
+        display: none;
+      }
+
+      .mobileButtons {
+        display: flex !important;
+      }
+    }
+
+    .paidIcon {
+      animation: blink 2s ease-in infinite;
+      -webkit-animation: blink 2s ease-in infinite;
+    }
+  </style>
+  <header
+    style="padding: 16px; padding-right: 0px;background-color: #ededed;margin-top: -24px;padding-bottom: 0px;">
+      <div class="row">
+          <div class="col-12 col-md-4">
+              <h2 style="margin: 16px;margin-bottom: 0px;" class="heading">
+                  {{data.lid}}
+                  {{> helpbutton}}
+              </h2>
+          </div>
+          <div class="col-12 col-md-4">{{> loggedcompanyoverview}}</div>
+          <div class="col-12 col-md-4">
+              {{#if showCustomFields}}
+                  <a
+                          class="btn btnSettings"
+                          role="button"
+                          data-toggle="modal"
+                          href="#myModal4"
+                          style="float: right;">
+                      <i class="icon ion-android-more-horizontal"></i>
+                  </a>
+              {{/if}}
+              {{#if equals data.isReconciled true}}
+                  <h3 style="float: right; color: #e02d1b; font-weight: 600;">Reconciled</h3>
+              {{/if}}
+              <div class="printID" id="{{data.id}}" style="display: none;">{{data.id}}</div>
+          </div>
+      </div>
+  </header>
+
+  <div class="modal fade" id="helpViewModal" tabindex="-1" role="dialog" aria-hidden="true">
+    {{> help_modal}}
+  </div>
+  {{> customfieldDroppop}}
+  {{> customfieldpop}}
+
+  <div class="row align-items-end pb-3" style="background-color: #ededed;">
+    {{#if data.ispaid}}
+    <div class="col-12 colPaid" style="display: none;">
+      <p style="font-size: 25px;font-weight: 700 ;color: #e74a3b; margin: 16px 32px 0px 32px;">Paid</p>
+      <input class="form-control form-control ispaidInv" type="hidden" value="true">
+    </div>
+    {{/if}}
+
+    <div class="col-12 col-xl-10">
+      {{#if equals cardType 'Cheque'}}
+      {{> transaction_cheque_header
+        data=data
+      }}
+      {{#if showCustomFields}}
+        {{> custom_fields
+          containerClasses="col-12 col-md-6 col-lg-4 col-xl-2"
+          salesCloudPreferenceRec=salesCloudPreferenceRec
+          custfields=custfields
+          data=data
+        }}
+      {{/if}}
+      {{else}}
+      <div class="row" style="margin: 8px 16px 0px 16px;">
+        {{#if showCustomer}}
+          {{#if equals cardName 'WO'}}
+              <div class="col-12 col-md-6 col-lg-6 col-xl-3">
+                {{> customerselector
+                  label=clientType
+                  id=getCustomerID
+                  value=data.CustomerID
+                  data = data.ClientName
+                  email = data.ClientEmail
+                  modalId=modal_id
+                  list_template_name=getTemplate
+                  target_modal_id=getTargetModalID
+                  target_template_id=getTargetTemplate
+                  is_editable=true
+                  colNameForValue='colCompany'
+                  modal_title=getModalTitle
+                  lineTableId=gridTableId
+                  printTableId=printTableId
+                }}
+              </div>
+              <div class="col-12 col-md-6 col-lg-6 col-xl-3">
+                {{> customer_email_input
+                  label=getUserLabel
+                }}
+              </div>
+              {{#if data.isCompleted}}
+              <div class="col-12 col-md-6 col-lg-6 col-xl-3" >
+                <div style="color:red; font-size: 20px; padding-top: 30px; padding-left:30px;">
+                  Completed <span style ="color:grey" > - (Read Only)</span>
+                </div>
+              </div>
+              {{/if}}
+
+          {{else}}
+            <div class="col-12 col-md-6 col-lg-6 col-xl-3" >
+              <!-- {{> customer_selector
+                label=getUserLabel
+                id=getCustomerID
+                list_template_name=getTemplate
+                target_modal_id=getTargetModalID
+                target_template_id=getTargetTemplate
+                is_editable=true
+                colNameForValue='colCompany'
+                modal_title=getModalTitle
+                modalId = getModalId
+              }} -->
+              {{> customerselector
+                label=clientType
+                id=getCustomerID
+                value=data.CustomerID
+                data = data.ClientName
+                email = data.ClientEmail
+                modalId=modal_id
+                list_template_name=getTemplate
+                target_modal_id=getTargetModalID
+                target_template_id=getTargetTemplate
+                is_editable=true
+                colNameForValue='colCompany'
+                modal_title=getModalTitle
+                lineTableId=getgridTableId
+                printTableId=printTableId
+              }}
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-3">
+              {{> customer_email_input
+                label=getUserLabel
+              }}
+            </div>
+          {{/if}}
+        {{/if}}  
+        
+        </div>
+      {{/if}}
+
+      <div class="row" style="margin: 16px 16px 0px 16px;">
+        {{#if showBilingAddress}}
+        <div class="col-12 col-md-6 col-lg-2 col-xl-3">
+          {{# vs1_textarea
+            label="Billing Address"
+            row="5"
+            id="txabillingAddress"
+            name="txabillingAddress"
+          }}{{data.invoiceToDesc}}{{/vs1_textarea}}
+        </div>
+        {{/if}}
+        <div class="col-12 col-md-6 col-lg-8 col-xl-9 d-flex flex-column justify-content-between ">
+          <div>
+            <div class="row row-middle">
+              {{#if showSalesDate}}
+              <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+              {{> single_date_picker
+                label=getDateInputLabel
+                id="dtSODate"
+                name="dtSODate"
+                defaultValue=data.saledate
+                dueDate=data.duedate
+              }}
+              </div>
+              {{/if}}
+              {{#if showPONumber}}
+              <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                {{> po_number_input
+                  value=data.custPONumber
+                  firstname=data.firstname
+                  lastname=data.lastname
+                }}
+              </div>
+              {{/if}}
+              {{#if showInvoiceNumber}}
+                <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                  {{> invoice_number_input
+                    value=data.invoicenumber
+                  }}
+                </div>
+              {{/if}}
+              {{#if showOrderNumber}}
+              <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                {{> default_input
+                  label='Order Number'
+                  id='edtOrderNumber'
+                  name='edtOrderNumber'
+                  defaultValue=data.salesorderid
+                }}
+              </div>
+              {{/if}}
+              {{#if showVia}}
+              <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                {{> default_select
+                  label="Via"
+                  id="shipvia"
+                  type="search"
+                  name="shipvia"
+                }}
+              </div>
+              {{/if}}
+              {{#if showTerms}}
+              <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                <!-- {{> default_select
+                  label="Terms"
+                  id="sltTerms"
+                  classes="sltTerms"
+                  type="search"
+                  name="sltTerms"
+                }} -->
+
+                {{>vs1___dropdown
+                  type='search'
+                  id='sltTerms'
+                  name='sltTerms'
+                  modalId= 'termsList_modal'
+                  list_template_name='termlistpop'
+                  innerModal=true
+                  modal_title="Terms List"
+                  label = 'Terms'
+                  colNameForValue = 'colName'
+                  target_modal_id= 'newTerms_modal'
+                  target_template_id='newtermspop'
+                  is_editable=true
+                }}
+
+              </div>
+              {{/if}}
+              {{#if showStatus}}
+              <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                <!-- {{> default_select
+                  label="Status"
+                  type="search"
+                  id="sltStatus"
+                  name="sltStatus"
+                }} -->
+                {{>vs1___dropdown
+                  type='search'
+                  id='sltStatus'
+                  name='sltStatus'
+                  modalId= 'statusPop_modal'
+                  list_template_name='statuspop'
+                  innerModal=true
+                  modal_title="Status List"
+                  label = 'Status'
+                  colNameForValue = 'colStatusName'
+                  target_modal_id= 'newStatusPop_modal'
+                  target_template_id='newstatuspop'
+                  is_editable=true
+                }}
+              </div>
+              {{/if}}
+              {{#if showReference}}
+              <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                {{> default_input
+                  label="Reference"
+                  classes="divClass"
+                  type="text"
+                  id="edtRef"
+                  name="edtRef"
+                  defaultValue=data.reference
+                }}
+
+
+                <!-- {{> default_input
+                  label="POStatus"
+                  id="sltPOStatus"
+                  name="sltPOStatus"
+                  readonly=true
+                  defaultValue=data.poStatus
+                }} -->
+
+              </div>
+              {{/if}}
+              {{#if showDepartment}}
+              <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                <!-- {{> default_select
+                  label="Department"
+                  id="sltDept"
+                  name="sltDept"
+                  type="search"
+                }} -->
+
+                {{>vs1___dropdown
+                  type='search'
+                  id='sltDept'
+                  name='sltDept'
+                  modalId= 'department_modal'
+                  list_template_name='departmentModal'
+                  innerModal=true                 
+                  label = 'Department'
+                  colNameForValue = 'colDeptClassName'
+                  target_modal_id= 'newDepartment_modal'
+                  target_template_id='newdepartmentpop'
+                  is_editable=true
+                }}
+              </div>
+              {{/if}}
+              {{#if isCurrencyEnable}}
+                {{#if equals cardType 'Invoice'}}
+                {{> CurrencyWidget rate="sell" trans="true"}}
+                {{else}}
+                {{#if equals cardType 'Sales Order'}}
+                {{> CurrencyWidget rate="sell" trans="true"}}
+                {{else}}
+                {{> CurrencyWidget rate="buy" trans="true"}}
+                <!-- {{> CurrencyWidget rate="buy" row="true"}} -->
+                {{/if}}
+                {{/if}}
+              {{/if}}
+              {{#if showCustomFields}}
+              {{> custom_fields
+                containerClasses="col-12 col-md-6 col-lg-4 col-xl-2"
+                salesCloudPreferenceRec=salesCloudPreferenceRec
+                custfields=custfields
+                data=data
+              }}
+              {{/if}}
+            </div>
+          </div>
+          <div >
+            <div class="row">
+              
+              {{#if poStatus}}
+                <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                  {{> default_input
+                    label="POStatus"
+                    id="sltPOStatus"
+                    name="sltPOStatus"
+                    readonly=true
+                    defaultValue=data.poStatus
+                  }}
+                </div>
+              {{/if}}
+              {{#if woStatus}}
+                <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                  {{> default_input
+                    label="WOStatus"
+                    id="sltWOStatus"
+                    name="sltWOStatus"
+                    readonly=true
+                    defaultValue=woStatus
+                  }}
+                </div>
+              {{/if}}
+              {{#if showQuantityBuild}}
+                <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                  {{> default_input
+                    label="Quantity Built"
+                    id="edtTotalQuantity"
+                    name="edtTotalQuantity"
+                    defaultValue=data.quantity
+                    readonly=true
+                  }}
+                </div>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
+      {{#if showShippingInfo}}
+      <div class="row" style="margin: 16px 16px 0px 16px;">
+        <div class="col-12 mb-3">
+          <a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes"
+            href="#collapse-notes" role="button">+ Shipping Information</a>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <div class="collapse" id="collapse-notes" style="margin-top: 8px;">
+                {{# vs1_textarea label="Shipping Address" row="3" id="txaShipingInfo"
+                name="txaShipingInfo"}}{{data.shipToDesc}}{{/vs1_textarea}}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {{/if}}
+    </div>
+    <div class="col-12 col-xl-2">
+      <div class="row justify-content-end">
+        {{> transaction_buttons_top
+          hideBalanceDue=hideBalanceDue
+          showButtons=showTransactionButtons
+          recorddeleted=data.deleted
+          recordispaid=data.ispaid
+          recordbalanceDue=data.balanceDue
+          recordtype=cardType
+          isConverted=data.isConverted
+          abletomakeworkorder=abletomakeworkorder
+          showPayment=showPayment
+          showCopyTransaction=showCopyTransaction
+          showCopyToInvoice=showCopyToInvoice
+          showCopyToOrder=showCopyToOrder
+          data=data
+          showCompleteProcess=showCompleteProcess
+          showVendorService=showVendorService
+          showSchedule=showSchedule
+          showUnschedule=showUnschedule
+          showTimerStart = showTimerStart
+          showTimerPause = showTimerPause
+          showTimerResume = showTimerResume
+          showTimerStop = showTimerStop
+          showQAStart = showQAStart
+          showQAResume = showQAResume
+          showQAPause = showQAPause
+          showQAStop = showQAStop
+          isCompleted = showCompleted
+        }}
+      </div>
+    </div>
+  </div>
+</template>

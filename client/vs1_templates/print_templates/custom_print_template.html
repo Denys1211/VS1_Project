@@ -1,0 +1,261 @@
+<template name="custom_print_template">
+    <style>
+        :root {
+            --blue: #00A3D3;
+            --black: #303134;
+            --green: #0099A3;
+            --secondary: #3d3d3d;
+            --white: #fff;
+        }
+        #print_template_modal .modal-body {
+            background-color: var(--secondary) !important;
+        }
+        #print_template_modal .modal-body * {
+            box-sizing: border-box;
+            margin-bottom: 0;
+            margin-top: 0;
+            font-family: 'Lato', sans-serif;
+        }
+        .bold{
+            font-weight: 900;
+        }
+        .divDraggable {
+            position: absolute !important;
+            /*border: dashed 1px #ccc;*/
+            cursor: move;
+        }
+        .dashedborder {
+            border: dashed 1px #ccc;
+        }
+        .wrapper {
+            position: relative;width: fit-content !important;margin: auto;display: flex;flex-direction: column;align-items: center;background: var(--white);color: var(--secondary);padding: 30px;font-family: 'Lato', sans-serif;font-size: 12px;
+        }
+        .invoice_wrapper{
+            width: 700px;height: 1042px;position: relative;
+        }
+        .invoice_wrapper-black{
+            border: 3px solid var(--black);
+        }
+        .invoice_wrapper-blue{
+            border: 3px solid var(--blue);
+        }
+        .invoice_wrapper-green{
+            border: 3px solid var(--green);
+        }
+        .horizontal_line {
+            border-bottom: 2px solid black;
+        }
+        .item-wrapper {
+            position: absolute;
+            width: fit-content;
+            height: fit-content;
+            z-index: 9;
+        }
+        .main_table td.Tax, .main_table td.Amount,
+        .main_table td.Qty, .main_table td.Trans,
+        .main_table td.Original, .main_table td.Due,
+        .main_table td.Paid, .main_table td.Outstanding,
+        .main_table td.Total, .main_table td.Balance,
+        .main_table td.Unit, .main_table td.Credit,
+        .main_table td.Debit {
+            text-align: right;
+        }
+        .powered_by-wrap {
+            position: relative !important;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+        .powered_by-wrap a {
+            text-decoration: none;
+            color: #00A3D3;
+        }
+    </style>
+    <div class="modal-dialog modal-xl modal-dialog-centered" id="print_template_modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header align-items-center">
+                <h5 class="modal-title" id="templatePreviewLabel"></h5>
+                <input type="text" id="templatePreviewInput" value="" style="font-size: 20px; color: #858796; border-color: #fff0; width: 300px;">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-primary btnCopyReport" type="button" onclick="append()" style="margin-right: 8px;">
+                        <i class="fa fa-copy" style="margin-right: 5px;"></i>
+                        Copy File
+                    </button>
+                    <button class="btn btn-primary btnImportReport" onclick="importData()" type="button" style="margin-right: 8px;">
+                        <i class="fas fa-file-import" style="margin-right: 5px;"></i>
+                        Load Copy
+                    </button>
+                    <a id="editPrintMore" class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#prtTemDisModal"><i class="icon ion-android-more-horizontal"></i></a>
+                    <button type="button" class="close" onclick="$('#{{modalId}}').modal('hide');" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body" style="background-color: #f8f9fc; max-height: calc(100vh - 200px); overflow-y: auto;">
+                <div class="wrapper" id="{{idPrefix}}" name="{{namePrefix}}" style="height:297mm;">
+                    <div class="invoice_wrapper invoice_wrapper-blue">
+                        {{> preview_header1 }}
+                        {{> preview_body1 }}
+                        {{> preview_footer1 }}
+                    </div>
+                    <div class="item-wrapper powered_by-wrap divDraggable divResize">
+                        <strong>Powered by <a href="https://www.vs1cloud.com" target="_blank">VS1Cloud</a></strong>
+                    </div>
+                </div>
+                <div class="wrapper" id="{{idPrefix}}2" name="{{namePrefix}}2" style="height:297mm;">
+                    <div class="invoice_wrapper invoice_wrapper-black">
+                        {{> preview_header2 }}
+                        {{> preview_body2 }}
+                        {{> preview_footer2 }}
+                    </div>
+                    <div class="item-wrapper powered_by-wrap divDraggable divResize">
+                        <strong>Powered by <a href="https://www.vs1cloud.com" target="_blank">VS1Cloud</a></strong>
+                    </div>
+                </div>
+                <div class="wrapper" id="{{idPrefix}}3" name="{{namePrefix}}3" style="height:297mm;">
+                    <div class="invoice_wrapper invoice_wrapper-green">
+                        {{> preview_header3 }}
+                        {{> preview_body3 }}
+                        {{> preview_footer3 }}
+                    </div>
+                    <div class="item-wrapper powered_by-wrap divDraggable divResize">
+                        <strong>Powered by <a href="https://www.vs1cloud.com" target="_blank">VS1Cloud</a></strong>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times" style="margin-right: 5px;"></i>Close</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="prtTemDisModal">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Display Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body" style="max-height: calc(100vh - 200px);overflow: scroll;">
+                    <div>
+                        <form class="d-xl-flex align-items-xl-center">
+                            <div class="flex-grow-1" id="print_display_setting_div">
+                              {{#each arrayify print_displayfields}}
+                                <div class="columnSettings displaySettings">
+                                    <div class="custom-control custom-switch" style="margin: 8px; ">
+                                        <input class="custom-control-input chkDatatable" name="front" type="checkbox" id="formCheck-{{name}}" data-displaysetting-type="front{{value.[0]}}" onclick="showOrHidden(this)" checked="{{value.[2]}}">
+                                        <label class="custom-control-label" for="formCheck-{{name}}">
+                                            {{ getTitleFromId name}}
+                                        </label>
+                                        <input type="checkbox" name="end" id="{{value.[0]}}new" style="margin: 5px !important; float: right; display: none;" data-display-type="end{{value.[0]}}" onchange="grid_main(this)" checked="true">
+                                        <label style="float: right" for="{{value.[0]}}new">
+                                            {{#if equals value.[0] ''}}
+                                                Main
+                                            {{else}}
+                                                Grid
+                                            {{/if}}
+                                        </label>
+                                        <div contenteditable="false" class="divcolumn" type="text"></div>
+                                    </div>
+                                </div>
+                              {{/each}}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary saveTable savePrintTable" type="button" style='margin: 14px !important;'><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                    <button class="btn btn-warning resetTable resetPrintTable" type="reset" style='margin: 14px !important;'><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button" style='margin: 14px !important;'><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function getPrintTDetail() {
+            try {
+                let dataObject = await getVS1Data("TPrintTemplateDetail");
+                let data = JSON.parse(dataObject[0].data);
+                return data;
+            } catch (e) {
+                return {};
+            }
+        }
+        function append(){
+            var $html = $('#print_template_modal .modal-body');
+            var str = $html.prop('innerHTML');
+            const result = encodeURI(str);
+            saveFile(result);
+        }
+        async function saveFile(textToWrite)
+        {
+            // get the textbox data...
+            var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+            var downloadLink = document.createElement("a");
+            var pt_detail = await getPrintTDetail();
+            downloadLink.download = pt_detail + ".xml";
+            downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+            downloadLink.click();
+        }
+        function importData() {
+            let input = document.createElement('input');
+            input.type = 'file';
+            input.onchange = _ => {
+                let files = input.files[0];
+			    let reader = new FileReader();
+                reader.readAsText(files);
+                reader.onload = function() {
+                const div = $('#print_template_modal .modal-body')[0];
+                div.innerHTML = decodeURI(reader.result);
+                // Alex: add for print options {
+                initDragElement();
+                // @}
+                };
+            };
+            input.click();
+        }
+
+        function showOrHidden(e) {
+            let className = e.id
+
+            if(className.includes(' ') != -1) {
+                className = className.split('-')[1]
+                className = className.split(' ')[0]
+            }
+            var all_col = document.getElementsByClassName(className);
+            if (e.checked == false) {
+                for(var i=0;i<all_col.length;i++) {
+                    all_col[i].style.display="none";
+                }
+            } else {
+                for(var i=0;i<all_col.length;i++) {
+                    all_col[i].style.display="table-cell";
+                }
+            }
+        }
+
+        function grid_main(e) {
+            let all_chk_f = document.querySelectorAll('input[name="front"]')
+            if(e.id == 'new') {
+                for(var i=0;i<all_chk_f.length;i++) {
+                    if (all_chk_f[i].getAttribute("data-displaysetting-type") == 'front') {
+                        all_chk_f[i].disabled = false
+                    } else {
+                        all_chk_f[i].disabled = true
+                    }
+                }
+            } else {
+                for(var i=0;i<all_chk_f.length;i++) {
+                    if (all_chk_f[i].getAttribute("data-displaysetting-type") == 'front') {
+                        all_chk_f[i].disabled = true
+                    } else {
+                        all_chk_f[i].disabled = false
+                    }
+                }
+            }
+        }
+
+        $('#templatePreviewModal .btnCopyReport').css("display", "none");
+        $('#templatePreviewModal .btnImportReport').css("display", "none");
+        $("#editPrintMore").css("display", "none");
+    </script>
+</template>

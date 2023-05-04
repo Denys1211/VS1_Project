@@ -1,0 +1,55 @@
+<template name="preview_body2">
+    <style>
+        .template-preview-body2 {
+            left: 0;
+            top: 300px;
+            width: 100%;
+        }
+        .main_table {
+            margin: auto;
+            width: 100%;
+        }
+        .main_table thead span {
+            display: block;
+            width: 100%;
+        }
+        .main_table tbody tr td div {
+            display: inline-block;
+            white-space: nowrap;
+            position: relative;
+            width: 100%;
+            margin-right: -1000px;
+            overflow: hidden;
+        }
+        .template-preview-body2 .main_table .table_header{
+            background: var(--black);
+        }
+        .main_table .table_header tr th {
+            color: var(--white) !important;
+            font-size: 16px;
+            border-bottom: 0px;
+        }
+        .main_table tr {
+            border-bottom: 1px solid var(--secondary);
+        }
+        .main_table tr th, .main_table tr td {
+            padding: 8px;
+        }
+    </style>
+    <!-- body -->
+    <div class="item-wrapper template-preview-body2">
+        <div class="table-responsive">
+            <div style="margin: 0px; border: none !important; background-color: rgba(0,0,0,0);">
+                <table class="main_table invoice_print divDraggable table table-sm table-striped table-bordered dataTable ui-resizable" style="width: 100%;  margin: auto;" id="printTemplateTable2">
+                    <thead class="table_header">
+                    <tr class="tbl_header table-active tblAvoid customDoubleTableHeading" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+                    </tr>
+                    </thead>
+                    <tbody class="tbl_content" style="color: rgb(0 0 0);">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- body -->
+</template>

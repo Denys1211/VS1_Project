@@ -1,0 +1,1010 @@
+<template name="appointments">
+    <div class="fullScreenSpin" style="display:none;">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <header class="pt-2 pb-3 d-flex">
+                <h3 class="mr-1">Appointment Overview {{> helpbutton}}</h3>
+            </header>
+        </div>
+        <div class="col-12 col-md-4 divLogged">
+            {{> loggedcompanyoverview}}
+        </div>
+    </div>
+
+    <style >
+        @media screen and (max-width: 450px) {
+            .navbar .container-fluid> :not(#sidebarToggleTop) {
+                display: none;
+            }
+
+            .colCalendar {
+                padding: 0px !important;
+            }
+
+            .fc-view-harness.fc-view-harness-active {
+                max-height: 100vh !important;
+                height: 100vh !important;
+            }
+
+            .appointmentHeader {
+                display: none;
+            }
+
+            .colEmployeeList {
+                display: none;
+            }
+
+            .fc-toolbar-chunk:nth-child(1) {
+                display: none;
+            }
+
+            .fc-toolbar-chunk:nth-child(2) {
+                margin: 0 auto;
+                margin-top: 8px !important;
+            }
+
+            .fc-toolbar-chunk:nth-child(3) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 992px) {
+            #colEmployeeList{
+                display:none
+            }
+        }
+
+        @media (min-width: 450px) {
+            .col-lg-2 {
+                flex: 0 0 16.66667%;
+                max-width: 16.66667%;
+            }
+
+            .col-lg-10 {
+                flex: 0 0 83.33333%;
+                max-width: 83.33333%;
+            }
+        }
+
+        @media (max-height: 450px) and (max-width: 950px) {
+            .topbar {
+                display: none;
+            }
+
+            .appointmentHeader {
+                display: none;
+            }
+
+            .fc-toolbar-title {
+                margin-top: 8px !important;
+            }
+
+            .colEmployeeList {
+                display: none;
+            }
+
+            .colCalendar {
+                padding: 0px !important;
+            }
+
+            .fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+                padding-top: 0px;
+            }
+
+            #allocationModal {
+                padding-left: 0px !important;
+                z-index: 1049;
+            }
+
+            .fc-view-harness.fc-view-harness-active {
+                max-height: 600px !important;
+                height: 600px !important;
+            }
+
+            .fc-toolbar-chunk:nth-child(1) {
+                display: none;
+            }
+
+            .fc-toolbar-chunk:nth-child(3) {
+                display: none;
+            }
+
+            .fc-toolbar-chunk {
+                width: 100% !important;
+            }
+
+            .headerDiv {
+                margin-bottom: 0px !important;
+            }
+
+            .allocationOuterModal {
+                margin-bottom: 0px;
+                margin-top: 0px;
+                max-height: 100vh;
+                height: 100vh;
+            }
+
+            .allocationFooter {
+                display: none;
+            }
+
+            .allocationHeaderParent {
+                padding: 0.75rem !important;
+            }
+            .colCompany {
+                width: 400px !important;
+            }
+
+            .modalCreateOuter {
+                margin: 0px !important;
+                max-width: 100vw !important;
+            }
+
+            .modalCreateAppointments {
+                width: 100vw !important;
+            }
+
+            .cardBodyInner {
+                padding: 3px !important;
+            }
+
+            .cardBodyInner {
+                font-size: 11px !important;
+            }
+        }
+
+        .modal {
+            overflow-y: auto;
+        }
+
+        .fc-event-main {
+            z-index: 0 !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+            /* max-height: 97px; */
+        }
+
+        .fc .fc-timegrid-body {
+            z-index: 0 !important;
+        }
+
+        @media (max-width: 750px) {
+            .modal-dialog {
+                max-width: 100% !important;
+                min-height: 100% !important;
+                margin-top: 0px !important;
+            }
+        }
+
+        .allocationInnerModal {
+            width: 95vw;
+            height: 95vh;
+        }
+
+        .allocationHeaderDate {
+            background-color: rgba(0, 0, 0, 0) !important;
+            padding: 0px !important;
+            border-radius: 0px !important;
+            border: 0px solid #e3e6f0 !important;
+            background-clip: border-box !important;
+            box-shadow: 0 0 0 0 rgb(0 0 0 / 0%) !important;
+            font-size: 1.3rem !important;
+            margin-top: 8px !important;
+        }
+
+        .btnPrev {
+            margin-right: 12px;
+        }
+
+        .btnNext {
+            margin-left: 12px;
+        }
+    </style>
+
+    <style>
+        .fc-next-button {
+            margin-right: 12px !important;
+        }
+
+        .fc-today-button {
+            margin: 0 5px 0 5px !important;
+
+        }
+
+        .fc-newappointment-button {
+            margin: 0 5px 0 5px !important;
+        }
+
+        .fc-appointments-button {
+            margin: 0 5px 0 5px !important;
+        }
+
+        .fc-allocation-button {
+            margin: 0 5px 0 5px !important;
+        }
+
+        .fc-refresh-button {
+            margin-left: 5px !important;
+        }
+
+        .fc-next-button {
+            margin-right: 5px !important;
+        }
+
+        .fc-dayGridMonth-button {
+            margin-right: 5px !important;
+            border-radius: 0.35rem !important;
+        }
+
+
+        .fc-timeGridWeek-button {
+            margin: 0 5px 0 5px !important;
+            border-radius: 0.35rem !important;
+        }
+
+        .fc-timeGridDay-button {
+            margin: 0 5px 0 5px !important;
+            border-radius: 0.35rem !important;
+        }
+
+
+        .fc-settingsmodalbutton-button {
+            margin-left: 5px !important;
+            border-radius: 0.35rem !important;
+        }
+
+        .fc-settingsmodalbutton-button:before {
+          font-family: fontAwesome;
+          content: "\f141";
+        }
+
+        .results tr[visible='false'],
+        .no-result {
+            display: none;
+        }
+
+        .results tr[visible='true'] {
+            display: table-row;
+        }
+
+        .counter {
+            padding: 8px;
+            color: #ccc;
+        }
+
+        .sideSearch {
+            width: 100% !important;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        .cardB {
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+
+        .rowB {
+            overflow-x: auto;
+            margin-left: 0px;
+            padding: 20px;
+            justify-content: space-between;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: rgb(0, 163, 211) !important;
+            background-color: #EDEDED !important;
+            border-color: #00a3d3 #00a3d3 #ededed #00a3d3 !important;
+        }
+
+        .nav-tabs .nav-link {
+            background-color: #fff !important;
+            border-color: #00a3d3 !important;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .sideSearch {
+                width: auto;
+            }
+        }
+
+        #cloudEmpEmailAddress:focus {
+            border-color: #00a3d3;
+        }
+
+        .clearfix::after,
+        .calendar ol::after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .calendar {
+            border-radius: 10px;
+        }
+
+        .month {
+            font-size: 2rem;
+        }
+
+        @media (min-width: 992px) {
+            .month {
+                font-size: 3.5rem;
+            }
+        }
+
+        .calendar ol li {
+            float: left;
+            width: 14.28571%;
+        }
+
+        .calendar .day-names {
+            border-bottom: 1px solid #eee;
+        }
+
+        .calendar .day-names li {
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .calendar .days li {
+            border-bottom: 1px solid #eee;
+            min-height: 8rem;
+        }
+
+        .calendar .days li .date {
+            margin: 0.5rem 0;
+        }
+
+        .calendar .days li .event {
+            font-size: 0.75rem;
+            padding: 0.4rem;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border-radius: 4rem;
+            margin-bottom: 1px;
+        }
+
+        .calendar .days li .event.span-2 {
+            width: 200%;
+        }
+
+        .calendar .days li .event.begin {
+            border-radius: 1rem 0 0 1rem;
+        }
+
+        .calendar .days li .event.end {
+            border-radius: 0 1rem 1rem 0;
+        }
+
+        .calendar .days li:nth-child(n + 29) {
+            border-bottom: none;
+        }
+
+        .calendar .days li.outside .date {
+            color: #ddd;
+        }
+
+        .fc-event.fc-daygrid-event.fc-daygrid-block-event {
+            cursor: pointer !important;
+        }
+
+        .alignColCenter {
+            top: 20%;
+            left: 20%;
+        }
+
+        /*Calendar Styling Classes*/
+        .calendarWidth100 {
+            width: 100%;
+        }
+
+        @media screen and (max-width: 768px) {
+            .newcardb {
+                margin: 0 auto !important;
+                margin-bottom: 16px !important;
+            }
+        }
+
+        @media screen and (max-width: 1024px) {
+            .allocationHeaderDate {
+                width: 300px !important;
+            }
+
+            .modalCreateAppointments {
+                width: 95vw;
+            }
+
+            .rowB {
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+
+            .alloDate {
+                width: 400px !important;
+                margin-right: 25%;
+            }
+
+            .fc-toolbar-chunk {
+                background-color: rgba(0, 0, 0, 0) !important;
+                padding: 0px !important;
+                border-radius: 0px !important;
+                border: 0px solid #e3e6f0 !important;
+                background-clip: border-box !important;
+                box-shadow: 0 0 0 0 rgb(0 0 0 / 0%) !important;
+            }
+
+            .newcardb {
+                /* max-height: 300px !important; */
+                /* margin-left: 28px !important; */
+            }
+
+            .colEmployeeList {
+                /* margin: auto !important; */
+            }
+
+            .fc-col-header {
+                width: 100% !important;
+            }
+
+            .fc-scrollgrid-sync-table {
+                width: 100% !important;
+            }
+
+            .fc-daygrid-body {
+                width: 100% !important;
+            }
+
+            .fc-daygrid-body-unbalanced {
+                width: 100% !important;
+            }
+
+            .fc-daygrid-body-natural {
+                width: 100% !important;
+            }
+
+            .fc-timegrid-body {
+                width: 100% !important;
+            }
+
+            .table-bordered {
+                width: 100% !important;
+            }
+
+            .fc-timegrid-cols>table {
+                width: 100% !important;
+            }
+
+            .colCalendar {
+                padding: 0em 1.5em;
+                padding-left: 8px;
+            }
+
+            .newcardb {
+                width: 100% !important;
+            }
+
+            .sideSearch {
+                width: 100% !important;
+            }
+
+            .inputSearch {
+                width: 98% !important;
+            }
+
+            .fc .fc-toolbar-title {
+                font-size: 1.4em !important;
+            }
+
+            .btn-group {
+                margin-left: 12px;
+                margin-bottom: 8px;
+            }
+
+            .fc-today-button {
+                margin-bottom: 8px;
+            }
+
+            .fc-newappointment-button {
+                margin-bottom: 8px;
+            }
+
+            .fc-appointments-button {
+                margin-bottom: 8px;
+            }
+
+            .fc-allocation-button:before {
+                content: "\A";
+            }
+
+            .fc-allocation-button {
+                margin-bottom: 8px;
+            }
+
+            .fc-toolbar-chunk {
+                width: 33%;
+                text-align: center;
+            }
+
+            .mainCustomerModalBody {
+                overflow-x: hidden !important;
+                overflow-x: hidden;
+            }
+
+            .refreshpagelist {
+                margin-bottom: 0px !important;
+            }
+        }
+
+        @media screen and (max-width: 850px) {
+            .allocationInnerModal {
+                width: 100vw;
+            }
+        }
+
+        @media screen and (max-width: 450px) {
+            .cardBodyInner {
+                padding: 4px !important;
+            }
+
+            .allocationCloser {
+                display: none;
+            }
+
+            #allocationModal {
+                overflow-y: hidden;
+                padding-left: 0px !important
+            }
+
+            .allocationInnerModal {
+                width: 100vw;
+                max-height: 100vh;
+                height: 100vh;
+            }
+
+            .alloDate {
+                margin-left: 17px !important;
+                margin-right: 0px !important;
+            }
+
+            .allocationHeader {
+                display: none;
+            }
+
+            .allocationHeaderDate {
+                width: 218px !important;
+            }
+
+            .rowB {
+                width: 100%;
+            }
+
+            .newcardb {
+                margin: 0px !important;
+                margin-top: 1em !important;
+                width: 100% !important;
+                max-height: 300px !important;
+            }
+
+            .counter.pull-right {
+                padding-right: 0px !important;
+            }
+
+            .colCalendar {
+                margin-right: 0px !important;
+                padding: 0px !important;
+                min-width: 1000px !important;
+                overflow-x: auto;
+            }
+
+            .colEmployeeList {
+                left: 0px !important;
+                position: -webkit-sticky !important;
+                position: -moz-sticky !important;
+                position: -ms-sticky !important;
+                position: -o-sticky !important;
+                position: sticky !important;
+                top: 0 !important;
+            }
+
+            .newcardb {
+                left: 0px !important;
+                position: -webkit-sticky !important;
+                position: -moz-sticky !important;
+                position: -ms-sticky !important;
+                position: -o-sticky !important;
+                position: sticky !important;
+                top: 0 !important;
+            }
+
+            .tblEmployeeSideList {
+                margin: 0px 8px !important;
+                width: 96% !important;
+            }
+
+            .btnoptionsmodal {
+                margin-right: 1.3em;
+            }
+
+            .fc .fc-toolbar-title {
+                font-size: 1.3em !important;
+            }
+
+            .btn-group {
+                margin-left: 12px;
+                margin-bottom: 8px;
+            }
+
+            .fc-today-button {
+                margin-bottom: 8px;
+            }
+
+            .fc-newappointment-button {
+                margin-bottom: 8px;
+            }
+
+            .fc-appointments-button {
+                margin-bottom: 8px;
+            }
+
+            .fc-allocation-button {
+                margin-bottom: 8px;
+            }
+
+            .fc-toolbar-chunk {
+                width: 260px;
+            }
+
+            .dataTables_length {
+                float: left !important;
+            }
+
+            #tblCustomerlist_filter {
+                margin-left: 0.75rem !important;
+            }
+
+            .refreshpagelist {
+                margin-bottom: 0px !important;
+            }
+
+            .btnRefreshGlobal {
+                padding: 0px !important;
+                padding-left: 4px !important;
+            }
+
+            .btnOpenSettings {
+                margin-bottom: 4px !important;
+            }
+
+            .bookedTimeHeader {
+                margin-top: 8px !important;
+                padding-left: 0px !important;
+            }
+
+            .actualTimeHeader {
+                margin-top: 8px !important;
+                padding-left: 0px !important;
+            }
+
+            .colBookedTime {
+                padding-left: 0px !important;
+            }
+
+            .colActualTime {
+                padding-left: 0px !important;
+            }
+        }
+
+        #colEmployeeList{margin-right: 20px;}
+        #colCalendar{width: 100px;flex: 1;}
+
+        @media screen and (max-width: 1366px) {
+            .fc-toolbar-chunk>* {
+                margin: 0px;
+            }
+        }
+
+        .fc-dayGridMonth-view .fc-event{
+            height:20px !important;
+        }
+    </style>
+
+    <script>
+        // setTimeout(function() {
+        //
+        //     var x = window.matchMedia("(max-width: 1024px)");
+        //
+        //     function mediaQuery(x) {
+        //         if (x.matches) {
+        //
+        //             $("#newcardb").addClass("alignColCenter");
+        //         }
+        //     }
+        //     mediaQuery(x);
+        //     x.addListener(mediaQuery);
+        // }, 10);
+        // setTimeout(function() {
+        //
+        //     var x = window.matchMedia("(max-width: 812px)");
+        //
+        //     function mediaQuery(x) {
+        //         if (x.matches) {
+        //
+        //             $("#newcardb").addClass("alignColCenter");
+        //
+        //             $("#colCustJobName").removeClass("col-6");
+        //             $("#colCustJobName").addClass("col-12");
+        //             $("#colMobno").removeClass("col-2");
+        //             $("#colMobno").addClass("col-4");
+        //             $("#colPhoneno").removeClass("col-2");
+        //             $("#colPhoneno").addClass("col-4");
+        //             $("#colAppID").removeClass("col-2");
+        //             $("#colAppID").addClass("col-4");
+        //
+        //             $("#colStreetAddress").removeClass("col-4");
+        //             $("#colStreetAddress").addClass("col-12");
+        //             $("#colCityTown").removeClass("col-2");
+        //             $("#colCityTown").addClass("col-4");
+        //             $("#colState").removeClass("col-2");
+        //             $("#colState").addClass("col-4");
+        //             $("#colCountry").removeClass("col-2");
+        //             $("#colCountry").addClass("col-4");
+        //             $("#colZip").removeClass("col-2");
+        //             $("#colZip").addClass("col-4");
+        //
+        //             $("#colEmpName").removeClass("col-6");
+        //             $("#colEmpName").addClass("col-12");
+        //             $("#colStartDate").removeClass("col-3");
+        //             $("#colStartDate").addClass("col-6");
+        //             $("#colEndDate").removeClass("col-3");
+        //             $("#colEndDate").addClass("col-6");
+        //
+        //             $("#colBookedTime").removeClass("col-6");
+        //             $("#colBookedTime").addClass("col-12");
+        //             $("#colBookedStartTime").removeClass("col-2");
+        //             $("#colBookedStartTime").addClass("col-4");
+        //             $("#colBookedEndTime").removeClass("col-2");
+        //             $("#colBookedEndTime").addClass("col-4");
+        //             $("#colBookedHours").removeClass("col-2");
+        //             $("#colBookedHours").addClass("col-4");
+        //
+        //             $("#colActualTime").removeClass("col-3");
+        //             $("#colActualTime").addClass("col-12");
+        //             $("#timeHeader").removeClass("float-right");
+        //             $("#timeHeader").addClass("float-left");
+        //             $("#colActualStartTime").removeClass("col-2");
+        //             $("#colActualStartTime").addClass("col-4");
+        //             $("#colActualEndTime").removeClass("col-2");
+        //             $("#colActualEndTime").addClass("col-4");
+        //             $("#colAppointmentList").removeClass("col-1");
+        //             $("#colAppointmentList").addClass("col-2");
+        //         }
+        //     }
+        //     mediaQuery(x);
+        //     x.addListener(mediaQuery);
+        // }, 10);
+        // setTimeout(function() {
+        //
+        //     var x = window.matchMedia("(max-width: 1024px)");
+        //
+        //     function mediaQuery(x) {
+        //         if (x.matches) {
+        //
+        //             $("#colEmployeeList").removeClass("col-auto");
+        //             $("#colEmployeeList").addClass("col-12");
+        //
+        //             $("#colCalendar").removeClass("col");
+        //             $("#colCalendar").addClass("col-12");
+        //
+        //         }
+        //     }
+        //     mediaQuery(x);
+        //     x.addListener(mediaQuery);
+        // }, 10);
+        // setTimeout(function() {
+        //
+        //     var x = window.matchMedia("(max-width: 420px)");
+        //
+        //     function mediaQuery(x) {
+        //         if (x.matches) {
+        //
+        //             $("#colEmployeeList").removeClass("col-auto");
+        //             $("#colEmployeeList").addClass("col-12");
+        //
+        //             $("#colCalendar").removeClass("col");
+        //             $("#colCalendar").addClass("col-12");
+        //
+        //             $("#colCustJobName").removeClass("col-6");
+        //             $("#colCustJobName").addClass("col-12");
+        //             $("#colMobno").removeClass("col-2");
+        //             $("#colMobno").addClass("col-4");
+        //             $("#colPhoneno").removeClass("col-2");
+        //             $("#colPhoneno").addClass("col-4");
+        //             $("#colAppID").removeClass("col-2");
+        //             $("#colAppID").addClass("col-4");
+        //
+        //             $("#colStreetAddress").removeClass("col-4");
+        //             $("#colStreetAddress").addClass("col-12");
+        //             $("#colCityTown").removeClass("col-2");
+        //             $("#colCityTown").addClass("col-6");
+        //             $("#colState").removeClass("col-2");
+        //             $("#colState").addClass("col-6");
+        //             $("#colCountry").removeClass("col-2");
+        //             $("#colCountry").addClass("col-6");
+        //             $("#colZip").removeClass("col-2");
+        //             $("#colZip").addClass("col-6");
+        //
+        //             $("#colNotesParent").removeClass("col-4");
+        //             $("#colNotesParent").addClass("col-12");
+        //
+        //             $("#colBookedTimeParent").removeClass("col-8");
+        //             $("#colBookedTimeParent").addClass("col-12");
+        //             $("#colBookedTime").removeClass("col-3");
+        //             $("#colBookedTime").addClass("col-12");
+        //             $("#bookedTimeHeader").removeClass("float-right");
+        //             $("#bookedTimeHeader").addClass("float-left");
+        //             $("#colBookedStartTime").removeClass("col-3");
+        //             $("#colBookedStartTime").addClass("col-4");
+        //             $("#colActualEndTime").removeClass("col-3");
+        //             $("#colActualEndTime").addClass("col-4");
+        //             $("#colBookedHours").removeClass("col-3");
+        //             $("#colBookedHours").addClass("col-4");
+        //             $("#actualTimeHeader").removeClass("float-right");
+        //             $("#actualTimeHeader").addClass("float-left");
+        //
+        //             // $("#colProductService2").removeClass("col-6");
+        //             // $("#colProductService2").addClass("col-12");
+        //             // $("#colStart").removeClass("col-2");
+        //             // $("#colStart").addClass("col-4");
+        //             // $("#colOnHold").removeClass("col-2");
+        //             // $("#colOnHold").addClass("col-4");
+        //             // $("#colStop").removeClass("col-2");
+        //             // $("#colStop").addClass("col-4");
+        //
+        //         }
+        //     }
+        //     mediaQuery(x);
+        //     x.addListener(mediaQuery);
+        // }, 10);
+    </script>
+
+    <div style="">
+        <button class="btn btn-link d-md rounded-circle mr-3" id="sidebarToggleAppointments" type="button"><i class="fas fa-bars" style="color: #00A3D3;"></i></button>
+    </div>
+
+    <div class="row rowB charts connectedChartSortable connectedSortable ui-sortable" id="rowB">
+        <div class="colEmployeeList sortable-chart-widget-js draggable-panel" chart-slug="appointment-card-0" id="colEmployeeList" style="width:288px;">
+            <style>
+                /* .newcardb {
+                    width: 150px;
+                } */
+
+                .cardB {
+                    padding: 0px;
+                    /*                    overflow-x: hidden;*/
+                }
+
+                .counter.pull-right {
+                    /* padding-right: 70px !important; */
+                }
+
+                #tblEmployeeSideList {
+                    -webkit-touch-callout: none;
+                    -webkit-user-select: none;
+                    -khtml-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+                }
+            </style>
+            <div class="card shadow mb-4 newcardb portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-resizable" id="newcardb1" style="">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="text-primary font-weight-bold m-0">Employees</h6>
+                </div>
+                <div class="card-body text-nowrap cardB">
+                    <div class="sideSearch">
+                        <div class="form-group pull-right" style="width: 95%; margin-bottom: 0; margin-right: 8px;">
+                            <input style="margin: 4px;" type="text" class="inputSearch search form-control" placeholder="Search...">
+                        </div>
+                        <span class="counter pull-right"></span>
+                        <style>
+                            .empColor {
+                                height: 18px;
+                                width: 18px;
+                                border-radius: 50%;
+                                display: inline-block;
+                                margin-right: 4px;
+                                text-align: center;
+                                font-size: 12px;
+                            }
+
+                            .empPriority {
+                                color: #ffffff;
+                            }
+                        </style>
+                        <table id="tblEmployeeSideList" name="tblEmployeeSideList" class="table table-hover table-bordered results tblEmployeeSideList">
+                            <thead>
+                                <tr>
+                                    <th style="width:190px">Employee</th>
+                                    <th>Leave</th>
+                                </tr>
+                                <tr class="warning no-result">
+                                    <td colspan="4"><i class="fa fa-warning"></i> No result</td>
+                                </tr>
+                            </thead>
+                            <tbody id='external-events-list'>
+                                <!-- <div id='external-events'>
+<div > -->
+                                {{#if employeerecords}}
+                                    {{#each item in employeerecords}}
+                                        <tr id="{{item.id}}">
+                                            <td>
+                                                <div class='fc-event fc-daygrid-event fc-daygrid-block-event' style="width:164px">
+                                                {{#if item.color}}
+                                                    <div class='fc-event-main'>
+                                                        <span class="empColor" style="background: {{item.color}};">
+                                                            <span class="empPriority">{{item.priority}}</span>
+                                                        </span>
+                                                        {{item.employeeName}}
+                                                        <span id="employeeID_{{item.id}}" class="employeeID" style="display: none;">{{item.id}}</span>
+                                                        <span id="employeeName_{{item.id}}" class="employeeName" style="display: none;">{{item.employeeName}}</span>
+                                                    </div>
+                                                {{else}}
+                                                    <div class='fc-event-main'>
+                                                        {{item.employeeName}} <span id="employeeID" style="display: none;">{{item.id}}</span>
+                                                    </div>
+                                                {{/if}}
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <a role="button" id="addLeave_{{item.id}}" data-toggle="modal" href="#" class="btn btn-primary addLeaveEmp" style="width: 24px; height: 24px; text-align: center; padding:0">
+                                                    <i class="icon ion-calendar"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {{/each}}
+                                {{/if}}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="colCalendar sortable-chart-widget-js draggable-panel" chart-slug="appointment-card-1" id="colCalendar" style="width:calc(100% - 325px);">
+            <style>
+                #sidebarToggleAppointments:hover {
+                    background-color: #eaecf4;
+                }
+                #calendar{overflow: auto;}
+                #calendar .fc-header-toolbar{
+                    padding-top: 5px;
+                    width: 1420px;
+                    overflow: hidden;
+                    justify-content: flex-start;
+                }
+            </style>
+            <div class="card shadow mb-4 newcardb portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-resizable" id="newcardb2" style="">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="text-primary font-weight-bold m-0">Calendar</h6>
+                </div>
+                <div class="card-body text-nowrap">
+                    {{> calender}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="copyFrequencyModal">
+        {{> copyfrequencypop}}
+    </div>
+</template>

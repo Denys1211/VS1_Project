@@ -1,0 +1,1550 @@
+<template name="newprofitandloss">
+    {{# vs1_report_template tabledisplayname="Profit and Loss" tablename="tblprofitandloss" dateAsAt=dateAsAt sheetname="Profit and Loss Report Result"
+        currencyList = currencyList}}
+        <style>
+            /* Remove Hyperlinks */
+            @media print {
+                a:link {
+                    text-decoration: none !important;
+                }
+
+                a[href]:after {
+                    content: none !important;
+                }
+            }
+
+            @media only screen and (max-width:370px) {
+                .periodSelector {
+                    margin: 8px !important;
+                }tota
+
+                .nplSecondHead .btnExportReportProfit,
+                .nplSecondHead .btnPrintReport,
+                .nplSecondHead .btnPrintReport {
+                    margin: 16px 0 16px 0 !important;
+                    width: 100% !important;
+                }
+
+                .nplSecondHead .refreshBtnFix {
+                    padding: 13px;
+                }
+            }
+
+            .periodSelector,
+            .nplHead .form-group {
+                margin: 16px 16px 16px 16px;
+            }
+
+            /* .nplSecondHead .btnExportReportProfit {} */
+
+            .periodSelector .dropdown-toggle:after,
+            .nplLayoutSelector .dropdown-toggle:after {
+                display: inline-block;
+                margin-left: 0.255em;
+                vertical-align: 0.255em;
+                content: "";
+                border-top: 0.3em solid;
+                border-right: 0.3em solid transparent;
+                border-bottom: 0;
+                border-left: 0.3em solid transparent;
+            }
+
+            /* .pnlTable th {
+                background-color: transparent !important;
+            } */
+
+            .pnlTable,
+            .pnlTable td,
+            .pnlTable td a {
+                color: #000a1e;
+            }
+
+            /* .printReport {
+                color: #000a1e;
+            } */
+
+            /* td.fgr.fgrblue a {
+                color: #00a3d3 !important;
+            } */
+
+            td.fgr.fgrblue {
+                color: #00a3d3 !important;
+                padding-left: 4rem !important;
+            }
+            .newprofitandloss .table td {
+                color: #00a3d3;
+            }
+            .table td.fgrtotal {
+                font-weight: 800 !important;
+                color: #858796;
+            }
+
+            td.fgrSubtotal {
+                font-weight: 700;
+                font-size: 16px !important;
+            }
+
+
+            td.tperiod {
+                font-size: 12px;
+            }
+
+            .scnd .dropdown-menu {
+                padding: 16px;
+            }
+
+            #item-value->* {
+                border-top: 0px;
+                padding-top: 16px;
+                border-bottom: 1px solid #e3e6f0 !important;
+                border-top: 1px solid #e3e6f0 !important;
+                border-top: unset;
+            }
+
+            .customProfitLossTable .table-sm td.fgrSubtotal{
+                font-weight: 800 !important;
+                color: #00a3d3;
+            }
+            .customProfitLossTable .table-sm td.fgrtotal {
+                font-weight: 800 !important;
+                color: #858796;
+            }
+            .customProfitLossTable .table-sm th {
+                color: #858796;
+                border: 1px solid #e3e6f0;
+            }
+            .customProfitLossTable .table-sm td,
+            .customProfitLossTable .table-sm th {
+                border-bottom: 1px solid #e3e6f0 !important;
+                border-top: 1px solid #e3e6f0 !important;
+                /* color: #858796; */
+                white-space: nowrap;
+            }
+            .customProfitLossTable .table-sm td{
+                padding: 7px 15px !important;
+            }
+            .customProfitLossTable .table-sm th {
+                padding: 0px 15px !important;
+            }
+            .pnlTable td {
+                border-top: unset;
+            }
+
+            .customCheckBox {
+                display: inline-flex;
+                width: 100%;
+                padding: 5px 10px;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                align-items: center;
+                margin: 0px !important;
+            }
+
+            .customCheckBox label {
+                margin: 0px;
+                display: inline-flex;
+                width: 100%;
+                align-items: center;
+            }
+
+            .customCheckBox label input {
+                margin-right: 6px
+            }
+
+            .customCheckBox:first-child {
+                border: none !important;
+            }
+
+            .customSortableDiv {
+                display: inline-block;
+                width: 100%;
+            }
+
+            .customSortableDiv h1 {
+                display: inline-block;
+                width: 100%;
+                margin: 0 !important;
+                font-size: 1rem;
+                color: #858796;
+                font-weight: 800;
+                background: whitesmoke;
+                padding: 7px 10px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                cursor: move;
+            }
+
+            .customSortableDiv h2 {
+                display: inline-block;
+                width: calc(100% - 30px);
+                margin: 0 !important;
+                margin-left: 30px !important;
+                font-size: 1rem;
+                color: #858796;
+                font-weight: 800;
+                background: whitesmoke;
+                padding: 7px 10px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .customSortableDiv h3 {
+                display: inline-block;
+                width: calc(100% - 30px);
+                margin: 0 !important;
+                margin-left: 30px !important;
+                font-size: 1rem;
+                color: #858796;
+                font-weight: 800;
+                background: whitesmoke;
+                padding: 7px 10px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .customSortableDiv p {
+                display: inline-block;
+                margin: 0 0 0 30px;
+                font-size: 1rem;
+                color: #00a3d3 !important;
+                font-weight: 400;
+                background: whitesmoke;
+                padding: 7px 10px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                cursor: move;
+            }
+
+            .customSortableDiv p.g0 {
+                width: calc(100% - 30px);
+                margin-left: 30px !important;
+            }
+
+            .customSortableDiv p.g1 {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+            }
+
+            .customSortableDiv p.g2 {
+                width: calc(100% - 90px);
+                margin-left: 90px !important;
+            }
+
+            .disableCursor {
+                pointer-events: none;
+                cursor: not-allowed !important;
+            }
+
+            .item-placeholder {
+                background: #ccc;
+                float: left;
+                border-style: dashed;
+                border-width: 1px;
+                border-color: rgba(0, 0, 0, 0.3);
+                min-height: 38px;
+                width: calc(100% - 30px);
+                margin-left: 30px;
+            }
+
+            .movable-placeholder {
+                background: #e8e8e8;
+                width: 100%;
+                float: left;
+                border-style: dashed;
+                border-width: 1px;
+                border-color: rgba(0, 0, 0, 0.3);
+                height: 38px !important;
+                max-height: unset !important;
+                min-height: unset !important;
+            }
+
+            .ui-sortable-helper.setParentPosition {
+                height: 38px !important;
+                overflow: hidden;
+            }
+
+            .ui-sortable-helper.setParentPosition .group-items.ui-sortable {
+                display: none !important;
+            }
+
+            /* .customProfitLossTable .customDoubleTableHeading th {
+                padding-top: 0px !important;
+                padding-bottom: 0px !important;
+            } */
+            .customProfitLossTable .customDoubleTableHeading + tr th {
+                border-right: 1px solid #d5d5d5 !important;
+            }
+            .customProfitLossTable .customDoubleTableHeading + tr th:last-child {
+                border-right: none !important;
+            }
+            /* .textCenterAlign *,
+            .textCenterAlign {
+                text-align: center !important;
+            } */
+            .textCenterAlign tr td {
+                text-align: right !important;
+            }
+            .textCenterAlign tr td:first-child,
+            .textCenterAlign .textLeftTxt {
+                text-align: left !important;
+                min-width: 215px !important;
+                width: 215px !important;
+            }
+            .textAlignRight0,
+            .textAlignRight1 {
+                text-align: right !important;
+            }
+            /*.customProfitLossTable tr td.text-danger {*/
+            /*    color: #553e3c !important;*/
+            /*}*/
+            .customProfitLossTable table th {
+                min-width: 190px !important;
+                width: 190px;
+            }
+            .fgrtotal--2{
+                color: #00a3d3 !important;
+            }
+        </style>
+        
+        <div class="table-responsive customProfitLossTable p-2 ">
+            <table class="table table-hover table-sm textCenterAlign pnlTable dragTable" id="tableExport" name="tableExport" style="display: none;">
+                <thead class="tblAvoid">
+
+                    <tr class="table-active tblAvoid customDoubleTableHeading">
+                        <th class="textLeftTxt" rowspan="2"></th>
+                        <!-- <th class="text-left" rowspan="2"></th> -->
+                        {{#if reportOptions.threcords}}
+                            {{#each item in reportOptions.threcords}}
+                                <th  class="text-center textAlignRight{{countActive currencyList }}" colspan="{{countActive currencyList }}">{{ item }}</th>
+                                {{#if reportOptions.showPercentage}}
+                                    <th  class="text-center plAmountPercentage">{{ item }} Percentage</th>
+                                {{/if}}
+                            {{/each}}
+                        {{/if}}
+                        {{#if reportOptions.showtotal}}
+                            <th colspan="{{countActive currencyList }}" class="tglTotal text-center textAlignRight{{countActive currencyList }}">Running Total</th>
+                        {{/if}}
+
+                    </tr>
+                    {{#if isOnlyDefaultActive equal "false" }}
+                    <tr class="table-active tblAvoid customDoubleTableHeading">
+                        {{#if reportOptions.threcords}}
+                            {{#each item in reportOptions.threcords}}
+                                    {{#if currencyList}}
+                                        {{#each c in currencyList }}
+                                            {{# if c.active}}
+                                                <th class="text-right" active="{{ c.active }}">{{ c.code }}</th>
+                                            {{/if}}
+                                        {{/each}}
+                                    {{/if}}
+                                {{#if daterange}}
+                                {{else}}
+                                    <th class="text-right">{{daterange}}</th>
+                                {{/if}}
+                            {{/each}}
+                        {{/if}}
+
+                        {{#if reportOptions.showtotal}}
+                                {{#if currencyList}}
+                                    {{#each c in currencyList }}
+                                        {{# if c.active}}
+                                            <th class="text-right" active="{{ c.active }}">{{ c.code }}</th>
+                                        {{/if}}
+                                    {{/each}}
+                                {{/if}}
+                        {{/if}}
+                    </tr>
+                    {{/if}}
+                </thead>
+
+                <tbody>
+                    {{#if records}}
+                        {{#each item in records}}
+                            <tr class="tableInnerRow" id="item-value-{{item.name}}">
+                                {{#if equals item.accounttype ""}}
+                                    <td class="fgr fgrblue pnlReportAccount" data-account="{{ item.accountname }}" style="padding-left: 4rem !important;">
+                                        <span class="tglAccCodes" style="display:none;">{{ item.id }} -
+                                        </span>{{item.accountname}}
+                                    </td>
+                                    {{#if item.periodAmounts }}
+                                        {{#each itemamount in item.periodAmounts}}
+
+                                            {{#if isOnlyDefaultActive }}
+
+                                                {{#if currencyList}}
+                                                    {{#each c in currencyList }}
+                                                        {{# if c.active}}
+                                                            <td class="fgr fgrtotal--1 text-right {{c.currency}} {{#if isNegativeAmount itemamount.roundAmt}} text-danger {{/if}}">
+                                                                {{#if reportOptions.showDecimal }}
+                                                                    {{convertAmount itemamount.decimalAmt c}}
+                                                                {{else}}
+                                                                    {{convertAmount itemamount.roundAmt c}}
+                                                                {{/if}}
+                                                            </td>
+                                                        {{/if}}
+                                                    {{/each}}
+                                                {{/if}}
+
+                                            {{else}}
+
+                                                <td class="fgr fgrtotal--2 text-right {{#if isNegativeAmount itemamount.roundAmt}} text-danger {{/if}}">
+                                                    {{#if reportOptions.showDecimal }}
+                                                        {{itemamount.decimalAmt}}
+                                                    {{else}}
+                                                        {{itemamount.roundAmt}}
+                                                    {{/if}}
+                                                </td>
+
+                                            {{/if}}
+                                            {{#if reportOptions.showPercentage}}    
+                                                <td class="fgr fgrtotal--2 text-right plAmountPercentage">
+                                                    {{itemamount.percentage}}
+                                                </td>
+                                            {{/if}}
+
+                                        {{/each}}
+                                    {{/if}}
+
+                                    {{#if reportOptions.showtotal}}
+
+                                        {{#if isOnlyDefaultActive }}
+                                            {{#if currencyList}}
+                                                {{#each c in currencyList }}
+                                                    {{# if c.active}}
+                                                        <td currency="{{c.code}}"  class="fgr fgrblue--3 text-right tglTotal {{#if isNegativeAmount item.totalroundamountex}} text-danger {{/if}}">
+                                                            {{#if reportOptions.showDecimal }}
+                                                                {{convertAmount item.totalamountex c}}
+                                                            {{else}}
+                                                                {{convertAmount item.totalroundamountex c}}
+                                                            {{/if}}
+                                                        </td>
+                                                    {{/if}}
+                                                {{/each}}
+                                            {{/if}}
+                                        {{else}}
+                                            <td  class="fgr fgrblue--4 text-right tglTotal {{#if isNegativeAmount item.totalroundamountex}} text-danger {{/if}}">
+                                                {{#if reportOptions.showDecimal }}
+                                                    {{item.totalamountex}}
+                                                {{else}}
+                                                    {{item.totalroundamountex}}
+                                                {{/if}}
+                                            </td>
+
+                                        {{/if}}
+
+                                    {{/if}}
+                                {{else}}
+                                    {{#if containsequals item.accounttype "Total"}}
+                                        <td class="fgrSubtotal text-right fgrSubtotalName" style="padding-left: 15px;">
+                                            {{item.accounttype}}
+                                        </td>
+                                        <!-- <td></td> -->
+                                        {{#if item.periodAmounts }}
+                                        {{#each itemamount in item.periodAmounts}}
+
+                                            {{#if isOnlyDefaultActive }}
+
+                                                {{#if currencyList}}
+                                                    {{#each c in currencyList }}
+                                                        {{# if c.active}}
+
+                                                            <td currency="{{c.code}}" class="fgr fgrtotal text-right {{#if isNegativeAmount itemamount.roundAmt}} text-danger {{/if}}">
+                                                                {{#if reportOptions.showDecimal }}
+                                                                {{convertAmount itemamount.decimalAmt c}}
+                                                                {{else}}
+                                                                {{convertAmount itemamount.roundAmt c}}
+                                                                {{/if}}
+                                                            </td>
+
+                                                        {{/if}}
+                                                    {{/each}}
+                                                {{/if}}
+
+                                            {{else}}
+                                                <td class="fgr fgrtotal text-right {{#if isNegativeAmount itemamount.roundAmt}} text-danger {{/if}}">
+                                                    {{#if reportOptions.showDecimal }}
+                                                    {{itemamount.decimalAmt}}
+                                                    {{else}}
+                                                    {{itemamount.roundAmt}}
+                                                    {{/if}}
+                                                </td>
+
+                                            {{/if}}
+                                            {{#if reportOptions.showPercentage}}
+                                                <td class="fgr fgrtotal--2 text-right plAmountPercentage">
+                                                    {{itemamount.percentage}}
+                                                </td>
+                                            {{/if}}
+
+                                        {{/each}}
+                                    {{/if}}
+
+                                    {{#if reportOptions.showtotal}}
+                                        {{#if isOnlyDefaultActive }}
+
+                                            {{#if currencyList}}
+                                                {{#each c in currencyList }}
+                                                    {{# if c.active}}
+                                                        <td currency="{{c.code}}" class="fgr fgrblue text-right fgrtotal tglTotal {{#if isNegativeAmount item.totalroundamountex}} text-danger {{/if}}">
+                                                            {{#if reportOptions.showDecimal }}
+                                                                {{convertAmount item.totalamountex c}}
+                                                            {{else}}
+                                                                {{convertAmount item.totalroundamountex c}}
+                                                            {{/if}}
+                                                        </td>
+                                                    {{/if}}
+                                                {{/each}}
+                                            {{/if}}
+
+                                        {{else}}
+
+                                            <td class="fgr fgrblue text-right fgrtotal tglTotal {{#if isNegativeAmount item.totalroundamountex}} text-danger {{/if}}">
+                                                {{#if reportOptions.showDecimal }}
+                                                    {{item.totalamountex}}
+                                                {{else}}
+                                                    {{item.totalroundamountex}}
+                                                {{/if}}
+                                            </td>
+
+                                        {{/if}}
+
+
+
+                                    {{/if}}
+                                {{else}}
+                                    <td class="fgrtotal text-right fgrtotalName">{{item.accounttype}}</td>
+                                    <!-- <td></td> -->
+                                    {{#if item.periodAmounts }}
+                                        {{#each itemamount in item.periodAmounts}}
+
+                                            {{#if isOnlyDefaultActive }}
+                                                {{#if currencyList}}
+                                                    {{#each c in currencyList }}
+                                                        {{# if c.active}}
+
+                                                            <td currency="{{c.code}}" class="fgr fgrtotal text-center {{#if isNegativeAmount itemamount.roundAmt}} text-danger {{/if}}">
+                                                                {{#if reportOptions.showDecimal }}
+                                                                {{convertAmount itemamount.decimalAmt c}}
+                                                                {{else}}
+                                                                {{convertAmount itemamount.roundAmt c}}
+                                                                {{/if}}
+                                                            </td>
+
+                                                        {{/if}}
+                                                    {{/each}}
+                                                {{/if}}
+
+                                            {{else}}
+
+                                                <td class="fgr fgrtotal text-right {{#if isNegativeAmount itemamount.roundAmt}} text-danger {{/if}}">
+                                                    {{#if reportOptions.showDecimal }}
+                                                        {{itemamount.decimalAmt}}
+                                                    {{else}}
+                                                        {{itemamount.roundAmt}}
+                                                    {{/if}}
+                                                </td>
+
+                                            {{/if}}
+                                            {{#if reportOptions.showPercentage}}
+                                                <td class="fgr fgrtotal--2 text-right plAmountPercentage">
+                                                    {{itemamount.percentage}}
+                                                </td>
+                                            {{/if}}
+
+                                        {{/each}}
+                                    {{/if}}
+
+                                {{#if reportOptions.showtotal}}
+
+                                    {{#if isOnlyDefaultActive }}
+                                        {{#if currencyList}}
+                                            {{#each c in currencyList }}
+                                                {{# if c.active}}
+
+                                                    <td currency="{{c.code}}" class="fgr fgrblue text-right tglTotal fgrtotal {{#if isNegativeAmount item.totalroundamountex}} text-danger {{/if}}">
+                                                        {{#if reportOptions.showDecimal }}
+                                                            {{convertAmount item.totalamountex c}}
+                                                        {{else}}
+                                                            {{convertAmount item.totalroundamountex c}}
+                                                        {{/if}}
+                                                    </td>
+
+                                                {{/if}}
+                                            {{/each}}
+                                        {{/if}}
+                                    {{else}}
+
+                                        <td class="fgr fgrblue text-right tglTotal fgrtotal {{#if isNegativeAmount item.totalroundamountex}} text-danger {{/if}}">
+                                            {{#if reportOptions.showDecimal }}
+                                                {{item.totalamountex}}
+                                            {{else}}
+                                                {{item.totalroundamountex}}
+                                            {{/if}}
+                                        </td>
+
+                                    {{/if}}
+                                {{/if}}
+                            {{/if}}
+                                {{/if}}
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        <tr class="odd" style="text-align: center;">
+                            <td valign="top" colspan="10" class="dataTables_empty">No data available in table</td>
+                        </tr>
+                    {{/if}}
+
+                    <!-- <tr>
+                        <td class="fgrtotal"><a href="/">Total Trading Income</a></td>
+                        <td></td>
+                        <td class="fgr"><a href="/">2,700.00</a></td>
+                        <td class="fgr"><a href="/">2,700.00</a></td>
+                        <td class="fgr"><a href="/">2,700.00</a></td>
+                        <td class="fgr"><a href="/">2,700.00</a></td>
+                        <td class="fgr"><a href="/">2,700.00</a></td>
+                    </tr> -->
+
+
+                    <!-- <tr>
+                        <td class="npl-netprofit fgrtotal"><a href="/">Net Profit</a></td>
+                        <td></td>
+                        <td class="fgr fgrtotal"><a href="/">494.18</a></td>
+                        <td class="fgr fgrtotal"><a href="/">494.18</a></td>
+                        <td class="fgr fgrtotal"><a href="/">494.18</a></td>
+                        <td class="fgr fgrtotal"><a href="/">494.18</a></td>
+                        <td class="fgr fgrtotal"><a href="/">494.18</a></td>
+                    </tr> -->
+
+                </tbody>
+                <!-- <tfoot>
+                    <tr>
+                        <th colspan="9" style="text-align: center; background-color: #fff; padding-top: 32px;">
+                            Powered by <a href="https://www.vs1cloud.com" target="_blank">VS1Cloud</a>
+                        </th>
+                    </tr>
+                </tfoot> -->
+                <!-- {{#if records}}
+                    <tbody class = "tblGroupAcc">
+                        {{#each item in records}}
+
+
+                                {{#if equals item.accounttype "" }}
+                                <tr id="item-value-{{item.name}}" class="tblIndIvAcc">
+                                    <td style="padding-left: 15px;" class="fgr fgrblue">{{item.accountname}}</td>
+                                    <td></td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_1}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_2}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_3}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_4}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_5}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.aug2021}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_6}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_7}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_8}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_9}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_10}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_11}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_12}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_13}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_14}}</td>
+                                    </tr>
+
+                                {{else if containsequals item.accounttype "Total"}}
+                                    <tr id="item-value-{{item.name}}" class="tblIndIvAcc">
+                                    <td class="fgrSubtotal fgrSubtotalName" style="padding-left: 15px;">{{item.accounttype}}</td>
+                                    <td></td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_1}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_2}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_3}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_4}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_5}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.aug2021}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_6}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_7}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_8}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_9}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_10}}</td>
+                                        <td class="fgr fgrSubtotal text-right">{{item.amount_11}}</td>
+                                        <td class="fgr fgrSubtotal text-right">{{item.amount_12}}</td>
+                                        <td class="fgr fgrSubtotal text-right">{{item.amount_13}}</td>
+                                        <td class="fgr fgrSubtotal text-right">{{item.amount_14}}</td>
+                                        </tr>
+                                    {{else}}
+                                    <tr id="item-value-{{item.name}}" class="tblAvoid">
+                                        <td class="fgrtotal fgrtotalName">{{item.accounttype}}</td>
+                                        <td></td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_1}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_2}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_3}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_4}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_5}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.aug2021}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_6}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_7}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_8}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_9}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_10}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_11}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_12}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_13}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_14}}</td>
+                                        </tr>
+
+                                {{/if}}
+
+
+
+                        {{/each}}
+                        </tbody>
+                    {{/if}} -->
+
+
+
+                <!-- <tbody>
+                    {{#if records}}
+                        {{#each item in records}}
+                            <tr id="item-value-{{item.name}}">
+                                {{#if equals item.accounttype ""}}
+                                    <td style="padding-left: 15px;" class="fgr fgrblue">{{item.accountname}}</td>
+                                    <td></td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_1}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_2}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_3}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_4}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_5}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.aug2021}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_6}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_7}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_8}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_9}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_10}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_11}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_12}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_13}}</td>
+                                    <td class="fgr fgrblue text-right">{{item.amount_14}}</td>
+
+
+                                {{else}}
+                                    {{#if containsequals item.accounttype "Total"}}
+                                    <td class="fgrSubtotal fgrSubtotalName" style="padding-left: 15px;">{{item.accounttype}}</td>
+                                    <td></td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_1}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_2}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_3}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_4}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_5}}</td>                                             <td class="fgr fgrSubtotal text-right">{{item.aug2021}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_6}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_7}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_8}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_9}}</td>
+                                    <td class="fgr fgrSubtotal text-right">{{item.amount_10}}</td>
+                                        <td class="fgr fgrSubtotal text-right">{{item.amount_11}}</td>
+                                        <td class="fgr fgrSubtotal text-right">{{item.amount_12}}</td>
+                                        <td class="fgr fgrSubtotal text-right">{{item.amount_13}}</td>
+                                        <td class="fgr fgrSubtotal text-right">{{item.amount_14}}</td>
+                                    {{else}}
+                                        <td class="fgrtotal fgrtotalName">{{item.accounttype}}</td>
+                                        <td></td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_1}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_2}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_3}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_4}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_5}}</td>                                           <td class="fgr fgrtotal text-right">{{item.aug2021}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_6}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_7}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_8}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_9}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_10}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_11}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_12}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_13}}</td>
+                                        <td class="fgr fgrtotal text-right">{{item.amount_14}}</td>
+                                    {{/if}}
+                                {{/if}}
+
+
+                            </tr>
+                        {{/each}}
+                    {{/if}}-->
+
+                <!-- <tr>
+                        <td class="fgrtotal"><a href="/">Total Trading Income</a></td>
+                        <td></td>
+                        <td class="fgr"><a href="/">2,700.00</a></td>
+                        <td class="fgr"><a href="/">2,700.00</a></td>
+                        <td class="fgr"><a href="/">2,700.00</a></td>
+                        <td class="fgr"><a href="/">2,700.00</a></td>
+                        <td class="fgr"><a href="/">2,700.00</a></td>
+                    </tr> -->
+
+
+                <!-- <tr>
+                        <td class="npl-netprofit fgrtotal"><a href="/">Net Profit</a></td>
+                        <td></td>
+                        <td class="fgr fgrtotal"><a href="/">494.18</a></td>
+                        <td class="fgr fgrtotal"><a href="/">494.18</a></td>
+                        <td class="fgr fgrtotal"><a href="/">494.18</a></td>
+                        <td class="fgr fgrtotal"><a href="/">494.18</a></td>
+                        <td class="fgr fgrtotal"><a href="/">494.18</a></td>
+                    </tr> -->
+
+                <!-- </tbody> -->
+            </table>
+            <style>
+                .layout-options-strip {
+                    /*                                            background-color: rgb(248,249,252);*/
+
+                    min-height: 2rem;
+                }
+            </style>
+
+        </div>
+        <div class="btn-group  nplLayoutSelector" style="margin: 12px;">
+            <button class="btn btn-primary text-nowrap nplLayoutEditorBtn" role="presentation" data-toggle="modal" href="#nplEditLayoutScreen" type="button">Edit
+                Layout</button>
+        </div>
+    {{/vs1_report_template}}
+    <div class="modal fade" role="dialog" tabindex="-1" id="myModalDepartment">
+        <style>
+            #modalview {
+                left: calc(50vw - 600px);
+                top: 5vh;
+                margin: 0;
+            }
+        </style>
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document" style="max-width: 1200px;" id="modalview">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Departments</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <!-- {{#each item in deptrecords}}
+                        <div class="custom-control custom-switch" style="margin: 8px;">
+                            <input class="custom-control-input chkDepartment" type="checkbox" id="formCheck-{{item.id}}" name="chkDepartment" value="{{item.department}}">
+                            <div class="custom-control-label" for="formCheck-{{item.id}}">{{item.DeptClassName}}</div>
+                        </div>
+                    {{/each}} -->
+                    <style>
+                        input[type="checkbox"]{
+                            margin: 0px!important
+                        }
+                        #tblDepartmentCheckbox .colDeptClassName{
+                            width: 25%!important
+                        }
+                        #tblDepartmentCheckbox .colDescription{
+                            width: 30%!important
+                        }
+                        #tblDepartmentCheckbox .colSiteCode{
+                            width: 20%!important
+                        }
+                        #tblDepartmentCheckbox .colStatus{
+                            width: 20%!important
+                        }
+                        #tblDepartmentCheckbox .colChkBox{
+                            width: 40px!important
+                        }
+                        #tblDepartmentCheckbox .chkBox{
+                            margin: 0px!important
+                        }
+                        #myModalDepartment .table-responsive{
+                            overflow-x: hidden!important
+                        }
+                    </style>
+                    {{> internal_transaction_list_with_switchbox tablename="tblDepartmentCheckbox" }}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btnDepartmentSelect" type="button"><i class="fa fa-save" style="margin-right: 8px;"></i>Save</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 8px;"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="newDepartmentModal">
+        {{> newdepartmentpop}}
+    </div>
+
+    <!--NPL Modal Styles-->
+    <style>
+        .nplLayoutSelectionScreen .modal-dialog,
+        .nplComparisonPeriods .modal-dialog,
+        .nplGroupAccounts .modal-dialog {
+            top: 10rem;
+        }
+
+        .nplLayoutSelectionScreen .modal-dialog .form-group-sm,
+        .nplComparisonPeriods .modal-dialog .form-group-sm,
+        .nplGroupAccounts .modal-dialog .form-group-sm {
+            display: flex;
+            justify-content: start;
+        }
+
+        .nplEditLayoutScreen .modal-footer {
+            padding: 6px;
+        }
+
+        .nplEditLayoutScreen form-group {
+            flex-wrap: wrap;
+            display: flex;
+            padding: 1rem;
+        }
+
+        .nplEditLayoutScreen .modal-content .p-1.m-1 {
+            border-bottom: 0.1em solid;
+        }
+
+        .draggable {
+            color: #000a1e;
+            display: flex;
+        }
+
+        .avoid,
+        .accdate {
+            font-weight: 700;
+            display: flex;
+        }
+
+        .sortableAccount,
+        .sortableAccountChild {
+            border-bottom: unset !important;
+        }
+
+        .sortableAccount label {
+            margin: 0;
+        }
+
+        .dragAcc {
+            background-color: #f3f3f3;
+            border: 0.1em solid #ccc;
+            color: #000a1e;
+        }
+
+        .dragVal {
+            background-color: transparent;
+            text-align: right;
+        }
+
+        .nplEditLayoutScreen {
+            overflow-y: scroll;
+        }
+    </style>
+    <!--Start New Profit and Loss Layout Selection modal -->
+    <div class="modal fade nplLayoutSelectionScreen" id="nplLayoutSelectionScreen" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">Choose Layout</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="mb-10 ml-2">Choose a layout for this report</h6>
+                    <div class="form-group-sm">
+                        <div class="p-1 m-1">
+                            <input type="radio" checked="checked" id="radioSTDPNL" name="radio">
+                        </div>
+                        <div class="p-1 m-1">
+                            <label for="radioSTDPNL">Standard Profit and Loss</label>
+                            <br>
+                            <label>This is the default report layout provided by VS1Cloud</label>
+                        </div>
+                    </div>
+                    <div class="form-group-sm">
+                        <div class="p-1 m-1">
+                            <input type="radio" checked="checked" id="radioPayrollCOGS" name="radio">
+                        </div>
+
+                        <div class="p-1 m-1">
+                            <label for="radioPayrollCOGS">Payroll as COGS</label>
+                            <!--
+                            <br>
+                            <label>This is the default report layout provided by VS1Cloud</label>
+-->
+                        </div>
+                    </div>
+                    <div class="form-group-sm">
+                        <div class="p-1 m-1"><input type="radio" id="radioCOGSEG" checked="checked" name="radio"></div>
+                        <div class="p-1 m-1">
+                            <label for="radioCOGSEG">COGS Example</label>
+                            <!--
+                            <br>
+                            <label>This is the default report layout provided by VS1Cloud</label>
+-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-lg-offset-4 text-right">
+                        <button class="btn btn-primary text-nowrap btn-success" type="button" id="btnApplyLayout"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                        <button class="btn btn-secondary text-nowrap" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End New Profit and Loss Layout Selection -->
+    <!--Start New Profit and Loss layout Creation modal -->
+    <div class="modal fade nplLayoutCreationScreen" id="nplLayoutCreationScreen" role="dialog">
+        <div class="modal-dialog m-3 d-flex flex-row mw-100" style="top: 5%;left: 0.3%;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">New Profit and Loss layout</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group-sm">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="col-sm-12 pt-2 pl-0 mb-3">
+                                        <a href="#" class="btn btn-primary btnMoveAccount" role="button">Move selected
+                                            accounts...</a>
+                                        <a data-toggle="modal" href="#nplAddGroupScreen" class="btn btn-primary btnAddGroup" role="button" onclick="$('#defineGrouping').hide();$('#nplAddGroupDefTag').show();  return false;">Add
+                                            Group...</a>
+                                        <a data-toggle="modal" href="#nplGroupAccounts" class="btn btn-primary btnGroupAccounts" role="button" onclick="$('#defineGrouping2').hide();$('#nplGroupAccountDefTag').show();  return false;">Group
+                                            selected
+                                            accounts...</a>
+                                    </div>
+                                    <div>
+                                        <h6>Income</h6>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle1" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle1">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle2" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle2">Other Revenue (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle3" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle3">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle4" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle4">Less Cost of Sales</label>
+                                                <span>
+                                                    Edit Group
+                                                </span>
+                                                <span>
+                                                    |
+                                                </span>
+                                                <span>
+                                                    Delete
+                                                </span>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle5" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle5">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle6" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle6">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle7" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle7">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle8" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle8">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle9" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle9">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h6>Less Operating Expenses</h6>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle10" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle10">Interest Income (270)</label>
+                                                <span>
+                                                    Summary
+                                                </span>
+                                                <span>
+                                                    |
+                                                </span>
+                                                <span>
+                                                    Edit Group
+                                                </span>
+                                                <span>
+                                                    |
+                                                </span>
+                                                <span>
+                                                    Delete
+                                                </span>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle11" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle11">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle12" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle12">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle13" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle13">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle14" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle14">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle15" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle15">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle16" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle16">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle17" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle17">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle18" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle18">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle19" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle19">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="container mb-3">
+                                        <h2>Change the order and grouping of your report</h2>
+                                        <p>Select one or more accounts to group or move. You can group accounts under
+                                            headings of your choice, these will appear as subtotals in your report.</p>
+                                        <p>When you've finished customising your layout, click 'Save' below.</p>
+                                        <a>Get more help on customising report layouts</a>
+
+                                    </div>
+                                    <div class="container">
+                                        <h5>Layout Details</h5>
+                                        <hr>
+                                        <label>Layout Name</label><br>
+                                        <input id="fullName" type="text" class="form-control" name="nplNewLayoutName" value="" placeholder="">
+                                        <label>Layout Description</label><br>
+                                        <input id="fullName" type="text" class="form-control" name="nplNewLayoutDescr" value="" placeholder="">
+                                        <div class="custom-control custom-switch mt-3">
+                                            <input type="checkbox" class="custom-control-input feeOnTopInput" id="defaultSetttingPNL">
+                                            <label style="width: 275px;" class="custom-control-label" for="defaultSetttingPNL">Make this the default Profit and Loss for all
+                                                users</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="form-group-sm">
+                        <label>Name</label><br>
+                        <input id="fullName" type="text" class="form-control" name="fullName" value="" placeholder="Enter Your Name">
+                    </div>
+-->
+
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-lg-offset-4 text-right">
+                        <button class="btn btn-success saveTable " type="button" autocomplete="off">
+                            <i class="fa fa-save" style="margin-right: 5px;"></i>Save
+                        </button>
+                        <button class="btn btn-secondary text-nowrap" data-dismiss="modal" type="button" id="btnCancelLayoutCreation"><i class="fa fa-close" style="margin-right: 5px;"></i>Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--End New Profit and Loss Layout Creation -->
+    <!--Start New Profit and Loss Move Accounts modal -->
+    <div class="modal fade nplLayoutSelectionScreen" id="nplMoveAccountScreen" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">Move Accounts</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="mb-10 ml-2">Select where you want to move these accounts to:</h6>
+
+                    <div class="form-group-sm">
+
+                        <div class="p-1 m-1">
+                            <h6>Move To:</h6>
+                        </div>
+                        <div class="p-1 m-1">
+                            <select class="form-control" id="nplMoveSelection">
+                                <option>Income</option>
+                                <option>Less Cost of Sales</option>
+                                <option>Plus Other Income</option>
+                                <option>Less Operatin Expenses</option>
+                                <option>Foreign Currency Gains and Losses</option>
+                                <option>Non-operating Income</option>
+                                <option>Non-operating Expenses</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-lg-offset-4 text-right">
+                        <button class="btn btn-success saveTable" type="button" autocomplete="off">
+                            <i class="fa fa-save" style="margin-right: 5px;"></i>Save
+                        </button>
+                        <button class="btn btn-secondary text-nowrap" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End New Profit and Loss Move Accounts modal -->
+    <!--Start New Profit and Loss Custom Comparison Periods modal -->
+    <div class="modal fade nplComparisonPeriods" id="nplComparisonPeriods" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">Comparison Period(s)</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="comparisonPeriodNum" name="comparisonPeriodNum" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">Period(s)</span>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group-sm">
+                        <div class="d-flex .flex-row">
+                            <input type="number" class="form-control" id="comparisonPeriodNum" name="comparisonPeriodNum" autocomplete="off" style="max-width:100px;" placeholder="e.g:8" min="1">
+                            <label for="comparisonPeriodNum" class="p-2">Period(s)</label>
+                        </div>
+                    </div> -->
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-lg-offset-4 text-right">
+                        <button class="btn btn-success saveTable btnSaveComparisonPeriods" type="button" data-dismiss="modal" autocomplete="off">
+                            <i class="fa fa-save" style="margin-right: 5px;"></i>Save
+                        </button>
+                        <button class="btn btn-secondary text-nowrap btnCloseCustomComparison" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End New Profit and Loss, Custom Comparison Periods modal -->
+    <!--Start New Profit and Loss, Group Selected Accounts modal -->
+    <div class="modal fade nplGroupAccounts" id="nplGroupAccounts" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">Group Accounts</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="mb-10 ml-2">Choose a name and position for these accounts:</h6>
+
+                    <div class="form-group-sm d-flex flex-column">
+                        <div class="m-1 pr-2">
+                            <label for="nplGroupName" class="p-1 mb-0">Group Name:</label>
+                            <input type="text" class="form-control m-1" id="nplGroupName" name="cnplGroupName" autocomplete="off">
+                        </div>
+                        <div class="p-1 m-1">
+                            <h6>Place in:</h6>
+                        </div>
+                        <div class="p-1 m-1">
+                            <select class="form-control" id="nplMoveSelection">
+                                <option>Income</option>
+                                <option>Less Cost of Sales</option>
+                                <option>Plus Other Income</option>
+                                <option>Less Operatin Expenses</option>
+                                <option>Foreign Currency Gains and Losses</option>
+                                <option>Non-operating Income</option>
+                                <option>Non-operating Expenses</option>
+                            </select>
+                        </div>
+                        <div class="p-1 m-1">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input feeOnTopInput" id="summarySwitchGroupAccounts" checked="">
+                                <label style="width: 275px;" class="custom-control-label" for="summarySwitchGroupAccounts">Show summary only</label>
+                            </div>
+                        </div>
+                        <div class="p-1 m-1">
+                            <div class="">
+                                <a id="nplGroupAccountDefTag" href="" onclick="$('#nplGroupAccountDefTag').hide();$('#defineGrouping2').show();  return false;">
+                                    Define how accounts are grouped </a>
+                                <div class="m-0 p-0" id="defineGrouping2" style="display:none;">
+                                    <h6>Place in:</h6>
+                                    <div class="p-1 m-1 d-flex form-group-sm flex-row align-items-baseline">
+                                        <input type="radio" checked="checked" name="radio" class="mt-1 mb-1" id="accCodeCheck">
+                                        <label style="" class="mr-1" for="accCodeCheck">Account code begins with:
+                                        </label>
+                                        <input type="text" class="form-control" id="comparisonPeriodNum" name="accCodeCheckInput" autocomplete="off" style="max-width:100px;">
+                                    </div>
+                                    <div class="p-1 m-1  d-flex form-group-sm flex-row align-items-baseline">
+                                        <input type="radio" checked="checked" name="radio" class="mt-1 mb-1" id="accCodeCheck">
+                                        <label style="" class="mr-1" for="accCodeCheck">Account code is within range:
+                                        </label>
+                                        <input type="text" class="form-control mr-1" id="comparisonPeriodNum" name="accCodeCheckInput" autocomplete="off" style="max-width:50px;"> to
+                                        <input type="text" class="form-control ml-1" id="comparisonPeriodNum" name="accCodeCheckInput" autocomplete="off" style="max-width:50px;">
+                                    </div>
+                                    <div class="p-1 m-1 d-flex form-group-sm flex-row align-items-baseline">
+                                        <input type="radio" name="radio" checked="checked" class="mt-1 mb-1" id="accBlockAddition">
+                                        <label style="" class="" for="accBlockAddition">Do not automatically add
+                                            accounts to this group</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-lg-offset-4 text-right">
+                        <button class="btn btn-success saveTable" type="button" autocomplete="off">
+                            <i class="fa fa-save" style="margin-right: 5px;"></i>Save
+                        </button>
+                        <button class="btn btn-secondary text-nowrap" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End New Profit and Loss, Group Selected Accounts modal -->
+    <!--Start New Profit and Loss No Selection modal -->
+    <div class="modal fade nplLayoutSelectionScreen nplNoSelection" id="nplNoSelection" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">No Accounts Selected</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="mb-10 ml-2">You have not selected any accounts to move.</h6>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-lg-offset-4 text-right">
+                        <button class="btn btn-secondary text-nowrap" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End New Profit and Loss No Selection modal -->
+    <!--Start New Profit and Loss Edit Layout Screen modal -->
+    <div class="modal fade nplLayoutCreationScreen nplEditLayoutScreen" id="nplEditLayoutScreen" tabindex="-1" role="dialog" aria-hidden="true">
+        {{> npleditlayoutscreen dateAsAt=dateAsAt profitlosslayoutrecords=profitlosslayoutrecords}}
+    </div>
+    <!--End New Profit and Loss Edit Layout Screen -->
+    <!--Start Add switch rule Modal -->
+    <div class="modal fade nplSwitchRuleModal" id="nplSwitchRuleModal" role="dialog">
+        <div class="modal-dialog" style="min-width:50%; top: 31%; left: 0.3%;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">Switch rule: Cost of Sales</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group-sm">
+                        <div class="p-1 m-1">
+                            <div class="">
+                                <div class="m-0 p-0">
+                                    <div class="p-1 m-1 row form-group-sm srFormItems">
+                                        <select class="form-control col-sm-5" id="nplNegCheck">
+                                            <option>If items are negative</option>
+                                            <option>If entire group is negative</option>
+                                        </select>
+                                        <label class="col-sm-2">Move to</label>
+                                        <select class="form-control col-sm-5" id="nplaccSelection">
+                                            <option>Trading Income</option>
+                                            <option>Other Income</option>
+                                            <option>Operating Expenses</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-lg-offset-4 text-right">
+                        <button class="btn btn-success saveTable" type="button" autocomplete="off">
+                            <i class="fa fa-save" style="margin-right: 5px;"></i>Save
+                        </button>
+                        <button class="btn btn-secondary text-nowrap" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade nplAddAccountsModal" id="nplAddAccountsModal" role="dialog">
+        <div class="modal-dialog" style="min-width:30%; top: 31%; left: 0.3%;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">Update accounts in Untitled schedule</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group-sm">
+                        <div class="p-1 m-1">
+                            <div class="">
+                                <div class="m-0 p-0">
+                                    <div class="p-1 m-1 row form-group-sm srFormItems">
+                                        <div class="col-12 mt-1">
+                                            <input id="" type="text" class="form-control" name="nplrowHeading" placeholder="">
+                                        </div>
+                                        <div class="col-12 mt-1 grpTotal-container" style="max-height:100px; overflow-y: scroll;">
+                                            <div class="custom-control custom-switch" style="display:flex;flex-direction: column;">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk1" checked="">
+                                                <label class="custom-control-label" for="addAccChk1">All</label>
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk2">
+                                                <label class="custom-control-label" for="addAccChk2">Sales</label>
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk3">
+                                                <label class="custom-control-label" for="addAccChk3">Other
+                                                    Revenue</label>
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk4">
+                                                <label class="custom-control-label" for="addAccChk4">Interest
+                                                    Income</label> <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk5">
+                                                <label class="custom-control-label" for="addAccChk5">Cost of Goods
+                                                    Sold</label> <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk6">
+                                                <label class="custom-control-label" for="addAccChk6">Advertising</label>
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk7">
+                                                <label class="custom-control-label" for="addAccChk7">Bank Fees</label>
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk8">
+                                                <label class="custom-control-label" for="addAccChk8">Cleaning</label>
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk9">
+                                                <label class="custom-control-label" for="addAccChk9">Consulting &
+                                                    Accounting</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-lg-offset-4 text-right">
+                        <button class="btn btn-success saveTable" type="button" autocomplete="off">
+                            <i class="fa fa-save" style="margin-right: 5px;"></i>Save
+                        </button>
+                        <button class="btn btn-secondary text-nowrap" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Start New Profit and Loss, Add to Group modal -->
+    <div class="modal fade nplAddGroupScreen" id="nplAddGroupScreen" role="dialog">
+        {{> npladdgroupscreen profitlosslayoutrecords=profitlosslayoutrecords}}
+    </div>
+    <!--End New Profit and Loss, Group Selected Accounts modal -->
+
+    <!-- <div class="modal fade" role="dialog" tabindex="-1" id="layoutModal">
+        {{> layoutpop}}
+    </div> -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="layoutModal">
+        <style>
+            #modalview1 {
+                left: calc(50vw - 600px);
+                top: 5vh;
+                margin: 0;
+            }
+        </style>
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document" style="max-width: 1200px;" id="modalview1">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Layouts</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <style>
+                        #tblLayoutsList .colID{
+                            width: 10%!important
+                        }
+                        #tblLayoutsList .colLayoutName{
+                            width: 40%!important
+                        }
+                        #tblLayoutsList .colLayoutDescription{
+                            width: 40%!important
+                        }
+                        #tblLayoutsList .table-responsive{
+                            overflow-x: hidden!important
+                        }
+                    </style>
+                    <!-- {{> non_transactional_list tablename="tblLeadStatusList"}} -->
+                    {{>datatablelist
+                            tablename="tblLayoutsList"
+                            apiName= apiFunction
+                            indexeddbname = 'TPNLLayout'
+                            tableheaderrecords = tableheaderrecords
+                            exportfilename = 'Layout List'
+                            istransaction = false
+                            apiParams= apiParams
+                            datahandler = datahandler
+                            service=service
+                            lowercaseDataName='tpnllayout'
+                            exIndexDBName = 'tpnllayout'
+                            exdatahandler = exDataHandler
+                            searchAPI = searchAPI
+                    }}
+                </div>
+                <div class="modal-footer">
+                    <!-- <button class="btn btn-primary btnDepartmentSelect" type="button"><i class="fa fa-save" style="margin-right: 8px;"></i>Save</button> -->
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 8px;"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

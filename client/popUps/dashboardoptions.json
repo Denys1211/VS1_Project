@@ -1,0 +1,84 @@
+[{
+    "Id": 1,
+    "name": "All",
+    "isdefaultlogin": false,
+    "isshowdefault": true
+},
+{
+    "Id": 2,
+    "name": "Accounts",
+    "isdefaultlogin": true,
+    "isshowdefault": false
+},
+{
+    "Id": 3,
+    "name": "Appointments",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 4,
+    "name": "CRM",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 5,
+    "name": "Dashboard Accounts",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 6,
+    "name": "Dashboard Executive",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 7,
+    "name": "Dashboard Sales Manager",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 8,
+    "name": "Dashboard My",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 9,
+    "name": "Inventory",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 10,
+    "name": "Manufacturing",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 11,
+    "name": "Payroll",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 12,
+    "name": "Receipt Claims",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 13,
+    "name": "Sales",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+},
+{
+    "Id": 14,
+    "name": "Shipping",
+    "isdefaultlogin": false,
+    "isshowdefault": false
+}]

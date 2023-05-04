@@ -1,0 +1,70 @@
+<template name="dashboardsales">
+    <style>
+        .custom-sales-card > .card-body{
+            padding: 1rem 0.4rem;
+        }
+        .small-heading {
+            font-size: 0.8rem;
+        }
+        .my-tasks {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+            background-color: #ededed;
+            border: 3px solid #878787;
+            border-radius: 14px;
+            max-height: 350px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .highcharts-credits {
+            display: none !important;
+        }
+        #calendar {
+            /*height: 450px;*/
+        }
+        .btn-daterange::after {
+            display: none;
+        }
+        .dateSelectMobile {
+            float: right !important;
+            margin-right: 0 !important;
+        }
+        .btn-daterange {
+            float: right !important;
+        }
+    </style>
+    <div class="container-fluid">
+        {{#if includeDashboard}}
+            <div class="fullScreenSpin" style="display:none;">
+                <div class="spinner"></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12 col-md-4">
+                    <header class="pt-1 pb-1 d-flex">
+                        <h2>My Performance Dashboard {{> helpbutton}}</h2>
+                    </header>
+                </div>
+                <div class="col-12 col-md-4">
+                    {{> loggedcompanyoverview}}
+                </div>
+                <div class="col-md-4">
+                    {{> datesforcardchart}}
+                </div>
+            </div>
+            {{> editCardChartButtons}}
+            <hr>
+            <div class="row pt-3 pb-3">
+                <div class="col-md-12">
+                    {{> allCardsLists tabGroupID="11" chartGroup="dashboardSales" type="dashboardSales"}}
+                </div>
+            </div>
+            <hr>
+            <div class="row pt-3 pb-3">
+                <div class="col-md-12">
+                    {{> allChartLists  tabGroupID="11" chartGroup="DSCharts" currentTemplate="DSCharts_Overview"}}
+                </div>
+            </div>
+        {{/if}}
+    </div>
+</template>

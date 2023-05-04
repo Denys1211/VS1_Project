@@ -1,0 +1,668 @@
+<template name="setup">
+  <style>
+    @-webkit-keyframes alerts-border {
+      from,
+      to {
+        border-color: #00a3d3;
+      }
+      50% {
+        border-color: #1cc88a;
+        border: 1px solid #1cc88a;
+        box-shadow: 0 0 10px #1cc88a;
+      }
+    }
+    @keyframes alerts-border {
+      from,
+      to {
+        border-color: #00a3d3;
+      }
+      50% {
+        border-color: #1cc88a;
+        border: 1px solid #1cc88a;
+        box-shadow: 0 0 10px #1cc88a;
+      }
+    }
+    .alerts-border {
+      border: 1px solid #00a3d3;
+      animation: alerts-border 2s infinite !important;
+    }
+    .uploadedImageLogo {
+      max-width: 150px;
+    }
+    .setup-stepper ul li .content a {
+      display: inline-flex;
+      width: 100%;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      color: #fff;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none !important;
+      white-space: nowrap;
+    }
+    .addEmployeeModalNew .row.no-gutters .chkaddress {
+      width: auto !important;
+    }
+    #btnAddPaymentMethod .custom-control.custom-switch.chkBox .custom-control-label,
+    .addEmployeeModalNew .row.no-gutters .chkaddress .custom-control-label {
+      position: relative;
+    }
+    .addEmployeeModalNew .justify-content-xl-center .nav.nav-tabs.nav-justified {
+      align-items: end;
+    }
+    .dataTable.table.table-bordered,
+    .dataTable.table.table-bordered td,
+    .dataTable.table.table-bordered th {
+      border: 1px solid #e3e6f0 !important;
+      border-collapse: collapse !important;
+    }
+    .centerPopupDiv {
+      pointer-events: none;
+      text-align: center;
+    }
+    .giveAccess {
+      pointer-events: none;
+      opacity: 0 !important;
+    }
+    .centerPopupDiv .modal-dialog {
+      pointer-events: auto !important;
+      max-width: unset !important;
+      min-width: 300px !important;
+      min-height: 300px !important;
+    }
+    .modal {
+      transition: all 0s ease 0s !important;
+      -webkit-transition: all 0s ease 0s !important;
+      -moz-transition: all 0s ease 0s !important;
+    }
+    body {
+      padding: 0px !important;
+    }
+    .modal.show {
+      transition: all 0.5s ease 0s !important;
+      -webkit-transition: all 0.5s ease 0s !important;
+      -moz-transition: all 0.5s ease 0s !important;
+    }
+    /* .modal-dialog {
+      margin: 0 !important;
+    } */
+    .centerPopupDiv .resizablePopup {
+      max-width: 60% !important;
+      height: 400px;
+      max-height: 100% !important;
+      display: inline-block;
+    }
+    .centerPopupDiv .resizablePopup {
+      width: 600px;
+      text-align: left;
+    }
+    .centerPopupDiv iframe,
+    .centerPopupDiv video {
+      width: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      aspect-ratio: 2/1.06 !important;
+      height: 100% !important;
+    }
+    .centerPopupDiv .modal-content {
+      height: 100% !important;
+    }
+    .centerPopupDiv .modal-content .modal-body {
+      height: calc(100% - 70px) !important;
+    }
+    .responsiveIframe {
+      position: relative;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      width: 100% !important;
+      aspect-ratio: 2/1.06 !important;
+      height: 100% !important;
+    }
+    .responsiveIframe img {
+      width: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      aspect-ratio: 2/1.06 !important;
+      height: 100% !important;
+    }
+    .responsiveIframe iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    @media screen and (max-width: 450px) {
+      .mobileSupportCol {
+        border-bottom: 1px solid #00a3d3;
+        padding-bottom: 16px;
+        margin-bottom: 24px;
+      }
+    }
+    .phoneOpen {
+      color: #1cc88a;
+    }
+    .phoneClosed {
+      color: #E74A3B;
+      pointer-events: none !important;
+    }
+    .phoneClosed:after {
+      content: " (closed)";
+    }
+    #iconAUS {
+      display: none;
+    }
+    #iconUSA {
+      display: none;
+    }
+    #iconSA {
+      display: none;
+    }
+    .viewAllNumbers:hover {
+      color: #00a3d3 !important;
+      background-color: rgba(0, 0, 0, 0) !important;
+      text-decoration: underline;
+      border-color: rgba(0, 0, 0, 0) !important;
+    }
+    .viewAllNumbers:focus {
+      color: #00a3d3 !important;
+      background-color: rgba(0, 0, 0, 0) !important;
+      border-color: rgba(0, 0, 0, 0) !important;
+    }
+    .setup-step {
+      display: none;
+    }
+    .setup-step.show {
+      display: block;
+    }
+    #row1 {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+    #column1 {
+      display: flex;
+    }
+    #column2 {
+      display: flex;
+      flex-direction: column;
+      margin: 16px;
+      padding: .375rem .75rem;
+    }
+    @media screen and (max-width: 700px) {
+      .customTooltipSpan {
+        display: none;
+      }
+      .customTooltipIcon {
+        display: inline-block !important;
+      }
+    }
+    .newTaxRate {
+      display: none;
+      padding: 16px;
+      margin: 16px 0px 0px 0px;
+    }
+    .hiddenColumn {
+      display: none;
+    }
+    .showColumn {
+      display: table-cell;
+      padding: .75rem;
+      vertical-align: top;
+    }
+    @media screen and (max-width: 420px) {
+      .btnRefresh {
+        margin-bottom: 0px;
+      }
+      .btnAddPaymentMethod {
+        margin-bottom: 16px;
+      }
+      .btnOpenSettingsPaymentMethod {
+        float: right;
+      }
+      .card-body {
+        padding: 0.75rem !important;
+      }
+    }
+    .hiddenColumn {
+      display: none;
+    }
+    .showColumn {
+      display: table-cell;
+      padding: .75rem;
+      vertical-align: top;
+    }
+    @media screen and (max-width: 420px) {
+      .btnOpenSettings {
+        float: right;
+      }
+      .card-body {
+        padding: 0.75rem !important;
+      }
+      .btnAddTerms {
+        float: right;
+        margin-bottom: 16px;
+      }
+      .btnRefresh {
+        margin-bottom: 16px;
+      }
+    }
+    @media only screen and (max-width: 480px) {
+      #myModal .custom-switch {
+        text-align: left !important;
+      }
+    }
+    @media screen and (max-width: 376px) {
+      .btnOpenSettings {
+        margin-right: 0px;
+      }
+    }
+  </style>
+  <div class="setup-wizard">
+    <!-- First page -->
+    <div class="first-page">
+      <div class="first-page-container">
+        <div class="flex justify-content-center align-items-center"><img src="assets/img/VS1.png" /></div>
+        <h1 class="text-center">Welcome to VS1Cloud</h1>
+        <h1 class="text-center">The Set Up Wizard will guide you through Steps to configure your database</h1>
+        <button id="start-wizard">START WIZARD <i class="fa fa-angle-right"></i></button>
+      </div>
+    </div>
+
+    <!-- Setup Stepper -->
+    <div class="main-setup">
+      <div class="fullScreenSpin" style="display:none;">
+        <div class="spinner"></div>
+      </div>
+      <div class="main-setup-container">
+        <div class="setup-stepper">
+          <ul id="progress-steps">
+            {{# if steps}}
+            {{#each step in steps}}
+            <li class="{{#if step.active}} current {{/if}}{{#if step.isConfirmed}} completed {{/if}}{{#if step.isSkipStep}} skipped {{/if}}">
+              <div class="content">
+                <a class="gotToStepID {{#if step.clickable}} clickDisabled {{/if}}" data-step-id="{{step.id}}" href="">
+                  {{step.title}}
+                </a>
+              </div>
+            </li>
+            {{/each}}
+            {{/if}}
+          </ul>
+        </div>
+        <div class="setup-step setup-step-1 {{#if isActive currentStep '1'}} show {{/if}}">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                {{#if isActive currentStep '1' }}
+                {{> wizard_organisation}}
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="setup-step setup-step-2 {{#if isActive currentStep '2'}} show {{/if}}">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                {{#if isActive currentStep '2'}}
+                {{> wizard_taxrate}}
+                {{/if}}
+              </div>
+            </div>
+          </div>
+          {{> DeleteLineModal}}
+        </div>
+        <div class="setup-step setup-step-3 {{#if isActive currentStep '3'}} show {{/if}}">
+          {{#if isActive currentStep '3'}}
+          {{> wizard_payment}}
+          {{/if}}
+        </div>
+        <div class="setup-step setup-step-4 {{#if isActive currentStep '4'}} show {{/if}}">
+          {{#if isActive currentStep '4'}}
+          {{> wizard_terms}}
+          {{/if}}
+        </div>
+        <div class="setup-step setup-step-5 {{#if isActive currentStep '5'}} show {{/if}}">
+          {{#if isActive currentStep '5'}}
+          {{> wizard_employment}}
+          {{/if}}
+        </div>
+        <div class="setup-step setup-step-6 {{#if isActive currentStep '6'}} show {{/if}}">
+          {{#if isActive currentStep '6'}}
+          {{> wizard_accounts}}
+          {{/if}}
+        </div>
+        <div class="setup-step setup-step-7 {{#if isActive currentStep '7'}} show {{/if}}">
+          {{#if isActive currentStep '7'}}
+          {{> wizard_bankaccounts}}
+          {{/if}}
+        </div>
+        <div class="setup-step setup-step-8 {{#if isActive currentStep '8'}} show {{/if}}">
+          {{#if isActive currentStep '8'}}
+          {{> wizard_customers}}
+          {{/if}}
+        </div>
+        <div class="setup-step setup-step-9 {{#if isActive currentStep '9'}} show {{/if}}">
+          {{#if isActive currentStep '9'}}
+          {{> wizard_suppliers}}
+          {{/if}}
+        </div>
+        <div class="setup-step setup-step-10 {{#if isActive currentStep '10'}} show {{/if}}">
+          {{#if isActive currentStep '10'}}
+            {{> wizard_inventory}}
+          {{/if}}
+        </div>
+        <div class="setup-step setup-step-11 {{#if isActive currentStep '11'}} show {{/if}}">
+          {{#if isActive currentStep '11'}}
+          {{> wizard_dashboard}}
+          {{/if}}
+        </div>
+        <div class="setup-step setup-step-12 {{#if isActive currentStep '12'}} show {{/if}}">
+          <div class="first-page-container" style="margin: auto;">
+            <div class="flex justify-content-center align-items-center"><img src="assets/img/VS1.png" /></div>
+            <h1 class="text-center">Initial set up is completed</h1>
+            <h1 class="text-center">If you skipped any steps you can finish these at any time.</h1>
+            <button id="launchBtn">Launch VS1Cloud</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Start Help Video Modal -->
+  <div class="modal fade" role="dialog" tabindex="-1" id="helpModalTaxRate">
+    <div class="modal-dialog" role="document" style="max-width: 670px!important;">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h4 class="title-header">New Tax Rate</h4>
+          <button type="button" class="close closeAdd" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <video preload="none" id="myVideoAddTaxRate" width="640" height="360" controls="" name="media"
+            style="border: solid 5px #999999f0; height: auto; outline: none;">
+            <source src="https://erphelpes.com/vs1videos/newtaxrate.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Help Video Modal -->
+  <!-- Start Modal Product -->
+  <div class="modal fade" role="dialog" tabindex="-1" id="employeeListModal">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Employee List</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <!-- {{> refreshbutton}} -->
+          {{> popemployeelist}}
+
+        </div>
+        <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
+          <button class="btn btn-primary btnProdSelect" type="button"
+            style="background-color: #00A3D3; border-color: #00A3D3;">Select</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade centerPopupDiv" role="dialog" tabindex="-1" id="downloadHelpFileModal" data-backdrop="static"
+    aria-hidden="true">
+    <div class="modal-dialog ui-widget-content resizablePopup" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="title-header">Download Help</h4>
+          <button type="button" class="close closeAdd" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <iframe class="customDownloadHelpIframe" src="" allowfullscreen=""></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Modal Product -->
+  <script>
+    modalDraggable();
+  </script>
+  <style>
+    /* General page CSS */
+    .setup-wizard {
+      min-width: 80%;
+      min-height: 100vh;
+      background-image: url('assets/img/VS1CloudBackground.jpeg');
+      background-size: cover;
+      background-position: center center;
+    }
+
+    /* First page CSS */
+    .first-page,
+    .main-setup,
+    .setup-complete {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .first-page-container,
+    .main-setup-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 60%;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 3px 3px 4px rgb(0 0 0 / 20%);
+      padding: 50px;
+      border-radius: 4px;
+    }
+
+    .first-page-container h1:nth-child(2) {
+      padding-top: 50px;
+      font-size: 39px;
+      color: black;
+      font-weight: bold;
+    }
+
+    .first-page-container h1:nth-child(3) {
+      padding-top: 30px;
+      font-size: 31px;
+      font-weight: bold;
+      color: black;
+    }
+
+    .first-page-container img {
+      width: 200px;
+    }
+
+    .first-page-container button {
+      border: none;
+      margin-top: 80px;
+      background: gren;
+      background: #4ea529;
+      padding: 15px 30px;
+      color: white;
+      font-size: 20px;
+      display: flex;
+      font-weight: bold;
+      justify-content: center;
+      /* align-items: center; */
+      gap: 10px;
+    }
+
+    /* Last Page CSS */
+    .setup-complete {
+      min-height: auto;
+      width: 100%;
+    }
+
+    .setup-complete .first-page-container {
+      max-width: 100%;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    /* Main Setup Page CSS */
+    .main-setup {
+      display: none;
+    }
+
+    .main-setup-container {
+      max-width: 90%;
+      min-height: 90vh;
+      justify-content: flex-start;
+      margin: 3rem 0;
+    }
+
+    /* Step CSS */
+    .setup-step {
+      width: 100%;
+    }
+
+    .setup-step .container-fluid {
+      padding: 0;
+    }
+
+    /* Stepper CSS */
+    .setup-stepper {
+      width: 100%;
+    }
+
+    .setup-stepper .title {
+      font-size: 17px;
+    }
+
+    .setup-stepper ul {
+      list-style: none;
+      display: flex;
+      padding: 0;
+    }
+
+    .setup-stepper li {
+      width: 150px;
+      flex: 1;
+      height: 50px;
+      margin-right: 5px;
+      display: inline-flex;
+      position: relative;
+    }
+
+    .setup-stepper li {
+      color: white;
+      background: #00A3D3;
+    }
+
+    .setup-stepper li::before {
+      background: #00A3D3;
+      color: white;
+    }
+
+    .setup-stepper li::after {
+      color: white;
+      border-left: 30px solid #00A3D3;
+    }
+
+    .setup-stepper li.current {
+      color: white;
+      background: #c13050 !important;
+      text-decoration: underline;
+    }
+
+    .setup-stepper li.current::before {
+      background: #c13050 !important;
+    }
+
+    .setup-stepper li.current::after {
+      border-left: 30px solid #c13050 !important;
+    }
+
+    /* .setup-stepper li.completed {
+      color: white;
+      background: #1CC88A;
+    } */
+
+    /* .setup-stepper li.completed::before {
+      background: #1CC88A;
+    }
+
+    .setup-stepper li.completed::after {
+      border-left: 30px solid #1CC88A;
+    } */
+
+    .setup-stepper li::before {
+      content: "";
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border-top: 25px solid transparent;
+      border-left: 30px solid white;
+      border-bottom: 25px solid transparent;
+    }
+
+    .setup-stepper li::after {
+      content: "";
+      display: inline-block;
+      background: transparent;
+      width: 0;
+      height: 0;
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+      right: -30px;
+      position: absolute;
+      z-index: 1
+    }
+
+    .setup-stepper .content {
+      width: 100%;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      padding: 5px 0px 5px 6px;
+    }
+
+    .setup-stepper li:last-child .content {
+      padding-right: 10px;
+    }
+
+    .setup-stepper li:first-child::before {
+      display: none;
+    }
+
+    .setup-stepper li:last-child {
+      margin-right: 0px;
+    }
+
+    .setup-stepper li:last-child::after {
+      display: none;
+    }
+
+    .setup-stepper .status-name {
+      font-size: 12px;
+      line-height: 15px;
+      display: inline-block;
+      word-break: break-word;
+    }
+
+    /* Responsive CSS */
+    @media (max-width: 1366px) {
+      .status-name {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .first-page-container {
+        max-width: 90%;
+      }
+    }
+  </style>
+</template>

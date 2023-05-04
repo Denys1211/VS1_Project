@@ -1,0 +1,79 @@
+<template name="dashboardsalesmanager">
+    <style>
+        .custom-sales-card > .card-body{
+            padding: 1rem 0.4rem;
+        }
+        .small-heading {
+            font-size: 14px;
+        }
+        .my-tasks {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+            background-color: #ededed;
+            border: 3px solid #878787;
+            border-radius: 14px;
+            margin-left: -4px;
+            max-height: 350px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .highcharts-credits {
+            display: none !important;
+        }
+        .currency-value {
+            font-size: 28px;
+            /*color: rgb(133 135 150);*/
+            color:rgb(221,223,235)
+        }
+        .fs-18 {
+            font-size: 18px !important;
+        }
+        .fs-24 {
+            font-size: 24px !important;
+        }
+        .btn-daterange::after {
+             display: none;
+        }
+        .dateSelectMobile {
+            float: right !important;
+            margin-right: 0 !important;
+        }
+        .btn-daterange {
+            float: right !important;
+        }
+    </style>
+    <div class="container-fluid">
+        {{#if includeDashboard}}
+            <div class="fullScreenSpin" style="display:none;">
+                <div class="spinner"></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12 col-md-4">
+                    <header class="pt-1 pb-1 d-flex">
+                        <h2>Sales Performance Dashboard {{> helpbutton}}</h2>
+                    </header>
+                </div>
+                <div class="col-12 col-md-4">
+                    {{> loggedcompanyoverview}}
+                </div>
+                <div class="col-12 col-md-4">
+                    {{> datesforcardchart}}
+                </div>
+            </div>
+            {{> editCardChartButtons}}      
+            <hr>            
+            <div class="row pt-3 pb-3">
+                <div class="col-md-12" data-default-class="col-md-12">                                  
+                    {{> allCardsLists tabGroupID="10" chartGroup="dashboardSalesManager" type="dashboardSalesManager"}}
+                </div>
+            </div>
+            <hr>
+            <div class="row pt-3 pb-3">
+                <div class="col-md-12">
+                    {{> allChartLists  tabGroupID="10" chartGroup="DSMCharts" currentTemplate="DSMCharts_Overview"}}
+                </div>
+            </div>
+        {{/if}}
+    </div>
+</template>

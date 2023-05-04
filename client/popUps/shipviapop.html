@@ -1,0 +1,58 @@
+<template name="shipviapop">
+
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document" style="max-width: 90vw;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Ship Via List</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" style="width: 100%; display:none;" id="selectLineID" name="selectLineID" readonly>
+                <div class="card-body p-1 rounded">
+                        <!-- <style>
+                            #tblShipViaPopList{
+                                width: 100%!important;
+                            }
+                            #tblShipViaPopList .colShipName{
+                                width: 80%!important;
+                        }
+                        #tblShipViaPopList .colStatus{
+                                width: 20%!important;
+                        }
+                        </style> -->
+                        <!-- <table id="tblShipViaPopList" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblShipViaPopList">
+                            <thead>
+                                <tr class="dnd-moved">
+                                    <th class="th colStatusName" style="">Ship Via Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table> -->
+                        {{>datatablelist
+                            tableclass="tblShipViaPopList"
+                            tablename="tblShipViaPopList"
+                            apiName= apiFunction
+                            service = service
+                            indexeddbname = 'TShippingMethod'
+                            datahandler = datahandler
+                            tableheaderrecords = tableheaderrecords
+                            exportfilename = 'Ship Via Methods'
+                            istransaction = false
+                            apiParams=apiParams
+                            lowercaseDataName='tshippingmethod'
+                            exIndexDBName = 'tshippingmethod'
+                            exdatahandler = exDataHandler
+                            searchAPI = searchAPI
+                            showPlusButton=true
+                            showPlusButtonDataTarget="newShipViaModal"
+                            showPlusButtonClass="btnAddNewShipVia"
+                            showModalID="#newShipViaModal"
+                        }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</template>

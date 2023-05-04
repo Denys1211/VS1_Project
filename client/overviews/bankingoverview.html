@@ -1,0 +1,269 @@
+<template name="bankingoverview">
+    <div class="container-fluid">
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <header class="pt-2 pb-3 d-flex">
+                    <h2 class="mr-1">Banking Report {{> helpbutton}}</h2>
+                </header>
+            </div>
+            <div class="col-12 col-md-4 divLogged">
+                {{> loggedcompanyoverview}}
+            </div>
+
+        </div>
+        <!-- CARDS -->
+        <style>
+            .banklink:hover {
+                color: #00a3d3 !important;
+                text-decoration: underline;
+            }
+            .dimmedChart>div {
+                background-color: #dddfeb !important;
+            }
+
+            .hideelement {
+                display: none !important;
+            }
+
+            .showelement {
+                display: block;
+            }
+
+            .hideShowDiv {
+                display: inline-block;
+                width: 100%;
+                text-align: right;
+                padding: 0 8px;
+                margin: 0;
+                position: relative;
+                top: 5px;
+                left: 0;
+            }
+
+            .grayColor {
+                /* color: rgb(221,223,235) !important; */
+                color: rgb(133 135 150) !important;
+            }
+            .dimmedChart .grayColor {
+                color: rgb(133 135 150) !important;
+            }
+            th {
+                background-color: #ededed;
+            }
+
+            .table-striped tbody tr:nth-of-type(odd) {
+                background-color: white !important;
+            }
+
+            .table-striped tbody tr:nth-of-type(even) {
+                background-color: #0000000d !important;
+            }
+
+            .JColResizer>tbody>tr>td,
+            .JColResizer>tbody>tr>th {
+                padding: .75rem !important;
+            }
+
+            .hiddenColumn {
+                display: none;
+            }
+
+            .showColumn {
+                display: table-cell;
+                padding: .75rem;
+                vertical-align: top;
+            }
+
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+                opacity: 1;
+            }
+        </style>
+        {{> editCardChartButtons}}
+        <!-- All Cards List -->
+        {{> allCardsLists tabGroupID="2" chartGroup="BankingOverview" type="BankingOverview"}}
+
+        <div class="row d-xl-flex flex-row justify-content-xl-center">
+            <div class="col-8 d-xl-flex flex-grow-1 align-items-xl-start">
+                <button id="btnRefresh" class="btn btn-primary btnRefresh" type="button" style="margin: 14px;"><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
+                <div class="btn-group" style="margin: 14px;">
+                    <button type="button" class="btn btn-primary btnDepositList" id="btnDepositList" name="btnDepositList"><i class="fas fa-list-ul" style="margin-right: 5px;"></i>Deposits</button>
+                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button"></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item btnDepositList pointer" id="">Deposited List</a>
+                        <a class="dropdown-item btnNewDepositEnrty pointer" id="">+ New Deposit</a>
+                    </div>
+                </div>
+                <div class="btn-group" style="margin: 14px;">
+                    <button type="button" class="btn btn-primary btnStockAdjustment" id="btnStockAdjustment"><i class="fas fa-money-check-alt" style="margin-right: 5px;"></i>{{formname}}s</button>
+                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button"></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item btnStockAdjustment pointer" id="">{{formname}} List</a>
+                        <a class="dropdown-item btnNewCheck pointer" id="btnNewCheck">+ New {{formname}}</a>
+                    </div>
+                </div>
+
+                <div class="btn-group" style="margin: 14px;">
+                    <button type="button" class="btn btn-primary btnReconcile" id="btnReconcile"><i class="fas fa-piggy-bank" style="margin-right: 5px;"></i>Bank Reconciliation</button>
+                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button"></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item btnReconList pointer" id="btnReconcile">Bank Reconciliation List</a>
+                        <!-- <a class="dropdown-item btnBankRecon pointer" id="btnBankRecon">Bank Reconciliation 2</a> -->
+                        <!-- <a class="dropdown-item btnBankRule pointer" id="btnReconRuleList">Reconcile Rule List</a> -->
+                        <a class="dropdown-item btnReconcile pointer" id="btnReconcile">+ New Reconciliation</a>
+                        <!-- <a class="dropdown-item btnReconList pointer" id="">Reconciliation List</a> -->
+                    </div>
+                </div>
+
+                <div class="btn-group" style="margin: 14px;">
+                    <button id="btnEft" class="btn btn-primary btnEft" type="button"><i class="fas fa-ruler-combined" style="margin-right: 5px;"></i>EFT</button>
+                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button"></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item  pointer" id="btnEFTFileList">EFT Files Created</a>
+                        <a class="dropdown-item  pointer" id="btnEFTNewFile">+ EFT Create New File</a>
+                        <a class="dropdown-item btnBankRule pointer" id="btnEFTBankRuleList">EFT Bank Rules List</a>
+                        <a class="dropdown-item btnNewBankRule pointer" id="btnNewEFTBankRule">+ EFT Create New Bank Rule</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 d-xl-flex justify-content-xl-end align-items-end">
+                {{> spreadsheet_link templateName="Banking Overview Report Result"}}
+                {{> export_import_print_display_button Import="hiddenButton" tablename="tblBankingOverview"}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-body p-3 rounded" style="padding-top: 0px !important; width: 100%;">
+                <div class="table-responsive">
+                    <div class="row no-gutters d-xl-flex align-items-xl-end">
+                        <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
+
+                        </div>
+                    </div>
+                    {{>datatablelist
+                        tableclass="tblBankingOverview"
+                        tablename="tblBankingOverview"
+                        apiName= apiFunction
+                        indexeddbname = 'TBankAccountReport'
+                        tableheaderrecords = tableheaderrecords
+                        exportfilename = 'Bank Account Report List'
+                        istransaction = true
+                        apiParams= apiParams
+                        datahandler = datahandler
+                        service=service
+                        lowercaseDataName='tbankaccountreport'
+                        exIndexDBName = 'tbankaccountreport'
+                        exdatahandler = exDataHandler
+                        searchAPI = searchAPI
+                    }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        modalDraggable();
+    </script>
+
+    <!-- Start PDF -->
+    <div style="width: 210mm;background-color: #ffffff;padding: 8px;height: 297mm; display:none; " id="html-2-pdfwrapper" name="html-2-pdfwrapper">
+        <div class="d-xl-flex align-items-xl-start" style="height: 100%;">
+            <div class="d-flex d-xl-flex flex-column flex-nowrap align-items-xl-center" style="min-height: 100%;height: 100%;max-height: 100%;">
+                <div class="d-lg-flex d-xl-flex flex-row align-items-lg-start align-items-xl-start">
+                    <div class="card flex-grow-1 specialcard" style="margin: 0px; border: none !important;">
+                        <div class="card-body">
+                            <div class="d-lg-flex justify-content-lg-start" style="margin-bottom: 12x;">
+                                <div class="d-lg-flex flex-column justify-content-lg-start"><img src="assets/img/VS1.png" style="width: 200px;margin-bottom: 8px;"><a href="#">www.vs1cloud.com</a></div>
+                                <div class="d-lg-flex d-xl-flex justify-content-lg-center align-items-xl-start card-text">
+                                    <div style="padding-left: 16px;font-weight: bold;">
+                                        <p style="margin-bottom: 0px;">Cloud Customer PTY Ltd</p>
+                                        <p style="margin-bottom: 0px;">Unit 123, 109 Main Street</p>
+                                        <p style="margin-bottom: 8px;">Costa Mesa, CA 90210</p>
+                                        <p style="margin-bottom: 0px;">ABN: 95684365812</p>
+                                        <p style="margin-bottom: 0px;">Phone: 084 568 9842</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="font-size: 14px;">
+                                <h5 style="margin-bottom: 0px;font-weight: bold;">Customer</h5>
+                                <p style="margin-bottom: 0px;">Big Burtha</p>
+                                <p style="margin-bottom: 0px;">12 Golf Drive</p>
+                                <p style="margin-bottom: 0px;">Caulifield South Vic 9820</p>
+                                <p style="margin-bottom: 0px;">Australia</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex-grow-1 specialcard" style="margin: 0px; border: none !important;">
+                        <div class="card-body">
+                            <h4 class="card-title" style="font-weight: bold;">Invoice</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="card flex-grow-1 specialcard" style="margin: 8px; border: none !important;">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead class="text-secondary" style="color: rgb(251,251,251);">
+                                        <tr>
+                                            <th class="text-nowrap" style="width: 116px;">Sales No.</th>
+                                            <th class="text-nowrap" style="width: 116px;">Employee</th>
+                                            <th class="text-nowrap" style="width: 116px;">Sale Date</th>
+                                            <th class="text-nowrap" style="width: 100px;">Customer</th>
+                                            <th class="text-nowrap text-left" style="width: 100px;">Amount</th>
+                                            <th class="text-nowrap" style="width: 100px;">Status</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#if datatablerecords}}
+                                        {{#each item in datatablerecords}}
+                                        <tr class="dnd-moved" id="{{item.id}}">
+
+                                            <td>{{item.id}}</td>
+                                            <td>{{item.employee}}</td>
+                                            <td>{{item.saledate}}</td>
+                                            <td>{{item.customername}}</td>
+                                            <td class="text-nowrap text-right">{{item.totalamount}}</td>
+                                            <td>{{item.salestatus}}</td>
+                                        </tr>
+                                        {{/each}}
+                                        {{/if}}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-grow-0" style="width: 100%;">
+                    <hr style="margin: 0px;">
+                    <div class="d-lg-flex d-xl-flex flex-grow-1 align-items-lg-start align-items-xl-start" style="width: 100%;">
+
+                        <div class="card flex-grow-1 specialcard" style="margin: 8px; border: none !important;">
+                            <div class="card-body float-right">
+                                <div class="d-lg-flex d-xl-flex flex-row justify-content-lg-center align-items-xl-start card-text">
+                                    <div class="d-lg-flex d-xl-flex flex-column align-items-lg-start align-items-xl-start" style="padding-right: 16px;">
+                                        <label class="text-nowrap" style="font-weight: 600;">Total</label>
+
+                                    </div>
+                                    <div class="d-lg-flex flex-column flex-grow-1 justify-content-lg-end" style="padding-left: 16px;">
+                                        <p class="text-right" style="margin-bottom: 8px;font-weight: 600;">R 1111</p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <span class="d-lg-flex d-xl-flex justify-content-lg-end justify-content-xl-end" style="font-size: 10px;margin-right: 8px;">Page 1 of 1</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PDF -->
+    <script>
+        modalDraggable();
+    </script>
+</template>

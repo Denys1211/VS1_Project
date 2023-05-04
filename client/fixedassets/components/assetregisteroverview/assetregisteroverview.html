@@ -1,0 +1,118 @@
+<template name="assetregisteroverview">
+
+  <style>
+    #row1 {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+
+    #column1 {
+      display: flex;
+    }
+
+    #column2 {
+      display: flex;
+      flex-direction: column;
+      margin: 16px;
+      padding: .375rem .75rem;
+    }
+
+    .groove {
+      border-style: solid;
+      border-width: 1px;
+      width: 200px;
+      padding: 2px;
+      border-radius: .35rem;
+    }
+
+    .custom-control-label {
+      position: absolute;
+    }
+
+    @media only screen and (max-width: 480px) {
+      .modal.show .modal-dialog {
+        float: inherit !important;
+        left: inherit !important;
+        top: auto !important;
+
+      }
+    }
+  </style>
+  <div class="fullScreenSpin" style="display:none;">
+    <div class="spinner"></div>
+  </div>
+
+  <div style="margin-top: -24px;">
+
+    <header style="padding: 16px;padding-bottom: 24px;">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <h2 style="margin: 14px;margin-bottom: 0px;"><span id="crm_header_title">Asset Register</span>
+                    {{> crm_help_modal}}
+                </h2>
+            </div>
+            <!-- <div class="col-12 col-md-4">{{> loggedcompanyoverview}}</div> -->
+        </div>
+    </header>
+
+    <div class="row no-gutters" style="padding: 0px 32px;">
+      <div class="col-12">
+        <div class="card mb-3">
+          <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 20px; align-items: center;">
+            <div class="col float-left flex-grow-1 mb-1">
+              {{> vs1_button
+                color='primary'
+                classes='btnRefresh'
+                type='button'
+                id="btnRefresh"
+                iconName=' la la-lightbulb-o'
+                title='Refresh'
+              }}
+              {{> vs1_button
+                color='primary'
+                classes='btnNewAsset'
+                type='button'
+                id="btnNewAsset"
+                iconName='plus'
+                title='New Asset'
+              }}
+            </div>
+            <div class="col-5 col-md-7 d-xl-flex justify-content-xl-end align-items-xl-start">
+              {{> export_import_print_display_button Import="hiddenButton" tablename="tblAssetRegisterList"}}
+          </div>
+          </div>
+          <div class="card-body p-1 rounded tbl">
+            <style>
+              td.colRegisterAssetCost , .colRegisterAssetRegistrationNo{
+                    text-align: right !important;
+                }
+            </style>
+            {{>datatablelist
+                tableclass="tblAssetRegisterList"
+                tablename="tblAssetRegisterList"
+                apiName= apiFunction
+                indexeddbname = 'TFixedAssets'
+                tableheaderrecords = tableheaderrecords
+                exportfilename = 'Asset Register List'
+                istransaction = false
+                apiParams= apiParams
+                datahandler = datahandler
+                service=service
+                lowercaseDataName='tfixedassetslist'
+                exportfilename='Asset Register List'
+                exIndexDBName = 'tfixedassetslist'
+                exdatahandler = exDataHandler
+                searchAPI = searchAPI
+                orderby = '[[ 0, "asc" ]]'
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+</template>

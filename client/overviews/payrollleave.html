@@ -1,0 +1,247 @@
+<template name="payrollleave">
+
+    <div class="container-fluid">
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <h3 class="text-dark mb-4">Leave {{> helpbutton}}
+                </h3>
+            </div>
+            <div class="col-12 col-md-4">{{> loggedcompanyoverview}}</div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Display Settings</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            {{#if tableLeaveRequestheaderrecords}}
+                            <form class="d-xl-flex align-items-xl-center">
+                                <div class="flex-grow-1">
+                                    <style>
+                                        .groove {
+                                            border-style: solid;
+                                            border-width: 1px;
+                                            width: 200px;
+                                            padding: 2px;
+                                            border-radius: .35rem;
+                                        }
+
+                                        .custom-control-label {
+                                            position: absolute;
+                                        }
+
+                                        .rngRange {
+                                            position: relative;
+                                            display: flex;
+                                            flex-direction: column;
+                                            width: 100%;
+                                            pointer-events: auto;
+                                            background-color: rgb(255, 255, 255);
+                                            background-clip: padding-box;
+                                            border: 1px solid rgb(133, 135, 150);
+                                            border-radius: .3rem;
+                                            border-style: solid;
+                                            border-width: 1px;
+                                            padding: 2px;
+                                            border-radius: .35rem;
+                                            color: rgb(128, 128, 128);
+                                            height: inherit !important;
+                                        }
+
+                                        @media only screen and (max-width: 480px) {
+                                            .modal.show .modal-dialog {
+                                                float: inherit !important;
+                                                left: inherit !important;
+                                                top: auto !important;
+
+                                            }
+                                        }
+                                    </style>
+                                    {{#each item in tableLeaveRequestheaderrecords}}
+                                    {{#if equals item.sTitle "id"}}
+                                    {{else}}
+                                    {{#if equals item.sIndex ""}}
+                                    {{else}}
+                                    <div id="{{item.sIndex}}" class="columnSettings">
+                                        <div class="custom-control custom-switch" style="margin: 8px; float:left;">
+                                            <input class="custom-control-input chkDatatable"
+                                                   type="checkbox" id="chkSalesNo-{{item.sIndex}}"
+                                                   name="chkSalesNo-{{item.sIndex}}"
+                                                   checked="{{#if item.sVisible}}checked{{else}}{{/if}}"
+                                                   value="{{item.sTitle}}">
+                                            <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
+                                            <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">
+                                                {{item.sTitle}}
+                                            </div>
+                                        </div>
+                                        <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
+                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:
+                                            </label>
+                                            <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
+                                        </div>
+                                    </div>
+
+                                    {{#if equals item.sVisible true}}
+                                    <script>
+                                        $("#" + {{ item.sIndex }}+".chkDatatable").attr("checked", "checked");
+                                    </script>
+                                    {{else}}
+                                    <script>
+                                        $("#" + {{ item.sIndex }}+".chkDatatable").removeAttr("checked");
+                                    </script>
+                                    {{/if}}
+
+                                    {{/if}}
+
+                                    {{/if}}
+                                    {{/each}}
+                                </div>
+                            </form>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary saveTable" type="button">
+                        <i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                        <button class="btn btn-warning resetTable" data-dismiss="modal" type="reset">
+                        <i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+                        <i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-xl-flex flex-row justify-content-xl-center">
+
+            <div class="col float-left flex-grow-1 mb-4">
+                <button class="btn btn-primary btnRefresh" type="button" style="margin: 12px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
+                <button id="toReviewBtn" class="btn btn-primary toReview" type="button" style="margin: 6px;">To review</button>
+                <button id="upcomingBtn" name="upcomingBtn" class="btn btn-primary" type="button" style="margin: 6px;">Upcoming</button>
+                <button id="historyBtn" name="historyBtn" class="btn btn-primary" type="button" style="margin: 6px;">History</button>
+            </div>
+
+            <div class="col d-xl-flex justify-content-xl-end align-items-xl-start">
+                {{> export_import_print_display_button tablename="tblPayleaveToReview"}}
+            </div>
+        </div>
+
+        <div class="card-body p-3 rounded">
+            <!-- {{> transaction_list tablename = "tblPayleaveToReview" }} -->
+            {{>datatablelist
+                tableclass="tblPayleaveToReview"
+                tablename="tblPayleaveToReview"
+                apiName= apiFunction
+                indexeddbname = 'TLeavRequest'
+                tableheaderrecords = tableLeaveRequestheaderrecords
+                exportfilename = 'Payroll Leave Request'
+                istransaction = false
+                apiParams= apiParams
+                datahandler = datahandler
+                service=service
+                lowercaseDataName='tleavrequest'
+                exIndexDBName = 'tleavrequest'
+                exdatahandler = exDataHandler
+                isMultipleRows = false
+                searchAPI = searchAPI
+            }}
+        </div>
+
+        <!-- edit leave request modal -->
+        <div class="modal fade" id="newLeaveRequestModal" tabindex="-1" role="dialog" aria-labelledby="newPayCalendarLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <style>
+                            .modal-title.hide {
+                                display: none;
+                            }
+                        </style>
+                        <h5 class="modal-title new-leave-title" id="newLeaveRequestLabel">New Leave Request</h5>
+                        <h5 class="modal-title edit-leave-title hide" id="newLeaveRequestLabel">Edit Leave Request</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="row" id="leaveRequestForm">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Type of Request</label>
+                                    <input type="hidden" id="edtLeaveRequestID" value="0">
+                                    <input type="hidden" id="edtLeaveTypeofRequestID" value="0">
+                                    <input type="search" class="form-control" id="edtLeaveTypeofRequest" name="edtLeaveTypeofRequest" style="cursor: pointer;" />
+
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <input type="text" class="form-control" id="edtLeaveDescription" name="edtLeaveDescription">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Start Date</label>
+                                    <div class="input-group date" style="cursor: pointer;">
+                                        <input type="text" class="form-control formClassDate edtLeaveStartDate" id="edtLeaveStartDate" name="edtLeaveStartDate" value="">
+                                        <div class="input-group-addon" style="">
+                                            <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>End Date</label>
+                                    <div class="input-group date" style="cursor: pointer;">
+                                        <input type="text" class="form-control formClassDate edtLeaveEndDate" id="edtLeaveEndDate" name="edtLeaveEndDate" value="">
+                                        <div class="input-group-addon" style="">
+                                            <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <label>Pay Period</label>
+                                    <input type="search" class="form-control"  style="cursor: pointer;" id="edtLeavePayPeriod" name="edtLeavePayPeriod" placeholder="How often will you pay your employees?">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Hours</label>
+                                    <input type="text" class="form-control" id="edtLeaveHours" name="edtLeaveHours">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="justify-content: space-between;">
+                        <div class="col-4 pl-0">
+                            <div class="dropdown float-left">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <input type="search" class="form-control"  style="cursor: pointer;" id="edtLeavePayStatus" name="edtLeavePayStatus" />
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="removeLeaveRequestBtn" data-id="0" style="display: none;" class="btn btn-danger removeLeaveRequest mt-3"><i class="fa fa-save" style="margin-right: 5px;"></i>Delete</button>
+                        <button type="button " id="btnSaveLeaveRequest" class="btn btn-success mt-3"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                        <button type="button" class="btn btn-secondary mt-3 close-modal" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- {{> assignLeaveTypePop leaveTypes=leaveTypes}} -->
+    <script>
+        modalDraggable();
+    </script>
+</template>

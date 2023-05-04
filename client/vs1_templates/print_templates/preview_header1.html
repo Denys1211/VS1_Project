@@ -1,0 +1,183 @@
+<template name="preview_header1">
+    <style>
+        .logo-wrap {
+            position: absolute !important;
+            top: 5px;
+        }
+        .logo-wrap img {
+            width: 200px;
+            height: 50px;
+        }
+        .o_abn_label_wrap {
+            top: 55px;
+            left: 280px;
+        }
+        .o_abn_wrap {
+            top: 55px;
+            left: 320px;
+        }
+        .print-header_wrap {
+            top: 75px;
+            font-size: 28px;
+        }
+        .no_label_wrap {
+            top: 130px;
+            left: 320px;
+        }
+        .print-header-value_wrap {
+            top: 130px;
+            left: 350px;
+            color: red;
+        }
+        .o_date_wrap {
+            top: 150px;
+            display: none;
+        }
+        .pdfCustomerAddress_wrap {
+            top: 170px;
+        }
+        .barcode-wrap {
+            position: absolute !important;
+            left: 480px;
+            top: 130px;
+        }
+        .o_name_wrap  {
+            left: 20px;
+            top: 110px;
+        }
+        .o_address_wrap {
+            left: 20px;
+            top: 130px;
+        }
+        .o_city_wrap {
+            left: 20px;
+            top: 150px;
+        }
+        .o_phone_wrap {
+            left: 20px;
+            top: 170px;
+        }
+        .o_email_wrap {
+            left: 20px;
+            top: 190px;
+        }
+        .o_state_wrap {
+            left: 20px;
+            top: 210px;
+        }
+        .pay_now-wrap {
+            position: absolute;
+            left: 540px;
+            top: 190px;
+            width: 80px;
+            height: 30px;
+            background-color: #17a673;
+            border-color: #169b6b;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .linkText {
+            color: white;
+            text-decoration: none;
+        }
+        /* Invoice Table */
+        .invoice_info_table-wrap {
+            left: 0;
+            top: 270px;
+            width: 100%;
+        }
+        .invoice_info_table {
+            margin: auto;
+            width: 100%;
+            border-collapse: collapse;
+            text-align:center;
+        }
+        .invoice_info_table thead th {
+            border: solid 1px black;
+            background-color: white !important;
+        }
+        .invoice_info_table p {
+            font-size: 12px !important;
+        }
+    </style>
+    <!-- header -->
+    <div class="LOGO logo-wrap center-item divDraggable">
+        <img src="http://vs1cloud.com/images/VS1logo.png" class="divResize uploadedImage">
+    </div>
+    <span class="ABN o_abn_label_wrap divDraggable divResize">
+        <span class="o_abn_label">ABN</span>
+        <span>:</span>
+    </span>
+    <span class="ABN o_abn_wrap divDraggable divResize">
+        <span class="o_abn"></span>
+    </span>
+
+    <span class="HEADER_TITLE print-header_wrap bold center-item divDraggable divResize"><span class="print-header">Bill</span></span>
+    <span class="NO no_label_wrap bold divDraggable divResize"><span class="no_label">NO:</span></span>
+    <span class="NO print-header-value_wrap bold divDraggable divResize"><span class="print-header-value"></span></span>
+    <span class="DATE o_date_wrap divDraggable divResize center-item"><span class="date"></span></span>
+    <span class="CUSTOMER_ADDRESS pdfCustomerAddress_wrap center-item divDraggable divResize"><span class="pdfCustomerAddress"></span></span>
+
+    <span class="COMPANY_NAME o_name_wrap divDraggable divResize"><span class="o_name"></span></span>
+    <span class="COMPANY_ADDRESS o_address_wrap divDraggable divResize"><span class="o_address"></span></span>
+    <span class="COMPANY_CITY o_city_wrap divDraggable divResize"><span class="o_city"></span></span>
+    <span class="COMPANY_PHONE o_phone_wrap divDraggable divResize"><span class="o_phone"></span></span>
+    <span class="COMPANY_EMAIL o_email_wrap divDraggable divResize"><span class="o_email"></span></span>
+    <span class="COMPANY_STATE o_state_wrap divDraggable divResize"><span class="o_state"></span></span>
+
+    <div class="BARCODE barcode-wrap divDraggable">
+        <svg id="lbl_barcode" width="175" height="45"></svg>
+    </div>
+    <div class="PAY_LINK item-wrapper pay_now-wrap pay-link divDraggable divResize">
+        <a class="linkText" href="">Pay Now</a>
+    </div>
+
+    <div class="item-wrapper invoice_info_table-wrap divDraggable">
+        <table class="invoice_info_table">
+            <thead>
+            <tr>
+                <th class="INVOICE_NUMBER">
+                    <span>INVOICE NUMBER</span>
+                    <br>
+                    <span class="io">&nbsp;</span>
+                </th>
+                <th class="REFERENCE">
+                    <span>PO/REFERENCE</span>
+                    <br>
+                    <span class="ro">&nbsp;</span>
+                </th>
+                <th class="ACCOUNT_NUMBER">
+                    <span>ACCOUNT NUMBER</span>
+                    <br>
+                    <span class="po">&nbsp;</span>
+                </th>
+                <th class="AMOUNT_DUE">
+                    <span class="amountdue_label">AMOUNT DUE</span>
+                    <br>
+                    <span class="amountdue">&nbsp;</span>
+                </th>
+                <th class="DUE_DATE">
+                    <span>DUE DATE</span>
+                    <br>
+                    <span class="due">&nbsp;</span>
+                </th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <!-- header -->
+    <script>
+        JsBarcode(
+                "#lbl_barcode",
+                "BI-751",
+                {
+                    width: 2,
+                    height: 45,
+                    margin: 0,
+                    displayValue: false
+                }
+        );
+    </script>
+</template>

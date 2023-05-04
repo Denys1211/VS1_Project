@@ -1,0 +1,83 @@
+<template name="stockmovementreport">
+    {{# vs1_report_template tabledisplayname="Stock Movement Report" tablename="stockmovementreport" dateAsAt=dateAsAt sheetname="Stock Movement Report Result"}}
+    <div class="table-responsive">
+        <table class="table table-sm" id="tableExport" name="tableExport">
+            <thead>
+                <!-- <tr class="table-active customDoubleTableHeading">
+                        <th style="width: 170px;">Product</th>
+                        <th class="text-left">Trans Date</th>
+                        <th class="fgrtotal text-left">Trans Type</th>
+                        <th class="text-left">Trans No</th>
+                        <th class="text-right">Opening Qty</th>
+                        <th class="text-right">Trans Qty</th>
+                        <th class="text-right">Running Qty</th>
+                        <th class="text-center{{countActive currencyList}} text-center" colspan="{{countActive currencyList}}">Unit Cost</th>
+                        <th class="text-center{{countActive currencyList}} text-center" colspan="{{countActive currencyList}}">Cost</th>
+                        <th class="text-center" colspan="{{countActive currencyList}}">Unit Cost (Ex)</th>
+                        <th class="text-center" colspan="{{countActive currencyList}}">Total Cost (Ex)</th>
+                    </tr> -->
+
+                <!-- {{#if isOnlyDefaultActive equal "false" }}
+                        <tr class="table-active tblAvoid customDoubleTableHeading">
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+
+                        
+                            {{#if currencyList}}
+                                {{#each c in currencyList }}
+                                    {{# if c.active}}
+                                        <th active="{{ c.active }}">{{ c.code }}</th>
+                                    {{/if}}
+                                {{/each}}
+                            {{/if}}
+
+                            {{#if currencyList}}
+                                {{#each c in currencyList }}
+                                    {{# if c.active}}
+                                        <th active="{{ c.active }}">{{ c.code }}</th>
+                                    {{/if}}
+                                {{/each}}
+                            {{/if}}
+
+                        
+                        </tr>
+                    {{/if}} -->
+                <tr class="table-active">
+                    {{#if stockmovementreportth}}
+                    {{#each c in stockmovementreportth }}
+                    {{# if c.display}}
+                    <th data-class="{{c.class}}" data-col-index="{{c.index}}" data-col-active="{{c.active}}"
+                        class="th {{c.class}} {{#if c.active}}{{else}}hiddenColumn{{/if}}"
+                        style="text-align: left; width:{{c.width}}px">{{ c.label }}</th>
+                    {{/if}}
+                    {{/each}}
+                    {{/if}}
+                </tr>
+
+            </thead>
+             <tbody>
+                 {{#if records}}
+                     {{#each items in records}}
+                         <tr>
+                             {{#each item in items}}
+                                 <td class="{{item.indent}}">
+                                     <span class={{item.className}}>{{item.string}}</span>
+                                 </td>
+                             {{/each}}
+                         </tr>
+                     {{/each}}
+                 {{else}}
+                     <tr class="odd" style="text-align: center;">
+                         <td valign="top" colspan="9" class="dataTables_empty text-left">No data available in table</td>
+                     </tr>
+                 {{/if}}
+            </tbody>
+        </table>
+    </div>
+    {{/vs1_report_template}}
+</template>

@@ -1,0 +1,134 @@
+<template name="contactoverview">
+    <style>
+        .dimmedChart>div {
+            background-color: #dddfeb !important;
+        }
+
+        .hideelement {
+            display: none !important;
+        }
+
+        .showelement {
+            display: block;
+        }
+
+        .card.hovered {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.50) !important;
+            cursor: move;
+            transition-duration: 300ms;
+
+        }
+        @media screen and (max-width: 450px) {
+            .btnNav {
+                width: 90% !important;
+                margin: 14px 0px !important;
+            }
+            .btnNavMore {
+                margin: 14px 0px !important;
+            }
+        }
+    </style>
+    <div class="container-fluid">
+
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+        <header class="row">
+            <div class="col-12 col-md-4">
+                <header class="pt-2 pb-3 d-flex">
+                    <h2 class="mr-1">Contact Overview {{> helpbutton}}</h2>
+                </header>
+            </div>
+            <div class="col-12 col-md-4 divLogged">
+                {{> loggedcompanyoverview}}
+            </div>
+            <div class="col-12 col-md-4">
+                {{> datesforcardchart}}
+            </div>
+        </header>
+        {{> editCardChartButtons}}
+        <!-- All charts list -->
+        {{> allChartLists  tabGroupID="3" chartGroup="Contacts" currentTemplate="Contacts_Overview"}}
+        <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding:0  16px 0 0;">
+
+            <div class="col-6 col-md-8 d-xl-flex flex-grow-1 align-items-xl-start">
+
+              <button id="btnRefresh" class="btn btnNav btn-primary btnRefresh vs1FirstButtonMargin" type="button"><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
+
+             <div class="btn-group btnNav vs1ButtonMargin">
+                 <a class="btn btn-primary allList" role="button" href="#" style="background-color: #00A3D3; border-color: #00A3D3;">All</a>
+                 <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"></button>
+                 <div class="dropdown-menu" role="menu">
+                     <a class="dropdown-item newCustomer" role="presentation" href="/customerscard">+ New Customer</a>
+                     <a class="dropdown-item newEmployee" role="presentation" href="/employeescard">+ New Employee</a>
+                     <a class="dropdown-item newLead" role="presentation" href="/leadscard">+ New Lead</a>
+                     <a class="dropdown-item newSupplier" role="presentation" href="/supplierscard">+ New Supplier</a>
+                 </div>
+             </div>
+             <div class="btn-group btnNav vs1ButtonMargin">
+                 <a class="btn btn-primary" role="button" href="/customerlist" style="background-color: #00A3D3; border-color: #00A3D3;">Customers</a>
+                 <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"></button>
+                 <div class="dropdown-menu" role="menu">
+                     <a class="dropdown-item" role="presentation" href="/customerlist" style=" ">Customer List</a>
+                     <a class="dropdown-item" role="presentation" href="/joblist" style=" ">Job List</a>
+                     <a class="dropdown-item" role="presentation" href="/customerscard" style=" ">+ New Customer</a>
+                 </div>
+             </div>
+             <div class="btn-group btnNav vs1ButtonMargin">
+                 <a class="btn btn-primary" role="button" style="color: rgb(255,255,255);background-color: #00A3D3; border-color: #00A3D3;" href="/employeelist">Employees</a><button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"></button>
+                 <div class="dropdown-menu" role="menu">
+                     <a class="dropdown-item" role="presentation" href="/employeelist" style=" ">Employee List</a>
+                     <a class="dropdown-item" role="presentation" href="/employeescard" style=" ">+ New Employee</a>
+                 </div>
+             </div>
+             <div class="btn-group btnNav vs1ButtonMargin">
+                 <a class="btn btn-primary" role="button" style="color: rgb(255,255,255);background-color: #00A3D3; border-color: #00A3D3;" href="/leadlist">Leads</a>
+                 <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"></button>
+                 <div class="dropdown-menu" role="menu">
+                     <a class="dropdown-item" role="presentation" href="/leadlist" style=" ">Lead List</a>
+                     <a class="dropdown-item" role="presentation" href="/leadscard" style=" ">+ New Lead</a>
+                 </div>
+             </div>
+             <div class="btn-group btnNav vs1ButtonMargin">
+                 <a class="btn btn-primary" role="button" href="/supplierlist" style="background-color: #00A3D3; border-color: #00A3D3;">Suppliers</a>
+                 <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"></button>
+                 <div class="dropdown-menu" role="menu">
+                     <a class="dropdown-item" role="presentation" href="/supplierlist" style=" ">Supplier List</a>
+                     <a class="dropdown-item" role="presentation" href="/supplierscard" style=" ">+ New Supplier</a>
+                 </div>
+             </div>
+            </div>
+
+            <div class="col-5 col-md-4 d-xl-flex justify-content-xl-end align-items-xl-start">
+                {{> export_import_print_display_button tablename="tblcontactoverview"}}
+            </div>
+
+        </div>
+        <div class="card-body px-0 py-2 rounded">
+          <!-- {{> non_transactional_list tablename="tblcontactoverview"}} -->
+          {{>datatablelist
+            tableclass="tblcontactoverview"
+            tablename="tblcontactoverview"
+            apiName= apiFunction
+            service = service
+            indexeddbname = 'TERPCombinedContactsVS1'
+            datahandler = datahandler
+            tableheaderrecords = tableheaderrecords
+            exportfilename = 'Combined Contacts List'
+            istransaction = false
+            apiParams=apiParams
+            lowercaseDataName='terpcombinedcontactsvs1'
+            exIndexDBName = 'terpcombinedcontactsvs1ex'
+            exdatahandler = exDataHandler
+            searchAPI = searchAPI
+            order = '[[ 1, "asc" ]]'
+            attRowID = 0
+        }}
+        </div>
+    </div>
+    <!-- Import Modal -->
+    {{> import_template ImportformName="Contact Overview"}}
+    <script>
+        modalDraggable();
+    </script>
+</template>

@@ -1,0 +1,31 @@
+<template name="title_list_pop">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Title List</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+<!--                {{> non_transactional_list tablename="tblTitleList"}}-->
+                {{>datatablelist
+                        tablename="tblTitleList"
+                        apiName= apiFunction
+                        indexeddbname = 'TTitleList'
+                        tableheaderrecords = tableheaderrecords
+                        exportfilename = 'Title List'
+                        istransaction = false
+                        apiParams= apiParams
+                        datahandler = datahandler
+                        service=service
+                        lowercaseDataName='ttitlelist'
+                        exIndexDBName = 'ttitlelist'
+                        exdatahandler = exDataHandler
+                        searchAPI = searchAPI
+                }}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</template>

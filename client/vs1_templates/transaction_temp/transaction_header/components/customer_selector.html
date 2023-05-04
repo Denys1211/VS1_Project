@@ -1,0 +1,60 @@
+<!-- Customer selector -->
+<!-- Params
+  label
+  id
+-->
+<template name="customer_selector">
+    <div class="formgoup">
+        <div class="form-group">
+            <label>{{label}}</label>
+            {{#if equals label 'Supplier'}}
+                {{> vs1___dropdown
+                        type='search'
+                        id='edtSupplierName'
+                        name='edtSupplierName'
+                        modalId='supplierListModal'
+                        list_template_name='supplierlistpop'
+                        modal_title='Supplier List'
+                        colNameForValue='colCompany'
+                        target_modal_id='addSupplierPopUpModal'
+                        target_template_id='addsupplierpop'
+                        is_editable=true
+                        innerModal=true
+                        usedModal=false
+                        custid=''
+                        noBorder=false
+                }}
+            {{else}}
+                {{> vs1___dropdown
+                        type='search'
+                        id='edtCustomerName'
+                        name='edtCustomerName'
+                        modalId='customerListModal'
+                        list_template_name='customerlistpop'
+                        modal_title='Customer List'
+                        colNameForValue='colCompany'
+                        target_modal_id='addCustomerPopUpModal'
+                        target_template_id='addcustomerpop'
+                        is_editable=true
+                        innerModal=true
+                        usedModal=false
+                        custid=''
+                        noBorder=false
+                }}
+            {{/if}}
+            <input type="hidden" name="__customer_id" id="__customer_id" value="{{value}}">
+        </div>
+        <div>
+      <span data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied"
+            id="customerType" name="customerType" class="customerType"
+            style="margin-left: 2px;color: #17a673;"></span>
+            <input type="hidden" class="form-control pointer" id="edtCustomerUseType" name="edtCustomerUseType"
+                   value="">
+            <span data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied"
+                  id="customerDiscount" name="customerDiscount" class="customerDiscount"
+                  style="color: #17a673;"></span>
+            <input type="hidden" class="form-control pointer" id="edtCustomerUseDiscount"
+                   name="edtCustomerUseDiscount" value="0">
+        </div>
+    </div>
+</template>

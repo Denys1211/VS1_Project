@@ -1,0 +1,371 @@
+<template name="manufacturingoverview">
+    <style>
+        .dimmedChart>div {
+            background-color: #dddfeb !important;
+        }
+
+        .card.hovered {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.50) !important;
+            cursor: move;
+            transition-duration: 300ms;
+
+        }
+
+        .hideelement {
+            display: none !important;
+        }
+
+        .showelement {
+            display: block;
+        }
+        .colUnitPriceEx, .colUnitPriceInc, .colAmountEx, .colAmountInc {
+          cursor: pointer;
+        }
+    </style>
+    <div class="container-fluid manufacturingOverviewModule">
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+
+        <style>
+            @media screen and (max-width: 420px) {
+                .manufacturingOverviewModule {
+                    margin-bottom: 50px;
+                }
+            }
+        </style>
+
+        <header class="row">
+            <div class="col-12 col-md-4">
+                <h2 class="mr-1 pageHeader" >Manufacturing Overview {{> helpbutton}}</h2>
+            </div>
+            <div class="col-12 col-md-4">
+                {{> loggedcompanyoverview}}
+            </div>
+            <div class="col-12 col-md-4">
+                <a class="btn btnOpenSettings float-right ml-auto" role="button" data-toggle="modal" href="#myModal3"
+                   style="margin-right: 4px;"><i class="icon ion-android-more-horizontal"></i></a>
+                {{> datesforcardchart}}
+            </div>
+            <!-- Start Help View Modal -->
+            <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding-bottom: 8px;">
+                            <h4>Help</h4><button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close"><span aria-hidden="true">×</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal"
+                                    class="btn btn-primary helpModal">View Help Video</a></p>
+                            <p class="text-center text-muted"><a href="https://vs1forum.com/viewtopic.php?f=6&t=54"
+                                    target="_blank" class="btn btn-primary">Download Help File</a></p>
+                                    {{> helpadvisor}}
+                                    {{> helpgotoforum}}
+                        </div>
+                        <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light"
+                                data-dismiss="modal" type="button">Close</button></div>
+                    </div>
+                </div>
+            </div>
+          </header>
+      
+        <style>
+            .production_planner_chart .charts .draggable-panel {
+                display: block !important;
+            }
+        </style>
+        {{> editCardChartButtons}}
+        <div class="production_planner_chart">
+            <div class="productionplannercard">
+                {{> allChartLists  tabGroupID="8" chartGroup="Manufacturing" currentTemplate="Manufacturing_Overview"}}
+            </div>
+        </div>
+
+        <!-- {{>production_planner_template}} -->
+
+        <style>
+
+            @media screen and (max-width: 450px) {
+                .btnNav {
+                    width: 90% !important;
+                    margin: 12px 0px !important;
+                }
+
+                .QuoteList {
+                    width: 120px;
+                }
+
+                .salesOrderList {
+                    width: 120px;
+                }
+
+                .invoiceList {
+                    width: 120px;
+                }
+
+                .btnOpenSettingsMobile {
+                    display: block !important;
+                    margin: 12px 0px !important;
+                }
+
+                .btnOpenSettings {
+                    display: none;
+                }
+
+                .dateSelectMobile {
+                    float: right !important;
+                    margin-right: 0px !important;
+                }
+
+                .btn-daterange {
+                    float: right !important;
+                }
+
+                .dropdownMobile {
+                    margin: 0px !important;
+                }
+            }
+        </style>
+
+        <div class="row">
+            <div class="col-6 col-md-7 col-lg-8">
+                <button id="btnRefresh" class="btn btn-primary btnRefresh btnNav" type="button" style="margin: 12px; margin-left:0;"><i
+                        class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
+
+                <div class="btn-group btnNav" style="margin: 12px;">
+                    <a class="btn btn-primary BOMList" role="button" href="/bomlist">BOM - Bill Of Materials</a>
+                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                        aria-expanded="false" type="button"></button>
+                    <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item BOMList" role="presentation" href="/bomlist">BOM List</a>
+                        <a class="dropdown-item" role="presentation" href="/bomsetupcard" id="newBOM" name="newBOM">+
+                            New BOM</a>
+                    </div>
+                </div>
+
+                <div class="btn-group btnNav" style="margin: 12px;">
+                    <a class="btn btn-primary workorderList" role="button" href="/workorderlist" id="workorderList"
+                        name="workorderList">Work Orders</a>
+                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                        aria-expanded="false" type="button"></button>
+                    <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item workorderList" role="presentation" href="/workorderlist">Work Order List</a>
+                        <a class="dropdown-item" role="presentation" href="/workordercard" id="newWorkOrder"
+                            name="newWorkOrder">+ New Work Order</a>
+                    </div>
+                </div>
+
+                <div class="btn-group btnNav" style="margin: 12px;">
+                    <a class="btn btn-primary processlist" role="button" href="/processlist" id="processlist"
+                        name="processlist">Processes</a>
+                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                        aria-expanded="false" type="button"></button>
+                    <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item processlist" role="presentation" href="/processlist">Process List</a>
+                        <a class="dropdown-item" role="presentation" href="/processcard" id="newProcess"
+                            name="newProcess">+ New Process</a>
+                        <!-- <a class="dropdown-item" role="presentation" href="/refundcard" id="newRefund" name="newRefund">+ New Refund</a> -->
+                    </div>
+                </div>
+                <div class="btn-group btnNav" style="margin: 12px;">
+                    <a class="btn btn-primary productionPlanner" role="button" href="/productionplanner" id="productionPlanner"
+                        name="refundlist">Production Planner</a>
+                    
+                </div>
+            </div>
+            <div class="col-6 col-md-5 col-lg-4">
+                
+                        {{> export_import_print_display_button Import="hiddenButton" displayHref="tblWorkorderList_Modal"}}
+            </div>
+        </div>
+
+          <div class="card-body px-0 py-3 rounded">
+                <div class="table-responsive">
+                    <style>
+                        th {
+                            background-color: #ededed;
+                        }
+
+                        .table-striped tbody tr:nth-of-type(odd) {
+                            background-color: white!important;
+                        }
+
+                        .table-striped tbody tr:nth-of-type(even) {
+                            background-color: #0000000d !important;
+                        }
+
+                        .JColResizer >tbody > tr> td, .JColResizer > tbody > tr> th {
+                            padding: 0.75rem!important
+                        }
+
+                        .hiddenColumn {
+                            display: none;
+                        }
+
+                        .showColumn {
+                            display: table-cell;
+                            padding: 0.75rem;
+                            vertical-align: top;
+                        }
+                        input[type=number]::-webkit-inner-spin-button,
+                        input[type=number]::-webkit-outer-spin-button {
+                            opacity: 1;
+                        }
+                        .text-deleted{
+                          background-color: #e74a3b !important; color:#fff;
+                        }
+
+                        .table-responsive .table-bordered {
+                            border: 1px solid #e3e6f0;
+                        }
+
+                    </style>
+                    
+                    {{> transaction_list tablename = "tblWorkorderList" }}
+                </div>
+            </div>
+    </div>
+    <script>
+        modalDraggable();
+    </script>
+
+    <!-- Start PDF -->
+    <div style="width: 280mm;background-color: #ffffff;padding: 8px; display:none!important;" id="html-2-pdfwrapper"
+        name="html-2-pdfwrapper">
+        <div class="d-xl-flex align-items-xl-start">
+            <div class="d-flex d-xl-flex flex-column flex-nowrap align-items-xl-center">
+                <div class="d-lg-flex d-xl-flex flex-grow-0 align-items-lg-start align-items-xl-start">
+                    <div class="d-xl-flex flex-grow-1 align-items-xl-start">
+                        <div class="card float-left flex-grow-1 specialcard"
+                            style="margin: 8px; border: none !important;">
+                            <div class="card-body">
+                                <div class="d-lg-flex justify-content-lg-start" style="margin-bottom: 16px;">
+                                    <div class="d-lg-flex flex-column justify-content-lg-start"><img
+                                            src="assets/img/VS1.png" style="width: 200px;margin-bottom: 8px;"><a
+                                            href="#">www.vs1cloud.com</a></div>
+                                    <div class="d-lg-flex d-xl-flex justify-content-lg-center align-items-xl-start card-text">
+                                        <div style="padding-left: 16px;font-weight: bold;">
+                                            <p style="margin-bottom: 0px;">Cloud Customer PTY Ltd</p>
+                                            <p style="margin-bottom: 0px;">Unit 123, 109 Main Street</p>
+                                            <p style="margin-bottom: 8px;">Costa Mesa, CA 90210</p>
+                                            <p style="margin-bottom: 0px;">ABN: 95684365812</p>
+                                            <p style="margin-bottom: 0px;">Phone: 084 568 9842</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card float-right flex-grow-1 specialcard"
+                            style="margin: 8px; border: none !important;">
+                            <div class="card-body">
+                                <h4 class="card-title" style="font-weight: bold;">Sales Overview</h4>
+                                <div class="d-lg-flex d-xl-flex align-items-xl-start card-text">
+                                    <div class="d-lg-flex d-xl-flex flex-column align-items-lg-start align-items-xl-start"
+                                        style="padding-right: 16px;font-weight: bold;"><label
+                                            class="text-nowrap">Date:</label></div>
+                                    <div style="padding-left: 16px;">
+                                        <p style="margin-bottom: 8px;">{{currentdate}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="card flex-grow-1 specialcard" style="margin: 8px; border: none !important;">
+                        <div class="card-body" style="padding-right: 0px!important;">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead class="text-secondary" style="color: rgb(251,251,251);">
+                                        <tr>
+                                            <!-- <th class="text-nowrap">Sales No</th>
+<th class="text-nowrap">Employee</th>
+<th class="text-nowrap text-left">Sale Date</th>
+<th class="text-nowrap text-left">Customer</th>
+<th class="text-nowrap text-left">Amount</th>
+<th class="text-nowrap text-left">Status</th>
+<th class="text-nowrap text-left">SaleCustField1<br></th>
+<th class="text-nowrap text-left">SaleCustField2<br></th>
+<th class="text-nowrap text-left">Comment<br></th>
+-->
+                                            <th class="th colSaleDate text-nowrap text-left">Sale Date</th>
+                                            <th class="th colSalesNo text-nowrap text-left">Sales No.</th>
+                                            <th class="th colCustomer text-nowrap text-left">Customer</th>
+                                            <th class="th colAmountEx text-nowrap text-left">Amount (Ex)</th>
+                                            <th class="th colTax text-nowrap text-left">Tax</th>
+                                            <th class="th colAmount text-nowrap text-left">Amount (Inc)</th>
+                                            <th class="th colPaid text-nowrap text-left">Paid</th>
+                                            <th class="th colBalanceOutstanding text-nowrap text-left">Balance
+                                                Outstanding</th>
+                                            <th class="th colStatus hiddenColumn text-nowrap text-left">Status</th>
+                                            <th class="th colSaleCustField1 hiddenColumn text-nowrap text-left">
+                                                SaleCustField1</th>
+                                            <th class="th colSaleCustField2 hiddenColumn text-nowrap text-left">
+                                              SaleCustField2</th>
+                                            <th class="th colSaleCustField3 hiddenColumn text-nowrap text-left">
+                                                    SaleCustField3</th>
+                                            <th class="th colEmployee hiddenColumn text-nowrap text-left">Employee</th>
+                                            <th class="th colComments text-nowrap text-left">Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each item in datatablerecords}}
+                                        <tr>
+                                            <td class="colSaleDate">{{item.saledate}}</td>
+                                            <td class="colSalesNo">{{item.id}}</td>
+                                            <td class="colCustomer">{{item.customername}}</td>
+                                            <td class="colAmountEx text-nowrap text-right">{{item.totalamountex}}</td>
+                                            <td class="colTax text-nowrap text-right">{{item.totaltax}}</td>
+                                            <td class="colAmount text-nowrap text-right">{{item.totalamount}}</td>
+                                            <td class="colPaid text-nowrap text-right">{{item.totalpaid}}</td>
+                                            <td class="colBalanceOutstanding text-nowrap text-right">
+                                                {{item.totaloustanding}}</td>
+                                            <td class="colStatus hiddenColumn">{{item.salestatus}}</td>
+                                            <td class="colSaleCustField1 hiddenColumn">{{item.custfield1}}</td>
+                                            <td class="colSaleCustField2 hiddenColumn">{{item.custfield2}}</td>
+                                            <td class="colSaleCustField3 hiddenColumn">{{item.custfield3}}</td>
+                                            <td class="colEmployee hiddenColumn">{{item.employee}}</td>
+                                            <td class="colComments">{{item.comments}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-grow-0" style="width: 100%;">
+                    <!-- <span class="d-lg-flex d-xl-flex justify-content-lg-end justify-content-xl-end" style="font-size: 10px;margin-right: 8px;">Page 1 of 1</span> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PDF -->
+    <!-- Start Help Video Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
+        <div class="modal-dialog" role="document" style="max-width: 670px!important;">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="title-header">Sales Overview</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
+                    <!-- <iframe class="videoContainer" width="640" height="360" src="https://erphelpes.com/vs1videos/salesoverview.mp4?autoplay=0" frameborder="0" allowfullscreen=""></iframe> -->
+                    <video preload="none" id="myVideo" width="640" height="360" controls="" name="media"
+                        style="border: solid 5px #999999f0; height: auto; outline: none;">
+                        <source src="https://erphelpes.com/vs1videos/salesoverview.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Help Video Modal -->
+    <script>
+        modalDraggable();
+    </script>
+</template>

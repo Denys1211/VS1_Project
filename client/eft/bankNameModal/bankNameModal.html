@@ -1,0 +1,36 @@
+<template name="bankNameModal">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered generated-id" role="document" style="max-width: 90vw;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Bank Name List</h4><button type="button" class="close btnCancelEftBankName" aria-label="Close"><span
+            aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" style="width: 100%; display:none;" id="selectBankNameID" name="selectBankNameID" readonly>
+        <div class="card-body p-1 rounded">
+    
+            {{>datatablelist
+                tableclass="tblBankName"
+                tablename="tblBankName"
+                apiName= apiFunction
+                indexeddbname = 'TBankNameList'
+                tableheaderrecords = tableheaderrecords
+                exportfilename = 'Bank Name List'
+                istransaction = false
+                apiParams= apiParams
+                datahandler = datahandler
+                service=service
+                lowercaseDataName='tbankcode'
+                exIndexDBName = 'tbankcode'
+                exdatahandler = exDataHandler
+                searchAPI = searchAPI
+                showPlusButton = true
+                showPlusButtonDataTarget = "newBankNameModal"
+                showPlusButtonClass = "newBankNameMod"
+            }}
+        </div>
+      </div>
+      <div class="modal-footer"><button class="btn btn-light btnCancelEftBankName" type="button">Close</button></div>
+    </div>
+  </div>
+</template>

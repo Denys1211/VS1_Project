@@ -1,0 +1,310 @@
+<template name="stockadjustmentoverview">
+    <div style="margin-top: -24px;">
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+        <!-- <style>
+            .dataTables_filter {
+                display: none;
+            }
+        </style> -->
+        <header style="padding: 16px;padding-bottom: 0px; background-color: #ededed;">
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <h2 style="margin: 16px; margin-bottom: 0px">Stock Adjustment List
+
+                        {{> helpbutton}}
+
+                        <!-- Start Help View Modal -->
+                        <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="padding-bottom: 8px;">
+                                        <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                    <div class="modal-body">
+                                        <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                                        <p class="text-center text-muted"><a href="https://vs1forum.com/" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                                        {{> helpadvisor}}
+                                        {{> helpgotoforum}}
+                                    </div>
+                                    <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Help View Modal -->
+                        <style>
+                            @media screen and (max-width: 376px) {
+                                .btnOpenSettings {
+                                    margin-right: 0px;
+                                }
+                            }
+                        </style>
+
+
+                        <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
+                            <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4>Display Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                    <div class="modal-body">
+                                        <div>
+                                            {{#if tableheaderrecords}}
+                                                <form class="d-xl-flex align-items-xl-center">
+                                                    <div class="flex-grow-1" style="font-size: 16px !important;">
+                                                        <style>
+                                                            .groove {
+                                                                border-style: solid;
+                                                                border-width: 1px;
+                                                                width: 200px;
+                                                                padding: 2px;
+                                                                border-radius: .35rem;
+                                                            }
+                                                            .custom-control-label{
+                                                                position: absolute;
+                                                            }
+                                                            .rngRange {
+                                                                position: relative;
+                                                                display: flex;
+                                                                flex-direction: column;
+                                                                width: 100%;
+                                                                pointer-events: auto;
+                                                                background-color: rgb(255, 255, 255);
+                                                                background-clip: padding-box;
+                                                                border: 1px solid rgb(133, 135, 150);
+                                                                border-radius: .3rem;
+                                                                border-style: solid;
+                                                                border-width: 1px;
+                                                                padding: 2px;
+                                                                border-radius: .35rem;
+                                                                color: rgb(128, 128, 128);
+                                                                height:inherit!important;
+                                                            }
+                                                            @media only screen and (max-width: 480px) {
+                                                                .modal.show .modal-dialog{
+                                                                    float: inherit!important;
+                                                                    left: inherit!important;
+                                                                    top: auto!important;
+
+                                                                }
+                                                            }
+                                                            #page-top.active{
+                                                                padding-right: 0px!important;
+                                                            }
+                                                        </style>
+                                                        {{#each item in tableheaderrecords}}
+                                                            {{#if equals item.sTitle "id"}}
+                                                            {{else}}
+
+                                                                <div id="{{item.sIndex}}" class="columnSettings">
+                                                                    <div class="custom-control custom-switch" style="margin: 8px; float:left;">
+                                                                        <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}" checked="{{#if item.sVisible}}checked{{else}}{{/if}}" value="{{item.sTitle}}">
+                                                                        <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
+                                                                        <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
+                                                                    </div>
+                                                                    <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
+                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>--></label>
+                                                                        <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
+                                                                        <!-- <div contenteditable="true" class="groove rngRange" type="text" value="{{item.sWidth}}" min="0" max="1000">{{item.sWidth}}px</div> -->
+                                                                    </div>
+                                                                </div>
+
+                                                                {{#if equals item.sVisible true}}
+                                                                    <script>
+                                                                        $("#"+ {{item.sIndex}} +".chkDatatable").attr("checked","checked");
+                                                                    </script>
+                                                                {{else}}
+                                                                    <script>
+                                                                        $("#"+ {{item.sIndex}} +".chkDatatable").removeAttr("checked");
+                                                                    </script>
+                                                                {{/if}}
+
+                                                            {{/if}}
+                                                        {{/each}}
+                                                    </div>
+                                                </form>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary saveTable" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                        <button class="btn btn-warning resetTable" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </h2>
+                </div>
+                <div class="col-12 col-md-4">{{> loggedcompanyoverview}}</div>
+            </div>
+        </header>
+
+        <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 16px; background-color: #ededed;">
+            <div class="col-7 col-md-5 float-left flex-grow-1 mb-4">
+                <button id="btnRefresh" class="btn btn-primary btnRefresh vs1ButtonMargin" type="button" ><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
+                <button class="btn btn-primary btnnewstockadjustment vs1ButtonMargin" type="button" ><i class="fa fa-plus" style="padding-right: 5px;"></i>New Stock Adjustment</button>
+            </div>
+            <div class="col-5 col-md-7 d-xl-flex justify-content-xl-end align-items-xl-start">                
+                {{> spreadsheet_link templateName="Stock Adjustment List Result"}}
+                {{> export_import_print_display_button Import="hiddenButton" tablename="tblStockAdjustOverview"}}
+                {{> import_template importformName="Stock Adjustment"}}
+            </div>
+        </div>
+
+        <div style="padding: 0px 12px;">
+            <div class="card-body p-3 rounded">
+                <style>
+                    td.colTotalCost{
+                        text-align: right !important;
+                    }
+                </style>
+                {{>datatablelist
+					tableclass="tblStockAdjustOverview"
+                    tablename="tblStockAdjustOverview"
+                    apiName= apiFunction
+                    indexeddbname = 'TStockAdjustEntry'
+                    tableheaderrecords = tableheaderrecords
+                    exportfilename = 'Stock Adujst Overview'
+                    istransaction = false
+                    apiParams= apiParams
+                    datahandler = datahandler
+                    service=service
+                    lowercaseDataName='tstockadjustentry'
+                    exIndexDBName = 'tstockadjustentry'
+                    exdatahandler = exDataHandler
+                    searchAPI = searchAPI
+                    orderby = '[[ 2, "desc" ]]'
+                }}
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        modalDraggable();
+    </script>
+
+    <!-- Start PDF -->
+    <div style="width: 280mm;background-color: #ffffff;padding: 8px; display:none!important;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
+        <div class="d-xl-flex align-items-xl-start">
+            <div class="d-flex d-xl-flex flex-column flex-nowrap align-items-xl-center" >
+                <div class="d-lg-flex d-xl-flex flex-grow-0 align-items-lg-start align-items-xl-start">
+                    <div class="d-xl-flex flex-grow-1 align-items-xl-start">
+                        <div class="card float-left flex-grow-1 specialcard" style="margin: 8px; border: none !important;">
+                            <div class="card-body">
+                                <div class="d-lg-flex justify-content-lg-start" style="margin-bottom: 16px;">
+                                    <div class="d-lg-flex flex-column justify-content-lg-start"><img src="assets/img/VS1.png" style="width: 200px;margin-bottom: 8px;"><a href="#">www.vs1cloud.com</a></div>
+                                    <div class="d-lg-flex d-xl-flex justify-content-lg-center align-items-xl-start card-text">
+                                        <div style="padding-left: 16px;font-weight: bold;">
+                                            <p style="margin-bottom: 0px;">Cloud Customer PTY Ltd</p>
+                                            <p style="margin-bottom: 0px;">Unit 123, 109 Main Street</p>
+                                            <p style="margin-bottom: 8px;">Costa Mesa, CA 90210</p>
+                                            <p style="margin-bottom: 0px;">ABN: 95684365812</p>
+                                            <p style="margin-bottom: 0px;">Phone: 084 568 9842</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card float-right flex-grow-1 specialcard" style="margin: 8px; border: none !important;">
+                            <div class="card-body">
+                                <h4 class="card-title" style="font-weight: bold;">Sales Overview</h4>
+                                <div class="d-lg-flex d-xl-flex align-items-xl-start card-text">
+                                    <div class="d-lg-flex d-xl-flex flex-column align-items-lg-start align-items-xl-start" style="padding-right: 16px;font-weight: bold;"><label class="text-nowrap">Date:</label></div>
+                                    <div style="padding-left: 16px;">
+                                        <p style="margin-bottom: 8px;">{{currentdate}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="card flex-grow-1 specialcard" style="margin: 8px; border: none !important;">
+                        <div class="card-body" style="padding-right: 0px!important;">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead class="text-secondary" style="color: rgb(251,251,251);">
+                                        <tr>
+                                            <!-- <th class="text-nowrap">Sales No</th>
+<th class="text-nowrap">Employee</th>
+<th class="text-nowrap text-left">Sale Date</th>
+<th class="text-nowrap text-left">Customer</th>
+<th class="text-nowrap text-left">Amount</th>
+<th class="text-nowrap text-left">Status</th>
+<th class="text-nowrap text-left">SaleCustField1<br></th>
+<th class="text-nowrap text-left">SaleCustField2<br></th>
+<th class="text-nowrap text-left">Comment<br></th>
+-->
+                                            <th class="th colSaleDate text-nowrap text-left">Sale Date</th>
+                                            <th class="th colSalesNo text-nowrap text-left">Sales No.</th>
+                                            <th class="th colCustomer text-nowrap text-left">Customer</th>
+                                            <th class="th colAmountEx text-nowrap text-left">Amount (Ex)</th>
+                                            <th class="th colTax text-nowrap text-left">Tax</th>
+                                            <th class="th colAmount text-nowrap text-left">Amount (Inc)</th>
+                                            <th class="th colPaid text-nowrap text-left">Paid</th>
+                                            <th class="th colBalanceOutstanding text-nowrap text-left">Balance Outstanding</th>
+                                            <th class="th colStatus hiddenColumn text-nowrap text-left">Status</th>
+                                            <th class="th colSaleCustField1 hiddenColumn text-nowrap text-left">SaleCustField1</th>
+                                            <th class="th colSaleCustField2 hiddenColumn text-nowrap text-left">SaleCustField2</th>
+                                            <th class="th colEmployee hiddenColumn text-nowrap text-left">Employee</th>
+                                            <th class="th colComments text-nowrap text-left">Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each item in datatablerecords}}
+                                        <tr>
+                                            <td class="colSaleDate" >{{item.saledate}}</td>
+                                            <td class="colSalesNo">{{item.id}}</td>
+                                            <td class="colCustomer">{{item.customername}}</td>
+                                            <td class="colAmountEx text-nowrap text-right" >{{item.totalamountex}}</td>
+                                            <td class="colTax text-nowrap text-right">{{item.totaltax}}</td>
+                                            <td class="colAmount text-nowrap text-right">{{item.totalamount}}</td>
+                                            <td class="colPaid text-nowrap text-right">{{item.totalpaid}}</td>
+                                            <td class="colBalanceOutstanding text-nowrap text-right">{{item.totaloustanding}}</td>
+                                            <td class="colStatus hiddenColumn">{{item.salestatus}}</td>
+                                            <td class="colSaleCustField1 hiddenColumn">{{item.custfield1}}</td>
+                                            <td class="colSaleCustField2 hiddenColumn">{{item.custfield2}}</td>
+                                            <td class="colEmployee hiddenColumn">{{item.employee}}</td>
+                                            <td class="colComments" >{{item.comments}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-grow-0" style="width: 100%;">
+                    <!-- <span class="d-lg-flex d-xl-flex justify-content-lg-end justify-content-xl-end" style="font-size: 10px;margin-right: 8px;">Page 1 of 1</span> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PDF -->
+
+    <!-- Start Help Video Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
+        <div class="modal-dialog" role="document" style="max-width: 670px!important;">
+            <div class="modal-content" >
+                <div class="modal-header" >
+
+                    <h4 class="title-header" >Stock Adjustment</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
+                    <!-- <iframe width="640" height="360" src="https://www.youtube.com/embed/BzxoYOp42fg" frameborder="0" allowfullscreen=""></iframe> -->
+                    <video preload="none" id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                        <source src="https://erphelpes.com/vs1videos/stockadjustmentlist.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Help Video Modal -->
+    <script>
+        modalDraggable();
+    </script>
+</template>

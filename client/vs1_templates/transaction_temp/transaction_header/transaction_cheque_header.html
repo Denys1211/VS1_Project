@@ -1,0 +1,84 @@
+<!-- Transaction cheque header -->
+<!-- Params
+  data
+-->
+<template name="transaction_cheque_header">
+  <div class="row" style="margin: 8px 16px 0px 16px;">
+    <div class="col-12 col-md-3">
+      {{> customer_selector
+        label="Supplier"
+      }}
+    </div>
+    <div class="col-12 col-md-3">
+      {{> customer_email_input
+        label="Supplier"
+      }}
+    </div>
+  </div>
+  <div class="row" style="margin: 8px 16px 0px 16px;">
+    
+    <div class="col-12 col-md-6 col-lg-2 col-xl-3">
+      {{# vs1_textarea
+      label="Billing Address"
+      row="5"
+      id="txabillingAddress"
+      name="txabillingAddress"
+      }}{{data.invoiceToDesc}}{{/vs1_textarea}}
+    </div>
+    <div class="col-12 col-md-3">
+      <!-- {{> default_select
+        label="Account"
+        id="sltChequeBankAccountName"
+        type="search"
+        name="sltChequeBankAccountName"
+      }} -->
+      <div class="form-group">
+      {{> vs1___dropdown
+        type='search'
+        id='sltChequeBankAccountName'
+        name='sltChequeBankAccountName'
+        modalId='accountListModalABC12'
+        list_template_name='accountlistpop'
+        modal_title=''
+        label="Account"
+        innerModal=true
+        colNameForValue='colAccountName'
+        target_modal_id='edtAccountModal'
+        target_template_id='addAccountModal'
+        custid='ABC12'
+        is_editable=false
+        noBorder=false
+      }}
+    </div>
+    <div class="form-group">
+      {{> single_date_picker
+        label="Date"
+        id="dtSODate"
+        name="dtSODate"
+        defaultValue=data.saledate
+      }}
+    </div>
+    </div>
+    <div class="col-6 col-md-3">
+      {{> default_input
+        label="Reference"
+        classes=""
+        type="text"
+        id="edtRef"
+        name="edtRef"
+        defaultValue=data.reference
+      }}
+
+      {{> currencydropdown custid="transaction_cheque_header"}}
+
+    </div>
+    <div class="col-6 col-md-3">
+      {{> default_input
+        label="Cheque No."
+        id="ponumber"
+        name="ponumber"
+        defaultValue=data.invoicenumber
+      }}
+    </div>
+  </div>
+</template>

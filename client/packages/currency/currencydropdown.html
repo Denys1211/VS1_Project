@@ -1,0 +1,36 @@
+<template name="currencydropdown">
+    {{#if isCurrencyEnable}}
+    <div class="form-group currency-container {{#if intransaction}}transheader{{/if}}">
+        <!-- <label>Currency</label> -->
+        <!-- <select type="search" class="form-control" id="sltCurrency" name="sltCurrency"
+            style="background-color:rgb(255, 255, 255); cursor: pointer;">
+        </select> -->
+        <!-- <input type="search" class="form-control es-input" id="sltCurrency" name="sltCurrency"
+            style="background-color:rgb(255, 255, 255); cursor: pointer;" value={{CurrentForeignExchangeCode}} /> -->
+        {{#let
+            currencyModalID = (addString 'currencyListModal' custid)
+        }}
+        {{> vs1___dropdown
+            type='search'
+            id='sltCurrency'
+            name='sltCurrency'
+            modalId= currencyModalID
+            usedModal=false
+            list_template_name='currencypop'
+            modal_title='Currency List'
+            label = checkLabel
+            colNameForValue = 'colCode'
+            target_modal_id= 'edtCurrency_modal'
+            target_template_id='editcurrencypop'
+            custid=custid
+            is_editable=true
+            innerModal=true
+            noBorder=false
+            custid=custid
+        }}
+        {{/let}}
+    </div>
+
+
+    {{/if}}
+</template>
